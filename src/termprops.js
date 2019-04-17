@@ -167,19 +167,28 @@ var termProps = {
                 "less than the actual value's digit count."
             ],
             function(e) {
-                // TODO: add option to pad with 0s
-                let expression = e.substring(e.indexOf(" ") + 1);
+                let parse = e.split(" ");
                 try {
-                    if (isNaN(expression)) {
+                    if (isNaN(parse[1])) {
                         throw new Error("Not a valid number!");
                     } else {
-                        var val = parseInt(expression).toString(16);
+                        var val = parseInt(parse[1]).toString(16);
                     }
-                } catch(error) {
-                    var val = "hex: " + error.message;
-                } finally {
+                    let digits = parseInt(parse[2]);
+                    if (!isNaN(digits)) {
+                        if (val.length > digits) {
+                            throw new Error("Actual digit count exceeds desired!");
+                        } else {
+                            while (val.length < digits) {
+                                val = "0" + val;
+                            }
+                        }
+                    }
                     termProps.terminal.writeln("0x" + val.toUpperCase());
                     termProps.terminal.writeln("Digit count: " + val.length);
+                } catch(error) {
+                    var val = "hex: " + error.message;
+                    termProps.terminal.writeln(val);
                 }
             }
         },
@@ -194,19 +203,28 @@ var termProps = {
                 "less than the actual value's digit count."
             ],
             function(e) {
-                // TODO, add option to pad with 0s
-                let expression = e.substring(e.indexOf(" ") + 1);
+                let parse = e.split(" ");
                 try {
-                    if (isNaN(expression)) {
+                    if (isNaN(parse[1])) {
                         throw new Error("Not a valid number!");
                     } else {
-                        var val = parseInt(expression).toString(2);
+                        var val = parseInt(parse[1]).toString(2);
                     }
-                } catch(error) {
-                    var val = "bin: " + error.message;
-                } finally {
-                    termProps.terminal.writeln("0b" + val);
+                    let digits = parseInt(parse[2]);
+                    if (!isNaN(digits)) {
+                        if (val.length > digits) {
+                            throw new Error("Actual digit count exceeds desired!");
+                        } else {
+                            while (val.length < digits) {
+                                val = "0" + val;
+                            }
+                        }
+                    }
+                    termProps.terminal.writeln("0b" + val.toUpperCase());
                     termProps.terminal.writeln("Digit count: " + val.length);
+                } catch(error) {
+                    var val = "hex: " + error.message;
+                    termProps.terminal.writeln(val);
                 }
             }
         },
