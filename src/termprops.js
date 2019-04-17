@@ -48,9 +48,9 @@ var termProps = {
     init: function() {
         for (let x in this.commands) {
             this.commands[x].parent = this;
-            delete this.init;
-            return this;
         }
+        delete this.init;
+        return this;
     }
 }.init();
 
