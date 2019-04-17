@@ -39,6 +39,8 @@ Further customization can be done if each string was in an array with the first 
 
 This is useful if you want to print things to the terminal before the login prompt. Otherwise, the other prints should be handled in `termProps`.
 
+Additional commands should only use `writeln()` to print to the output. Otherwise, commands should be one and done, and do not require any additional input (this could change in the future).
+
 
 # termProps
 
@@ -55,4 +57,6 @@ Each command in the `termProps.commands` object should have `description` and `h
 
 The `description` should be a short, simple string, and the `help` property can be as long as you'd like. It is printed with `help [command]`.
 
-The `function` method takes the entire command as the argument, so if it depends on some value after the command (eg. `command [arguments]`), some additional processing has to be done to extract the arguments.
+The `function` method takes the entire command as the argument, so if it depends on some value after the command (eg. `command [arguments]`), some additional processing has to be done to extract the arguments. 
+
+Additional commands should be placed in `/src/plugins` to extend the functionality. Each command will have access to the parent props object through `this.parent` (ie. access terminal through `this.parent.terminal`). Don't forget to also add it as an entry into the `termprops.js` commands property. 
