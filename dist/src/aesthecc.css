@@ -1,0 +1,46 @@
+body {
+    background: #282a36;
+    height: 80vh;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+#terminal {
+    margin: 5vw;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+pre {
+    margin: 0px 0px 0px 0px;
+    font-family: 'Roboto Mono', monospace;
+    color: white;
+    font-size: 12pt;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+input {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+    color: white;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12pt;
+    width: 60vw;
+    padding: 0px 0px 0px 0px;
+}
+
+a:link {
+    color: #8be9fd;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #8be9fd;
+    text-decoration: none;
+}
