@@ -44,7 +44,14 @@ var termProps = {
         hex: hex,
         bin: bin,
         dec: dec
+    },
+    init: function() {
+        for (let x in this.commands) {
+            this.commands[x].parent = this;
+            delete this.init;
+            return this;
+        }
     }
-};
+}.init();
 
 export default termProps;

@@ -152,9 +152,6 @@ export default function waTerminal(props) {
     this.init = (e) => {
         this.helpers.open(e);
         // Append the properties object to each command
-        for (var x in this.props.commands) {
-            this.props.commands[x].parent = this.props;
-        }
     }
 
     /**
