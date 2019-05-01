@@ -21,12 +21,12 @@ var convert = {
             if (!expression.includes("to") || expression.includes("convert")) {
                 throw new Error("not a conversion!");
             } else {
-                var val = mathjs.eval(expression);
+                var val = mathjs.eval(expression).toString();
             }
         } catch (e) {
-            var val = "math.js: " + e.message;
+            val = "math.js: " + e.message;
         } finally {
-            this.parent.terminal.writeln(val.toString());
+            this.parent.terminal.writeln(val);
         }
     }
 };

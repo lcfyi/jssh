@@ -19,12 +19,12 @@ var math = {
             if (expression.includes("to") || expression.includes("math")) {
                 throw new Error("not math!");
             } else {
-                var val = mathjs.eval(expression);
+                var val = mathjs.eval(expression).toString();
             }
         } catch (e) {
-            var val = "math.js: " + e.message;
+            val = "math.js: " + e.message;
         } finally {
-            this.parent.terminal.writeln(val.toString());
+            this.parent.terminal.writeln(val);
         }
     }
 };
