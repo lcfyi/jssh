@@ -29,7 +29,6 @@ var termProps = {
         ["        %%%%          %%%%                ", "#ff5555"], 
         ["        %%            %%                  ", "#ff5555"], 
         ["        %             %                   ", "#ff5555"], 
-        "",
         "----",
         "Type 'help' for more information."
     ],

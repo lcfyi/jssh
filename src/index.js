@@ -9,9 +9,9 @@ String.prototype.hashCode = function() {
     var hash = 0, i, chr;
     if (this.length === 0) return hash;
     for (i = 0; i < this.length; i++) {
-      chr   = this.charCodeAt(i);
-      hash  = ((hash << 5) - hash) + chr;
-      hash |= 0;
+        chr   = this.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + chr;
+        hash |= 0;
     }
     return hash;
 };
@@ -23,10 +23,17 @@ String.prototype.hashCode = function() {
  */
 window.onload = () => {
     let term = new waTerminal(termProps);
+    let ip = new XMLHttpRequest();
     term.init(document.getElementById('terminal'));
-    // Print the current date and time
-    term.writeln("Current date and time: " + new Date().toString());
-    term.writeln("----");
-    // Login to initialize prompt
-    term.login();
+    ip.open("GET", "https://json.geoiplookup.io/");
+    ip.addEventListener("load", () => {
+        // Print the current date and time
+        let payload = JSON.parse(ip.responseText);
+        term.writeln("Current date and time: " + new Date().toString());
+        term.writeln("Connected from " + payload.city + ", " + payload.ip);
+        term.writeln("----");
+        // Login to initialize prompt
+        term.login();
+    });
+    ip.send();
 }
