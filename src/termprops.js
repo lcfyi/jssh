@@ -11,7 +11,7 @@ import dec from './plugins/dec.js';
 
 var termProps = {
     terminal: undefined,
-    prompt: "<a style='color:#50fa7b'>ts</a>@<a style='color:#bd93f9'>4.26</a> ~$ ",
+    prompt: "<a style='color:#50fa7b'>you</a>@<a style='color:#bd93f9'>daB.</a> ~$ ",
     login: [
         "It's rew- forward time.",
         "                                                  ",      

@@ -25,15 +25,13 @@ window.onload = () => {
     let term = new waTerminal(termProps);
     let ip = new XMLHttpRequest();
     term.init(document.getElementById('terminal'));
-    ip.open("GET", "https://json.geoiplookup.io/");
-    ip.addEventListener("load", () => {
-        // Print the current date and time
-        let payload = JSON.parse(ip.responseText);
-        term.writeln("Current date and time: " + new Date().toString());
-        term.writeln("Connected from " + payload.city + ", " + payload.ip);
-        term.writeln("----");
-        // Login to initialize prompt
-        term.login();
-    });
+    ip.open("GET", "https://json.geoiplookup.io/", false);
     ip.send();
+    // Print the current date and time
+    let payload = JSON.parse(ip.responseText);
+    term.writeln("Current date and time: " + new Date().toString());
+    term.writeln("Connected from " + payload.ip);
+    term.writeln("----");
+    // Login to initialize prompt
+    term.login();
 }
