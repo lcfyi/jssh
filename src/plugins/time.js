@@ -4,8 +4,12 @@ var time = {
         "No options",
     ],
     function() {
-        this.parent.terminal.writeln(new Date().toString());
+        console.log(this);
+        this.writeln(new Date().toString());
     }
+    // function() {
+    //     this.parent.terminal.writeln(new Date().toString());
+    // }
 };
 
 export default time;
