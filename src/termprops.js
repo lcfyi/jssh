@@ -3,7 +3,7 @@ import source from './plugins/source.js';
 import math from './plugins/math.js';
 import convert from './plugins/convert.js';
 import special from './plugins/special.js';
-import iploc from './plugins/iploc.js';
+import ipinfo from './plugins/ipinfo.js';
 import time from './plugins/time.js';
 import hex from './plugins/hex.js';
 import bin from './plugins/bin.js';
@@ -38,7 +38,7 @@ var termProps = {
         math: math,
         convert: convert,
         special: special,
-        iploc: iploc,
+        ipinfo: ipinfo,
         time: time,
         hex: hex,
         bin: bin,
