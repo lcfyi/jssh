@@ -8,28 +8,19 @@ import time from './plugins/time.js';
 import hex from './plugins/hex.js';
 import bin from './plugins/bin.js';
 import dec from './plugins/dec.js';
+import colors from './dracula.js';
 
 var termProps = {
     terminal: undefined,
-    prompt: "<a style='color:#50fa7b'>you</a>@<a style='color:#bd93f9'>daB.</a> ~$ ",
+    prompt: "<a style='color:" + colors.green + "'>you</a>@<a style='color:#bd93f9'>daB.</a> ~$ ",
     login: [
-        "It's rew- forward time.",
-        "                                                  ",      
-        ["        %             %                   ", "#ff5555"], 
-        ["        %%%           %%%                 ", "#ff5555"], 
-        ["        %%%%%         %%%%%               ", "#ff5555"], 
-        ["        %%%%%%%       %%%%%%%             ", "#ff5555"], 
-        ["        %%%%%%%%%     %%%%%%%%%           ", "#ff5555"], 
-        ["        %%%%%%%%%%%   %%%%%%%%%%%         ", "#ff5555"], 
-        ["        %%%%%%%%%%%%% %%%%%%%%%%%%%       ", "#ff5555"], 
-        ["        %%%%%%%%%%%%  %%%%%%%%%%%%        ", "#ff5555"], 
-        ["        %%%%%%%%%%    %%%%%%%%%%          ", "#ff5555"], 
-        ["        %%%%%%%%      %%%%%%%%            ", "#ff5555"], 
-        ["        %%%%%%        %%%%%%              ", "#ff5555"], 
-        ["        %%%%          %%%%                ", "#ff5555"], 
-        ["        %%            %%                  ", "#ff5555"], 
-        ["        %             %                   ", "#ff5555"], 
-        "----",
+        " ",
+        [" _          _   _       ",  colors.pink],
+        ["| |        | | | |      ",  colors.pink],
+        ["| |     _  | | | |  __  ",  colors.pink],
+        ["|/ \\   |/  |/  |/  /  \\_",colors.pink],
+        ["|   |_/|__/|__/|__/\\__/o", colors.pink],
+        " ",
         "Type 'help' for more information."
     ],
     commands: {
