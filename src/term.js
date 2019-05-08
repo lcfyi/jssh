@@ -61,6 +61,7 @@ export default function waTerminal(props) {
                 this.workingPrompt.input.setAttribute("autocomplete", "off");
                 this.workingPrompt.input.setAttribute("autocapitalize", "off");
                 this.workingPrompt.input.setAttribute("spellcheck", "false");
+                this.workingPrompt.input.setAttribute("style", "width: " + (window.innerWidth * 0.90 - 117) + "px");
                 this.workingPrompt.element.appendChild(this.workingPrompt.input);
             }
             if (this.workingPrompt.appended === false) {
@@ -151,7 +152,11 @@ export default function waTerminal(props) {
      */
     this.init = (e) => {
         this.helpers.open(e);
-        // Append the properties object to each command
+        window.addEventListener("resize", () => {
+            if (this.workingPrompt.input !== undefined) {
+                this.workingPrompt.input.setAttribute("style", "width: " + (window.innerWidth * 0.90 - 117) + "px");
+            }
+        })
     }
 
     /**

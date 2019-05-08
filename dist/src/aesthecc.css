@@ -9,7 +9,7 @@ body {
 }
 
 #terminal {
-    margin: 5vw;
+    margin: 6vw 2vw;
     height: 100%;
     overflow-y: scroll;
 }
@@ -19,7 +19,6 @@ pre {
     font-family: 'Roboto Mono', monospace;
     color: white;
     font-size: 12pt;
-    overflow-x: auto;
     white-space: pre-wrap;
     word-wrap: break-word;
 }
@@ -31,7 +30,6 @@ input {
     color: white;
     font-family: 'Roboto Mono', monospace;
     font-size: 12pt;
-    width: 60vw;
     padding: 0px 0px 0px 0px;
 }
 
