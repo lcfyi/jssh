@@ -2,7 +2,7 @@
 
 Originally, I wanted to build a kitchen sink with a terminal emulator using `xtermjs` or `hterm`, but that ended up having poor mobile support. Thus, to avoid re-inventing the wheel, I fellback to just using simple HTML elements to emulate a terminal. 
 
-The kitchen sink aspecet is to support common functions that I used a Python shell for, such as common conversions and quick math.
+The kitchen sink aspect is to support common functions that I used a Python shell for, such as common conversions and quick math.
 
 It supports mobile. 
 
