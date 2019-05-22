@@ -1,3 +1,6 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ff1e5f00-d1b3-4afc-82ba-afb0fd954c23/deploy-status)](https://app.netlify.com/sites/elastic-bohr-2f351e/deploys)
+
+
 # Motivation
 
 Originally, I wanted to build a kitchen sink with a terminal emulator using `xtermjs` or `hterm`, but that ended up having poor mobile support. Thus, to avoid re-inventing the wheel, I fellback to just using simple HTML elements to emulate a terminal. 
@@ -40,6 +43,10 @@ Further customization can be done if each string was in an array with the first 
 This is useful if you want to print things to the terminal before the login prompt. Otherwise, the other prints should be handled in `termProps`.
 
 Additional commands should only use `writeln()` to print to the output. Otherwise, commands should be one and done, and do not require any additional input (this could change in the future).
+
+### 'input()'
+
+Takes an optional string parameter that will act as the default prompt string. It returns a promise, which resolves with the user input so you must account for that when designing a function (ie. your function should be async).
 
 
 # termProps
