@@ -19,7 +19,12 @@ var math = {
             if (expression.includes("to") || expression.includes("math")) {
                 throw new Error("not math!");
             } else {
-                var val = mathjs.eval(expression).toString();
+                let crunch = mathjs.eval(expression);
+                if (crunch === undefined) {
+                    throw new Error("not math!");
+                } else {
+                    var val = crunch.toString();
+                }
             }
         } catch (e) {
             val = "math.js: " + e.message;

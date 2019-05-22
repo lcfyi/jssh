@@ -15,8 +15,6 @@ var ipinfo = {
             xhr.open("GET", "https://json.geoiplookup.io/" + ip, false);
             xhr.send();
             let response = JSON.parse(xhr.responseText);
-            console.log(response);
-            console.log(ip);
             let printout = [
                 "<a style='color:#ff79c6'>Approximate location and info of " + response.ip + "</a>",
                 "<a style='color:#8be9fd'>Hostname: </a>" + response.hostname,
