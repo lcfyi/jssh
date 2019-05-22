@@ -1,110 +1,39 @@
-/**
- * Our terminal prototype. It supports init, login, and writeln.
- */
-export default function waTerminal(props) {
-    if (props !== undefined) {
-        this.props = props;
-        this.props.terminal = this;
+export default class waTerminal {
+    constructor(props) {
+        if (props !== undefined) {
+            this.props = props;
+            this.props.terminal = this;
+        }
+        this.container = undefined;
+        this.log = [];
+        this.logIdx = 0;
+        this.workingPrompt = {
+            element: undefined,
+            input: undefined,
+            appended: false
+        }
+        this.inputProps = {
+            isWaiting: false,
+            resolution: undefined
+        }
     }
-    this.container = undefined;
-    this.log = [];
-    this.logIdx = 0;
-    this.workingPrompt = {
-        element: undefined,
-        input: undefined,
-        appended: false
-    };
 
-    /**
-     * Helper functions.
-     */
-    this.helpers = {
-        /**
-         * Open up this terminal, it takes the element to append
-         * all prints to, and sets up the key and click listeners.
-         */
-        open: (e) => {
-            this.container = e;
-            this.container.addEventListener("keydown", this.helpers.keyHandler);
-            this.container.addEventListener("click", (e) => {
-                if (this.workingPrompt.input !== undefined) {
-                    this.workingPrompt.input.focus();
-                }
-            });
-        },
-        /**
-         * Process a particular command, based on the props passed in.
-         */
-        process: (e) => {
-            let cmd = e;
-            let parse = cmd.split(" ");
-            if (this.props !== undefined) {
-                if (parse[0] in this.props.commands) {
-                    this.props.commands[parse[0]].function(cmd);
-                } else {
-                    this.props.terminal.writeln(cmd + ": command not found");
-                }
-            } else {
-                this.helpers.writeln("This terminal does not have a soul.");
-            }
-            
-        },
-        /**
-         * Prompts the user, either with a custom command or the one
-         * specified in props.prompt.
-         */
-        prompt: (e) => {
-            if (this.workingPrompt.element === undefined) {
-                this.workingPrompt.element = document.createElement("pre");
-                // Using innerHTML here just so we can support styling.
-                // This shouldn't ever be called by the user so it should be safe.
-                if (e === undefined && this.props !== undefined) {
-                    this.workingPrompt.element.innerHTML += this.props.prompt;
-                } else {
-                    this.workingPrompt.element.innerHTML += "> ";
-                }
-                this.workingPrompt.input = document.createElement("input");
-                this.workingPrompt.input.setAttribute("autocorrect", "off");
-                this.workingPrompt.input.setAttribute("autocomplete", "off");
-                this.workingPrompt.input.setAttribute("autocapitalize", "off");
-                this.workingPrompt.input.setAttribute("spellcheck", "false");
-                this.workingPrompt.input.setAttribute("style", "width: " + (window.innerWidth * 0.90 - 117) + "px");
-                this.workingPrompt.element.appendChild(this.workingPrompt.input);
-            }
-            if (this.workingPrompt.appended === false) {
-                this.container.appendChild(this.workingPrompt.element);
-                this.workingPrompt.input.focus();
-                this.workingPrompt.appended = true;
-            }
-        },
-        /**
-         * Finalizes the prompt by removing the input and resetting
-         * the working prompt.
-         */
-        finalizePrompt: (e) => {
-            let input = "";
-            if (this.workingPrompt.element !== undefined) {
-                input = this.workingPrompt.input.value;
-                if (input !== "") {
-                    this.log.push(input);
-                    this.logIdx = this.log.length;
-                }
-                this.workingPrompt.input.remove();
-                this.workingPrompt.element.innerHTML += input;
-                this.workingPrompt.element = undefined;
-                this.workingPrompt.input = undefined;
-                this.workingPrompt.appended = false;
-            }
-            return input;
-        },
-        /**
-         * Handle keypresses.
-         */
-        keyHandler: (e) => {
+
+    init(dom) {
+        this.container = dom;
+        // Set up the key handler
+        this.container.addEventListener("keydown", (e) => {
             switch(e.key) {
                 case "Enter":
-                    this.helpers.process(this.helpers.finalizePrompt());
-                    this.helpers.prompt();
+                    if (!this.inputProps.isWaiting) {
+                        process(this, finalizePrompt(this));
+                    } else {
+                        let value = finalizePrompt(this);
+                        this.inputProps.resolution(value);
+                        // Reset the values
+                        this.inputProps.isWaiting = false;
+                        this.inputProps.resolution = undefined;
+                    }
                     break;
                 case "ArrowUp":
                     if (this.logIdx > 0) {
@@ -127,68 +56,122 @@ export default function waTerminal(props) {
                     e.preventDefault();
                     break;
                 default:
-                    // Nothing
+                    // Nothing   
             }
-        },
-        /**
-         * Helper for our writeln function that sets style if it's
-         * an array (second arg is color), otherwise just prints it.
-         */
-        writeln: (e) => {
-            if (this.workingPrompt.element !== undefined) {
-                this.helpers.finalizePrompt();
+        });
+        // Set up the click handler
+        this.container.addEventListener("click", (e) => {
+            if(window.getSelection().toString() === "" 
+                && this.workingPrompt.input !== undefined) {
+                this.workingPrompt.input.focus();
             }
-            // If the string is empty, add a space just so we print a line
-            if (e === "") {
-                var e = " ";
-            }
-            let pre = document.createElement("pre");
-            if (Array.isArray(e)) {
-                pre.setAttribute("style", "color: " + e[1]);
-                pre.innerHTML = e[0];
-            } else {
-                pre.setAttribute("style", "color: white");
-                pre.innerHTML = e;
-            }
-            this.container.appendChild(pre);
-        }
-    }
-
-    /**
-     * Initialize this terminal by giving it an element to attach to.
-     */
-    this.init = (e) => {
-        this.helpers.open(e);
+        });
+        // Set up a handler to resize the text input
         window.addEventListener("resize", () => {
             if (this.workingPrompt.input !== undefined) {
                 this.workingPrompt.input.setAttribute("style", "width: " + (window.innerWidth * 0.90 - 117) + "px");
             }
-        })
+        });
     }
 
-    /**
-     * Writes the login prompt as described by props.login, and starts
-     * the prompt for the user.
-     */
-    this.login = () => {
+    login() {
         if (this.props !== undefined && this.props.login !== undefined) {
             this.writeln(this.props.login);
         }
-        this.helpers.prompt();
+        prompt(this);
     }
-
-    /**
-     * User-facing function to write the argument to the terminal.
-     * If it's an array, we'll print each element in turn. Otherwise 
-     * we print the object.
-     */
-    this.writeln = (e) => {
-        if (Array.isArray(e)) {
-            for (let i = 0; i < e.length; i++) {
-                this.helpers.writeln(e[i]);
+    
+    writeln(line) {
+        if (Array.isArray(line)) {
+            for (let i = 0; i < line.length; i++) {
+                writeHelper(this, line[i]);
             }
         } else {
-            this.helpers.writeln(e);
+            writeHelper(this, line);
         }
     }
+
+    input(pre) {
+        this.inputProps.isWaiting = true;
+        // Set up the prompt
+        prompt(this, pre);
+        return new Promise((resolve) => {
+            this.inputProps.resolution = resolve;
+        })
+    }
+}
+
+// Private members, not visible to anything external to this file
+async function process(term, command) {
+    let cmd = command;
+    let parse = cmd.split(" ");
+    if (term.props !== undefined) {
+        if (parse[0] in term.props.commands) {
+            await term.props.commands[parse[0]].function(cmd);
+        } else {
+            term.writeln(cmd + ": command not found");
+        }
+    } else {
+        term.writeln("This terminal does not have a soul.");
+    }
+    prompt(term);
+}
+
+function prompt(term, custom) {
+    if (term.workingPrompt.element === undefined) {
+        term.workingPrompt.element = document.createElement("pre");
+        // Using innerHTML to support styling easier
+        // This isn't public so it should be safe enough
+        if (custom === undefined && term.props !== undefined) {
+            term.workingPrompt.element.innerHTML += term.props.prompt;
+        } else {
+            term.workingPrompt.element.innerHTML += custom;
+        }
+        term.workingPrompt.input = document.createElement("input");
+        term.workingPrompt.input.setAttribute("autocorrect", "off");
+        term.workingPrompt.input.setAttribute("autocomplete", "off");
+        term.workingPrompt.input.setAttribute("autocapitalize", "off");
+        term.workingPrompt.input.setAttribute("spellcheck", "false");
+        term.workingPrompt.element.appendChild(term.workingPrompt.input);
+    }
+
+    if (term.workingPrompt.appended === false) {
+        term.container.appendChild(term.workingPrompt.element);
+        term.workingPrompt.input.focus();
+        term.workingPrompt.appended = true;
+    }
+}
+
+function finalizePrompt(term) {
+    let input = "";
+    if (term.workingPrompt.element !== undefined) {
+        input = term.workingPrompt.input.value;
+        if (input !== "") {
+            term.log.push(input);
+            term.logIdx = term.log.length;
+        }
+        term.workingPrompt.input.remove();
+        term.workingPrompt.element.innerHTML += input;
+        term.workingPrompt.element = undefined;
+        term.workingPrompt.input = undefined;
+        term.workingPrompt.appended = false;
+    }
+    return input;
+}
+
+function writeHelper(term, line) {
+    if (term.workingPrompt.element !== undefined) {
+        finalizePrompt(term);
+    }
+    // If the string is empty, add a space so it gets printed
+    var e = (line === "") ? " " : line;
+    let pre = document.createElement("pre");
+    if (e.text !== undefined && e.color !== undefined) {
+        pre.setAttribute("style", "color:" + e.color);
+        pre.innerHTML = e.text;
+    } else {
+        pre.setAttribute("style", "color:white");
+        pre.innerHTML = e;
+    }
+    term.container.appendChild(pre);
 }
