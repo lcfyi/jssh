@@ -10,11 +10,11 @@ var dec = {
         let expression = e.substring(e.indexOf(" ") + 1);
         try {
             if (expression.substring(0, 2) === "0b") {
-                var val = parseInt(expression.substring(2), 2);
+                var val = parseInt(expression.substring(2), 2).toString();
             } else if (expression.substring(0, 2) === "0x") {
-                var val = parseInt(expression.substring(2), 16);
+                var val = parseInt(expression.substring(2), 16).toString();
             } else if (expression.substring(0, 2) === "0o") {
-                var val = parseInt(expression.substring(2), 8);
+                var val = parseInt(expression.substring(2), 8).toString();
             } else {
                 throw new Error("Not a valid base!");
             }

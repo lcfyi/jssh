@@ -2,8 +2,10 @@
  * Our terminal prototype. It supports init, login, and writeln.
  */
 export default function waTerminal(props) {
-    this.props = props;
-    this.props.terminal = this;
+    if (props !== undefined) {
+        this.props = props;
+        this.props.terminal = this;
+    }
     this.container = undefined;
     this.log = [];
     this.logIdx = 0;
@@ -36,11 +38,16 @@ export default function waTerminal(props) {
         process: (e) => {
             let cmd = e;
             let parse = cmd.split(" ");
-            if (parse[0] in this.props.commands) {
-                this.props.commands[parse[0]].function(cmd);
+            if (this.props !== undefined) {
+                if (parse[0] in this.props.commands) {
+                    this.props.commands[parse[0]].function(cmd);
+                } else {
+                    this.props.terminal.writeln(cmd + ": command not found");
+                }
             } else {
-                this.props.terminal.writeln(cmd + ": command not found");
+                this.helpers.writeln("This terminal does not have a soul.");
             }
+            
         },
         /**
          * Prompts the user, either with a custom command or the one
@@ -51,10 +58,10 @@ export default function waTerminal(props) {
                 this.workingPrompt.element = document.createElement("pre");
                 // Using innerHTML here just so we can support styling.
                 // This shouldn't ever be called by the user so it should be safe.
-                if (e === undefined) {
+                if (e === undefined && this.props !== undefined) {
                     this.workingPrompt.element.innerHTML += this.props.prompt;
                 } else {
-                    this.workingPrompt.element.innerHTML += e;
+                    this.workingPrompt.element.innerHTML += "> ";
                 }
                 this.workingPrompt.input = document.createElement("input");
                 this.workingPrompt.input.setAttribute("autocorrect", "off");
@@ -164,7 +171,9 @@ export default function waTerminal(props) {
      * the prompt for the user.
      */
     this.login = () => {
-        this.writeln(this.props.login);
+        if (this.props !== undefined && this.props.login !== undefined) {
+            this.writeln(this.props.login);
+        }
         this.helpers.prompt();
     }
 
