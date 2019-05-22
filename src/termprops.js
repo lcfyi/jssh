@@ -15,11 +15,11 @@ var termProps = {
     prompt: "<a style='color:" + colors.green + "'>you</a>@<a style='color:#bd93f9'>daB.</a> ~$ ",
     login: [
         " ",
-        [" _          _   _       ",  colors.pink],
-        ["| |        | | | |      ",  colors.pink],
-        ["| |     _  | | | |  __  ",  colors.pink],
-        ["|/ \\   |/  |/  |/  /  \\_",colors.pink],
-        ["|   |_/|__/|__/|__/\\__/o", colors.pink],
+        {text: " _          _   _       ",  color: colors.pink},
+        {text: "| |        | | | |      ",  color: colors.pink},
+        {text: "| |     _  | | | |  __  ",  color: colors.pink},
+        {text: "|/ \\   |/  |/  |/  /  \\_",color: colors.pink},
+        {text: "|   |_/|__/|__/|__/\\__/o", color: colors.pink},
         " ",
         "Type 'help' for more information."
     ],
