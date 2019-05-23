@@ -122,7 +122,7 @@ describe("ipinfo", () => {
         expect(ipinfo.parent.buffer[0]).toBe("You must specify a hostname!");
     });
     
-    xtest("ipinfo 127.0.0.1", () => {
+    test("ipinfo 127.0.0.1", () => {
         ipinfo.parent = new pty;
         ipinfo.function("ipinfo 127.0.0.1");
         let check = ipinfo.parent.buffer.filter(e => e.includes("localhost"));
