@@ -1,32 +1,48 @@
 export default class waTerminal {
+    /**
+     * Constructor for the terminal, takes one argument which is an object
+     * with a terminal, prompt, login, commands members and an init method.
+     * @param {object} props the props object
+     */
     constructor(props) {
+        // If there is a props argument, keep track of it
         if (props !== undefined) {
             this.props = props;
             this.props.terminal = this;
         }
+        // The container to append new elements
         this.container = undefined;
+        // Log of previous commands
         this.log = [];
         this.logIdx = 0;
+        // Props for our input element
         this.workingPrompt = {
             element: undefined,
             input: undefined,
             appended: false
         }
+        // Props for our user input element
         this.inputProps = {
             isWaiting: false,
             resolution: undefined
         }
     }
 
-
+    /**
+     * This function initializes the terminal and establishes the DOM
+     * object that it will attach to. It doesn't print anythnig yet.
+     * @param {DOMElement} dom the DOM element to attach to
+     */
     init(dom) {
         this.container = dom;
         // Set up the key handler
         this.container.addEventListener("keydown", (e) => {
             switch(e.key) {
                 case "Enter":
+                    // Normal command context
                     if (!this.inputProps.isWaiting) {
                         process(this, finalizePrompt(this));
+                    // Within command input context
                     } else {
                         let value = finalizePrompt(this);
                         this.inputProps.resolution(value);
@@ -74,6 +90,10 @@ export default class waTerminal {
         });
     }
 
+    /**
+     * Writes the login message (if it's available) and also begins
+     * the user prompt. Does not take an arguments.
+     */
     login() {
         if (this.props !== undefined && this.props.login !== undefined) {
             this.writeln(this.props.login);
@@ -81,6 +101,17 @@ export default class waTerminal {
         prompt(this);
     }
     
+    /**
+     * Writes a line to the terminal. Takes a myriad of different types of
+     * arguments: either a string, an array of strings, or an object that has
+     * a text and color attribute. 
+     */
+    /**
+     * Writes a line to the terminal. Takes a myriad of different types of 
+     * arguments: either a string, an array of strings, or an object that has
+     * a text and color attribute
+     * @param {string, array, object} line text to write as a line
+     */
     writeln(line) {
         if (Array.isArray(line)) {
             for (let i = 0; i < line.length; i++) {
@@ -91,6 +122,12 @@ export default class waTerminal {
         }
     }
 
+    /**
+     * Allows functiosn to handle and recieve input from the user while within
+     * a function. Should be awaited as it returns a Promise. Argument dictates
+     * what the prompt prefix looks like.
+     * @param {string} pre the prompt prefix
+     */
     input(pre) {
         this.inputProps.isWaiting = true;
         // Set up the prompt
@@ -101,22 +138,39 @@ export default class waTerminal {
     }
 }
 
-// Private members, not visible to anything external to this file
+// --------------------- "private" members ---------------------
+
+/**
+ * This helper processes commands within the context of the provided
+ * term instance.
+ * @param {waTerminal} term the terminal instance
+ * @param {string} command the command to process
+ */
 async function process(term, command) {
-    let cmd = command;
-    let parse = cmd.split(" ");
+    // Parse the command and split it up 
+    let parse = command.split(" ");
+    // Do things only if we have commands to process
     if (term.props !== undefined) {
         if (parse[0] in term.props.commands) {
-            await term.props.commands[parse[0]].function(cmd);
+            // Wait for the function to finish. Only useful if the command
+            // was an async command
+            await term.props.commands[parse[0]].function(command);
         } else {
-            term.writeln(cmd + ": command not found");
+            term.writeln(command + ": command not found");
         }
     } else {
         term.writeln("This terminal does not have a soul.");
     }
+    // After we're done, prompt the user again
     prompt(term);
 }
 
+/**
+ * Helper method to prompt the user for input. Takes an optional
+ * parameter for a special prompt.
+ * @param {waTerminal} term the terminal instance
+ * @param {string} custom the custom command prompt
+ */
 function prompt(term, custom) {
     if (term.workingPrompt.element === undefined) {
         term.workingPrompt.element = document.createElement("pre");
@@ -135,6 +189,7 @@ function prompt(term, custom) {
         term.workingPrompt.element.appendChild(term.workingPrompt.input);
     }
 
+    // If the prompt hasn't been appended, do that
     if (term.workingPrompt.appended === false) {
         term.container.appendChild(term.workingPrompt.element);
         term.workingPrompt.input.focus();
@@ -142,16 +197,23 @@ function prompt(term, custom) {
     }
 }
 
+/**
+ * Helper method to disallow input and finalize the text. Will also return
+ * the contents of the input box.
+ * @param {waTerminal} term the terminal instance
+ */
 function finalizePrompt(term) {
     let input = "";
     if (term.workingPrompt.element !== undefined) {
         input = term.workingPrompt.input.value;
-        if (input !== "") {
+        // Add to our log of previous commands
+        if (input !== "" && !term.inputProps.isWaiting) {
             term.log.push(input);
             term.logIdx = term.log.length;
         }
         term.workingPrompt.input.remove();
         term.workingPrompt.element.innerHTML += input;
+        // Reset our values
         term.workingPrompt.element = undefined;
         term.workingPrompt.input = undefined;
         term.workingPrompt.appended = false;
@@ -159,6 +221,12 @@ function finalizePrompt(term) {
     return input;
 }
 
+/**
+ * Helper method to handle the different types of inputs the terminal 
+ * supports, to make life easier.
+ * @param {waTerminal} term the terminal instance
+ * @param {*} line the object to write
+ */
 function writeHelper(term, line) {
     if (term.workingPrompt.element !== undefined) {
         finalizePrompt(term);
