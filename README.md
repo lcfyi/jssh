@@ -3,18 +3,20 @@
 
 # Motivation
 
-Originally, I wanted to build a kitchen sink with a terminal emulator using `xtermjs` or `hterm`, but that ended up having poor mobile support. Thus, to avoid re-inventing the wheel, I fellback to just using simple HTML elements to emulate a terminal. 
+Playing with `xtermjs` or `hterm` ended up revealing the fact that they're not very optimized for mobile, so I wanted to put something together that's more modern for simple "terminal-like" tasks. Thus, to avoid re-inventing the wheel, I fell back to just using simple HTML elements to emulate a terminal. 
 
-The kitchen sink aspect is to support common functions that I used a Python shell for, such as common conversions and quick math.
-
-It supports mobile. 
+The goal is to create a mobile-friendly web front-end that can run quick functions that I normally used a Python shell for, such as common conversions and quick math. 
 
 # Setup
 
 1.  `npm install`
 2.  `npm run build`
 
-Output will be in `dist/`
+Output will be in `dist/`. Build runs the tests and packs it if successful. If you want to just pack, you can run `npm run pack`. 
+
+# Tests
+
+Tests are in `tests/` using Jest. You can run them with `npm run test`.
 
 # decabyt.es
 
@@ -44,7 +46,7 @@ This is useful if you want to print things to the terminal before the login prom
 
 Additional commands should only use `writeln()` to print to the output. Otherwise, commands should be one and done, and do not require any additional input (this could change in the future).
 
-### 'input()'
+### `input()`
 
 Takes an optional string parameter that will act as the default prompt string. It returns a promise, which resolves with the user input so you must account for that when designing a function (ie. your function should be async).
 
