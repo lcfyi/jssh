@@ -23,15 +23,20 @@ String.prototype.hashCode = function() {
  */
 window.onload = () => {
     let term = new waTerminal(termProps);
-    let ip = new XMLHttpRequest();
     term.init(document.getElementById('terminal'));
-    ip.open("GET", "https://json.geoiplookup.io/", false);
-    ip.send();
-    // Print the current date and time
-    let payload = JSON.parse(ip.responseText);
-    term.writeln("Current date and time: " + new Date().toString());
-    term.writeln("Connected from " + payload.ip);
-    term.writeln("----");
-    // Login to initialize prompt
+    try {    
+        let ip = new XMLHttpRequest();
+        ip.open("GET", "https://json.geoiplookup.io/", false);
+        ip.send();
+        var payload = JSON.parse(ip.responseText);
+        term.writeln("Current date and time: " + new Date().toString());
+        term.writeln("Connected from " + payload.ip);
+        term.writeln("----");
+    } catch (e) {
+        // Internet issues, can't resolve hostname 
+        term.writeln("Current date and time: " + new Date().toString());
+        term.writeln("Not connected to the internet.");
+        term.writeln("----");
+    }
     term.login();
 }

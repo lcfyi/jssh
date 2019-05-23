@@ -11,23 +11,28 @@ var ipinfo = {
         // TODO check if the IP is properly formed
         let ip = e.split(/[ ,]+/)[1];
         if (ip !== undefined && ip !== "") {
-            let xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://json.geoiplookup.io/" + ip, false);
-            xhr.send();
-            let response = JSON.parse(xhr.responseText);
-            let printout = [
-                "<a style='color:#ff79c6'>Approximate location and info of " + response.ip + "</a>",
-                "<a style='color:#8be9fd'>Hostname: </a>" + response.hostname,
-                "<a style='color:#8be9fd'>District: </a>" + response.district,
-                "<a style='color:#8be9fd'>Region: </a>" + response.region,
-                "<a style='color:#8be9fd'>City: </a>" + response.city,
-                "<a style='color:#8be9fd'>Country: </a>" + response.country_name,
-                "<a style='color:#8be9fd'>Continent: </a>" + response.continent_code,
-                "<a style='color:#8be9fd'>Postal code: </a>" + response.postal_code,
-                "<a style='color:#8be9fd'>ISP: </a>" + response.isp,
-                "<a style='color:#8be9fd'>Org: </a>" + response.org
-            ]
-            this.parent.terminal.writeln(printout);
+            try {
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", "https://json.geoiplookup.io/" + ip, false);
+                xhr.send();
+                var response = JSON.parse(xhr.responseText);
+                let printout = [
+                    "<a style='color:#ff79c6'>Approximate location and info of " + response.ip + "</a>",
+                    "<a style='color:#8be9fd'>Hostname: </a>" + response.hostname,
+                    "<a style='color:#8be9fd'>District: </a>" + response.district,
+                    "<a style='color:#8be9fd'>Region: </a>" + response.region,
+                    "<a style='color:#8be9fd'>City: </a>" + response.city,
+                    "<a style='color:#8be9fd'>Country: </a>" + response.country_name,
+                    "<a style='color:#8be9fd'>Continent: </a>" + response.continent_code,
+                    "<a style='color:#8be9fd'>Postal code: </a>" + response.postal_code,
+                    "<a style='color:#8be9fd'>ISP: </a>" + response.isp,
+                    "<a style='color:#8be9fd'>Org: </a>" + response.org
+                ];
+                this.parent.terminal.writeln(printout);
+            } catch (e) {
+                this.parent.terminal.writeln("Error trying to get hostname info!");
+            }
+            
         } else {
             this.parent.terminal.writeln("You must specify a hostname!");
         }
