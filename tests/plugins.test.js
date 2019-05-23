@@ -116,7 +116,7 @@ describe("hex", () => {
 
 // x prefix skips the test
 describe("ipinfo", () => {
-    xtest("ipinfo", () => {
+    test("ipinfo", () => {
         ipinfo.parent = new pty;
         ipinfo.function("ipinfo");
         expect(ipinfo.parent.buffer[0]).toBe("You must specify a hostname!");

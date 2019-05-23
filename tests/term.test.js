@@ -101,6 +101,30 @@ describe("writeln()", () => {
     });
 });
 
+describe("input()", () => {
+    test("Simple input, no props", () => {
+        let dom = document.createElement("test");
+        let term = new Terminal();
+        term.init(dom);
+        // Shouldn't have anything at this point
+        expect(dom.childElementCount).toBe(0);
+        expect(term.inputProps.isWaiting).toBe(false);
+        expect(term.inputProps.resolution).toBe(undefined);
+        let val = term.input();
+        term.inputProps.resolution("test");
+        val.then((e) => expect(e).toBe("test"));
+    });
+
+    test("Simple input 2, no props", () => {
+        let dom = document.createElement("test");
+        let term = new Terminal();
+        term.init(dom);
+        let val = term.input();
+        term.inputProps.resolution("");
+        val.then((e) => expect(e).toBe(""));
+    })
+});
+
 // TODO input events
 // describe("Input events", () => {
 //     test("Keyhandler event listener", () => {
