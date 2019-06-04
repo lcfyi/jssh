@@ -131,10 +131,14 @@ export default class waTerminal {
     input(pre) {
         this.inputProps.isWaiting = true;
         // Set up the prompt
-        prompt(this, pre);
+        if (pre === undefined) {
+            prompt(this, "> ");
+        } else {
+            prompt(this, pre);
+        }
         return new Promise((resolve) => {
             this.inputProps.resolution = resolve;
-        })
+        });
     }
 }
 
