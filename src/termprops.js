@@ -8,11 +8,12 @@ import time from './plugins/time.js';
 import hex from './plugins/hex.js';
 import bin from './plugins/bin.js';
 import dec from './plugins/dec.js';
+import tictactoe from './plugins/tictactoe.js';
 import colors from './dracula.js';
 
 var termProps = {
     terminal: undefined,
-    prompt: "<a style='color:" + colors.green + "'>you</a>@<a style='color:#bd93f9'>daB.</a> ~$ ",
+    prompt: "<a style='color:" + colors.green + "'>~</a><a style='color:#bd93f9'>$</a> ",
     login: [
         " ",
         {text: " _          _   _       ",  color: colors.pink},
@@ -33,7 +34,8 @@ var termProps = {
         time: time,
         hex: hex,
         bin: bin,
-        dec: dec
+        dec: dec,
+        ttt: tictactoe
     },
     init: function() {
         for (let x in this.commands) {
