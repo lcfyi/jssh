@@ -190,6 +190,7 @@ function prompt(term, custom) {
         term.workingPrompt.input.setAttribute("autocomplete", "off");
         term.workingPrompt.input.setAttribute("autocapitalize", "off");
         term.workingPrompt.input.setAttribute("spellcheck", "false");
+        term.workingPrompt.input.setAttribute("style", "width: " + (window.innerWidth * 0.90 - 117) + "px");
         term.workingPrompt.element.appendChild(term.workingPrompt.input);
     }
 
