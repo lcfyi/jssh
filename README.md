@@ -3,9 +3,11 @@
 
 # Motivation
 
-Playing with `xtermjs` or `hterm` ended up revealing the fact that they're not very optimized for mobile, so I wanted to put something together that's more modern for simple "terminal-like" tasks. Thus, to avoid re-inventing the wheel, I fell back to just using simple HTML elements to emulate a terminal. 
+Playing with `xtermjs` or `hterm` ended up revealing the fact that they're not very optimized for mobile, so I wanted to put something together that's more modern for simple "terminal-like" tasks. Thus, I'm roleplaying as a competent developer who's built a full PTY (term.js) that connects the shell (termprops.js) to the user's display (html, I suppose).
 
 The goal is to create a mobile-friendly web front-end that can run quick functions that I normally used a Python shell for, such as common conversions and quick math. 
+
+Also, the roleplay continues with a full CD pipeline using Netlify and Jest. 
 
 # Setup
 
