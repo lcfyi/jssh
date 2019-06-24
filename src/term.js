@@ -175,10 +175,12 @@ function prompt(term, custom) {
         term.workingPrompt.element = document.createElement("pre");
         // Using innerHTML to support styling easier
         // This isn't public so it should be safe enough
-        if (custom === undefined && term.props !== undefined) {
-            term.workingPrompt.element.innerHTML += term.props.prompt;
-        } else {
+        if (custom !== undefined) {
             term.workingPrompt.element.innerHTML += custom;
+        } else if (term.props !== undefined) {
+            term.workingPrompt.element.innerHTML += term.props.prompt
+        } else {
+            term.workingPrompt.element.innerHTML += "> ";
         }
     }
     term.workingPrompt.input = document.createElement("input");
@@ -241,7 +243,7 @@ function writeHelper(term, line) {
 
 
 function computeChildWidth(parent) {
-    let width = 0;
+    let width = 10;
     for (let i = 0; i < parent.children.length; i++) {
         if (parent.children[i].nodeName === "INPUT") {
             continue;
