@@ -18,8 +18,7 @@ export default class waTerminal {
         // Props for our input element
         this.workingPrompt = {
             element: undefined,
-            input: undefined,
-            appended: false
+            input: undefined
         }
         // Props for our user input element
         this.inputProps = {
@@ -85,7 +84,8 @@ export default class waTerminal {
         // Set up a handler to resize the text input
         window.addEventListener("resize", () => {
             if (this.workingPrompt.input !== undefined) {
-                this.workingPrompt.input.setAttribute("style", "width: " + (window.innerWidth * 0.90 - 117) + "px");
+                let promptWidth = computeChildWidth(this.workingPrompt.element);
+                this.workingPrompt.input.setAttribute("style", "width: " + (this.workingPrompt.element.offsetWidth * 0.90 - promptWidth) + "px");
             }
         });
     }
@@ -180,21 +180,17 @@ function prompt(term, custom) {
         } else {
             term.workingPrompt.element.innerHTML += custom;
         }
-        term.workingPrompt.input = document.createElement("input");
-        term.workingPrompt.input.setAttribute("autocorrect", "off");
-        term.workingPrompt.input.setAttribute("autocomplete", "off");
-        term.workingPrompt.input.setAttribute("autocapitalize", "off");
-        term.workingPrompt.input.setAttribute("spellcheck", "false");
-        term.workingPrompt.input.setAttribute("style", "width: " + (window.innerWidth * 0.90 - 117) + "px");
-        term.workingPrompt.element.appendChild(term.workingPrompt.input);
     }
-
-    // If the prompt hasn't been appended, do that
-    if (term.workingPrompt.appended === false) {
-        term.container.appendChild(term.workingPrompt.element);
-        term.workingPrompt.input.focus();
-        term.workingPrompt.appended = true;
-    }
+    term.workingPrompt.input = document.createElement("input");
+    term.workingPrompt.input.setAttribute("autocorrect", "off");
+    term.workingPrompt.input.setAttribute("autocomplete", "off");
+    term.workingPrompt.input.setAttribute("autocapitalize", "off");
+    term.workingPrompt.input.setAttribute("spellcheck", "false");
+    term.container.appendChild(term.workingPrompt.element);
+    let promptWidth = computeChildWidth(term.workingPrompt.element);
+    term.workingPrompt.input.setAttribute("style", "width: " + (term.workingPrompt.element.offsetWidth * 0.90 - promptWidth) + "px");
+    term.workingPrompt.element.appendChild(term.workingPrompt.input);
+    term.workingPrompt.input.focus();
 }
 
 /**
@@ -216,7 +212,6 @@ function finalizePrompt(term) {
         // Reset our values
         term.workingPrompt.element = undefined;
         term.workingPrompt.input = undefined;
-        term.workingPrompt.appended = false;
     }
     return input;
 }
@@ -242,4 +237,16 @@ function writeHelper(term, line) {
         pre.innerHTML = e;
     }
     term.container.appendChild(pre);
+}
+
+
+function computeChildWidth(parent) {
+    let width = 0;
+    for (let i = 0; i < parent.children.length; i++) {
+        if (parent.children[i].nodeName === "INPUT") {
+            continue;
+        }
+        width += parent.children[i].offsetWidth;
+    }
+    return width;
 }
