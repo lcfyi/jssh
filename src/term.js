@@ -102,11 +102,6 @@ export default class waTerminal {
     }
     
     /**
-     * Writes a line to the terminal. Takes a myriad of different types of
-     * arguments: either a string, an array of strings, or an object that has
-     * a text and color attribute. 
-     */
-    /**
      * Writes a line to the terminal. Takes a myriad of different types of 
      * arguments: either a string, an array of strings, or an object that has
      * a text and color attribute
