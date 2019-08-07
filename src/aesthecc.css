@@ -1,4 +1,4 @@
-::-webkit-scrollbar {
+#terminal::-webkit-scrollbar {
     width: 0px;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
 }
@@ -11,7 +11,7 @@
     overflow-y: scroll;
 }
 
-pre {
+#terminal pre {
     margin: 0px 0px 0px 0px;
     font-family: 'Roboto Mono', monospace;
     color: white;
@@ -20,7 +20,7 @@ pre {
     word-wrap: break-word;
 }
 
-input {
+#terminal input {
     background-color: rgba(0, 0, 0, 0);
     border: none;
     outline: none;
@@ -30,12 +30,12 @@ input {
     padding: 0px 0px 0px 0px;
 }
 
-a:link {
+#terminal a:link {
     color: #8be9fd;
     text-decoration: none;
 }
 
-a:visited {
+#terminal a:visited {
     color: #8be9fd;
     text-decoration: none;
 }
