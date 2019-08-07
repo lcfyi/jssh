@@ -16,6 +16,8 @@ Also, the roleplay continues with a full CD pipeline using Netlify and Jest.
 
 Output will be in `dist/`. Build runs the tests and packs it if successful. If you want to just pack, you can run `npm run pack`. 
 
+You can also take the output of this file and instantiate it in any page; just make sure you have a `#terminal` div (unless you rename it in `index.js`).
+
 # Tests
 
 Tests are in `tests/` using Jest. You can run them with `npm run test`.

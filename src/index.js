@@ -1,5 +1,6 @@
 import waTerminal from './term.js';
 import termProps from './termprops.js';
+import './aesthecc.css';
 
 /**
  * Give strings a hashcode. For obfuscation but it's not 

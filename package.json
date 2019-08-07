@@ -14,5 +14,9 @@
     "mathjs": "^5.9.0",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.0"
+  },
+  "devDependencies": {
+    "css-loader": "^3.2.0",
+    "style-loader": "^1.0.0"
   }
 }
