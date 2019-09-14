@@ -85,7 +85,8 @@ export default class waTerminal {
         window.addEventListener("resize", () => {
             if (this.workingPrompt.input !== undefined) {
                 let promptWidth = computeChildWidth(this.workingPrompt.element);
-                this.workingPrompt.input.setAttribute("style", "width: " + (this.workingPrompt.element.offsetWidth * 0.90 - promptWidth) + "px");
+                this.workingPrompt.input.setAttribute("style", "width: " 
+                    + (this.workingPrompt.element.offsetWidth * 0.90 - promptWidth) + "px");
             }
         });
     }
@@ -127,9 +128,9 @@ export default class waTerminal {
         this.inputProps.isWaiting = true;
         // Set up the prompt
         if (pre === undefined) {
-            prompt(this, "> ");
+            prompt(this, wrapA("> "));
         } else {
-            prompt(this, pre);
+            prompt(this, wrapA(pre));
         }
         return new Promise((resolve) => {
             this.inputProps.resolution = resolve;
@@ -178,9 +179,9 @@ function prompt(term, custom) {
         if (custom !== undefined) {
             term.workingPrompt.element.innerHTML += custom;
         } else if (term.props !== undefined) {
-            term.workingPrompt.element.innerHTML += term.props.prompt
+            term.workingPrompt.element.innerHTML += term.props.prompt;
         } else {
-            term.workingPrompt.element.innerHTML += "> ";
+            term.workingPrompt.element.innerHTML += wrapA("> ");
         }
     }
     term.workingPrompt.input = document.createElement("input");
@@ -190,7 +191,8 @@ function prompt(term, custom) {
     term.workingPrompt.input.setAttribute("spellcheck", "false");
     term.container.appendChild(term.workingPrompt.element);
     let promptWidth = computeChildWidth(term.workingPrompt.element);
-    term.workingPrompt.input.setAttribute("style", "width: " + (term.workingPrompt.element.offsetWidth * 0.90 - promptWidth) + "px");
+    term.workingPrompt.input.setAttribute("style", "width: " 
+        + (term.workingPrompt.element.offsetWidth * 0.90 - promptWidth) + "px");
     term.workingPrompt.element.appendChild(term.workingPrompt.input);
     term.workingPrompt.input.focus();
 }
@@ -241,7 +243,6 @@ function writeHelper(term, line) {
     term.container.appendChild(pre);
 }
 
-
 function computeChildWidth(parent) {
     let width = 10;
     for (let i = 0; i < parent.children.length; i++) {
@@ -251,4 +252,8 @@ function computeChildWidth(parent) {
         width += parent.children[i].offsetWidth;
     }
     return width;
+}
+
+function wrapA(raw) {
+    return "<a>" + raw + "</a>";
 }

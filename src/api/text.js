@@ -15,7 +15,7 @@ export function handler(event, context, callback) {
             callback(null, {
                 statusCode: 400,
                 body: rej
-            }
+            });
         });
     } else {
         callback(null, {
