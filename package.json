@@ -18,6 +18,7 @@
     "mathjs": "^5.9.0",
     "netlify-cli": "^2.15.0",
     "netlify-lambda": "^1.6.3",
+    "twilio": "^3.34.0",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.0"
   },
