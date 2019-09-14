@@ -9,11 +9,13 @@ import hex from './plugins/hex.js';
 import bin from './plugins/bin.js';
 import dec from './plugins/dec.js';
 import tictactoe from './plugins/tictactoe.js';
+import sudo from './plugins/sudo.js';
+import passwd from './plugins/passwd.js';
 import colors from './dracula.js';
 
 var termProps = {
     terminal: undefined,
-    prompt: "<a style='color:" + colors.green + "'>~</a><a style='color:#bd93f9'>$</a> ",
+    prompt: "<a style='color:" + colors.green + "'>~</a><a style='color:" + colors.purple + "'>$</a> ",
     login: [
         " ",
         {text: " _          _   _       ",  color: colors.pink},
@@ -35,7 +37,9 @@ var termProps = {
         hex: hex,
         bin: bin,
         dec: dec,
-        ttt: tictactoe
+        ttt: tictactoe,
+        sudo: sudo,
+        passwd: passwd
     },
     init: function() {
         for (let x in this.commands) {
