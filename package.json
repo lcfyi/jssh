@@ -5,13 +5,19 @@
   "scripts": {
     "test": "jest --verbose",
     "pack": "webpack",
-    "build": "jest && webpack"
+    "build": "jest && webpack && netlify-lambda build src/api",
+    "netlify-serve": "netlify-lambda serve src/api",
+    "netlify-build": "netlify-lambda build src/api",
+    "serve": "netlify dev"
   },
   "dependencies": {
     "babel-jest": "^24.8.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "dotenv": "^8.1.0",
     "jest": "^24.8.0",
     "mathjs": "^5.9.0",
+    "netlify-cli": "^2.15.0",
+    "netlify-lambda": "^1.6.3",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.0"
   },
