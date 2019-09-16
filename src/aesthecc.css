@@ -1,5 +1,4 @@
 #terminal::-webkit-scrollbar {
-    -ms-overflow-style: none; /* IE */
     display: none; /* Safari and Chrome */
 }
 
@@ -10,6 +9,7 @@
     line-height: normal;
     overflow-y: scroll;
     scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE */
 }
 
 #terminal pre {
