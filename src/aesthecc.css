@@ -1,6 +1,6 @@
 #terminal::-webkit-scrollbar {
-    width: 0px;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
+    -ms-overflow-style: none; /* IE */
+    display: none; /* Safari and Chrome */
 }
 
 #terminal {
@@ -9,6 +9,7 @@
     height: 100%;
     line-height: normal;
     overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
 }
 
 #terminal pre {
@@ -28,6 +29,7 @@
     font-family: 'Roboto Mono', monospace;
     font-size: 12pt;
     padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
 }
 
 #terminal a:link {
