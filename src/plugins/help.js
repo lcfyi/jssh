@@ -14,9 +14,8 @@ var help = {
             }                    
         } else {
             let text = [
-                "wa-bash, version 0.1 (js)",
-                "These commands are defined internally, so there's not a lot",
-                "of functionality at the moment.",
+                "jsh, version 0.1 ",
+                "These help prompts are defined by the plugins themselves. They may not be helpful.",
                 ""
             ]
             this.parent.terminal.writeln(text);

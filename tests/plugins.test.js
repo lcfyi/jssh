@@ -63,7 +63,7 @@ describe("help", () => {
     test("help", () => {
         help.parent = new pty;
         help.function("help");
-        expect(help.parent.buffer[0].includes("wa-bash")).toBe(true);
+        expect(help.parent.buffer[0].includes("jsh")).toBe(true);
     });
     
     test("help (with arbitrary command)", () => {
