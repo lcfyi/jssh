@@ -11,6 +11,7 @@ import dec from './plugins/dec.js';
 import tictactoe from './plugins/tictactoe.js';
 import sudo from './plugins/sudo.js';
 import passwd from './plugins/passwd.js';
+import cal from './plugins/cal.js';
 import text from './plugins/text.js';
 import colors from './dracula.js';
 
@@ -41,7 +42,8 @@ var termProps = {
         ttt: tictactoe,
         sudo: sudo,
         passwd: passwd,
-        text: text
+        text: text,
+        cal: cal
     },
     init: function() {
         for (let x in this.commands) {
