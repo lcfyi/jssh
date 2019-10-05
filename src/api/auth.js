@@ -1,5 +1,6 @@
 import hash from './helpers/hash.js';
 import gateway from './helpers/gateway.js';
+require('dotenv').config();
 
 export function handler(event, context, callback) {
     console.log(event);
@@ -11,7 +12,7 @@ export function handler(event, context, callback) {
     } else {
         callback(null, {
             statusCode: 401,
-            body: "Incorrect password."
+            body: process.env.PASSPHRASE
         });
     }
 }

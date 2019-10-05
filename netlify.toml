@@ -9,8 +9,8 @@
   # Directory with the serverless Lambda functions to deploy to AWS.
   functions = "api"
 
-[context.deploy-preview.environment]
-  PASSPHRASE = "demo"
-  TWILIO_ACCOUNT_ID = "not so secret"
-  TWILIO_AUTH_TOKEN = "also not so secret"
-  TWILIO_PHONE_NUMBER = "1" # Ok grandma
+# [context.deploy-preview.environment]
+#  PASSPHRASE = "demo"
+#  TWILIO_ACCOUNT_ID = "not so secret"
+#  TWILIO_AUTH_TOKEN = "also not so secret"
+#  TWILIO_PHONE_NUMBER = "1" # Ok grandma
