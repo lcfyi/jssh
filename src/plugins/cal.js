@@ -23,8 +23,9 @@ var cal = {
         
         const dayLine = "Sun Mon Tue Wed Thu Fri Sat";
 
-        let stringToParse = e.replace(/  +/g, ' ');
-        let parse = stringToParse.split(" ");
+        
+        let splitString = e.split(" ");
+        let parse = []; for (let y = 0; y < splitString.length; y++) if (splitString[y]) parse.push(splitString[y]); 
         let warning = "";
         try {
             if (parse.length > 3) {
