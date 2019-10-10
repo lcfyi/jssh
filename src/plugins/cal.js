@@ -77,13 +77,12 @@ function generateCalString(date) {
 
     for (let i = 0; i < daysIndex; i++) {
         if (i >= startOfMonth) {
-            var date = i - startOfMonth + 1;
-            if (date < 10) { stringOut = stringOut + `  ${date} `; } 
-            else { stringOut = stringOut + ` ${date} `; }
-            if (i % 7 == 6) { stringOut = stringOut + "\n"; }
-        } else {
-            stringOut = stringOut + "    ";
-        }
+            let date = i - startOfMonth + 1;
+            if (date < 10) stringOut = stringOut + `  ${date} `; 
+            else stringOut = stringOut + ` ${date} `; 
+    
+            if (i % 7 == 6) stringOut = stringOut + "\n";
+        } else stringOut = stringOut + "    ";
     }
 
     return stringOut;
