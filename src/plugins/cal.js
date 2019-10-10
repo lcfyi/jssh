@@ -25,7 +25,7 @@ var cal = {
 
         let stringToParse = e.replace(/  +/g, ' ');
         let parse = stringToParse.split(" ");
-        let warning = "\n";
+        let warning = "";
         try {
             if (parse.length > 3) {
                 throw new Error("Too many arguments! Please see the function's usage with cal help")
@@ -56,7 +56,7 @@ var cal = {
                 warning = "Printing for current month and year" + "\n";
             }
 
-            this.parent.terminal.writeln(warning);
+            this.parent.terminal.writeln(warning + "\n");
             
             let monthLine = "         " + monthName + " " + year + "         ";
             this.parent.terminal.writeln(monthLine);
