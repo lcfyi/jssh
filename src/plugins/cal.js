@@ -25,7 +25,7 @@ var cal = {
 
         let stringToParse = e.replace(/  +/g, ' ');
         let parse = stringToParse.split(" ");
-        let warning = "";
+        let warning = "\n";
         try {
             if (parse.length > 3) {
                 throw new Error("Too many arguments! Please see the function's usage with cal help")
@@ -56,7 +56,7 @@ var cal = {
                 warning = "Printing for current month and year" + "\n";
             }
 
-            (warning) ? this.parent.terminal.writeln(warning + "\n") : this.parent.terminal.writeln("\n");
+            this.parent.terminal.writeln(warning + "\n");
             
             let monthLine = "         " + monthName + " " + year + "         ";
             this.parent.terminal.writeln(monthLine);
@@ -73,10 +73,9 @@ function generateCalString(date) {
     let startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     let numDays =  32 - new Date(date.getFullYear(), date.getMonth(), 32).getDate();
     let daysIndex = startOfMonth + numDays;
-    var stringOut = "";
-
-    var i;
-    for (i = 0; i < daysIndex; i++) {
+    let stringOut = "";
+    
+    for (let i = 0; i < daysIndex; i++) {
         if (i >= startOfMonth) {
             var date = i - startOfMonth + 1;
             if (date < 10) { stringOut = stringOut + `  ${date} `; } 
