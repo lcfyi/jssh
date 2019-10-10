@@ -56,7 +56,7 @@ var cal = {
                 warning = "Printing for current month and year" + "\n";
             }
 
-            this.parent.terminal.writeln(warning + "\n");
+            this.parent.terminal.writeln(warning);
             
             let monthLine = "         " + monthName + " " + year + "         ";
             this.parent.terminal.writeln(monthLine);
@@ -74,7 +74,7 @@ function generateCalString(date) {
     let numDays =  32 - new Date(date.getFullYear(), date.getMonth(), 32).getDate();
     let daysIndex = startOfMonth + numDays;
     let stringOut = "";
-    
+
     for (let i = 0; i < daysIndex; i++) {
         if (i >= startOfMonth) {
             var date = i - startOfMonth + 1;
