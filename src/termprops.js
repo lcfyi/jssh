@@ -13,7 +13,10 @@ import sudo from './plugins/sudo.js';
 import passwd from './plugins/passwd.js';
 import cal from './plugins/cal.js';
 import text from './plugins/text.js';
+import rgbdec from './plugins/rgbdec.js'
+import rgbhex from './plugins/rgbhex.js'
 import colors from './dracula.js';
+
 
 var termProps = {
     terminal: undefined,
@@ -43,7 +46,9 @@ var termProps = {
         sudo: sudo,
         passwd: passwd,
         text: text,
-        cal: cal
+        cal: cal,
+        rgbdec: rgbdec,
+        rgbhex: rgbhex
     },
     init: function() {
         for (let x in this.commands) {
