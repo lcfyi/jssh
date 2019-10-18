@@ -175,7 +175,6 @@ function prompt(term, custom) {
     if (term.workingPrompt.element === undefined) {
         term.workingPrompt.element = document.createElement("pre");
         // Using innerHTML to support styling easier
-        // This isn't public so it should be safe enough
         if (custom !== undefined) {
             term.workingPrompt.element.innerHTML += custom;
         } else if (term.props !== undefined) {
@@ -212,7 +211,7 @@ function finalizePrompt(term) {
             term.logIdx = term.log.length;
         }
         term.workingPrompt.input.remove();
-        term.workingPrompt.element.innerHTML += input;
+        term.workingPrompt.element.innerHTML += sanitize(input);
         // Reset our values
         term.workingPrompt.element = undefined;
         term.workingPrompt.input = undefined;
@@ -231,14 +230,14 @@ function writeHelper(term, line) {
         finalizePrompt(term);
     }
     // If the string is empty, add a space so it gets printed
-    var e = (line === "") ? " " : line;
+    let e = (line === "") ? " " : line;
     let pre = document.createElement("pre");
     if (e.text !== undefined && e.color !== undefined) {
         pre.setAttribute("style", "color:" + e.color);
-        pre.innerHTML = e.text;
+        pre.innerHTML = sanitize(e.text);
     } else {
         pre.setAttribute("style", "color:white");
-        pre.innerHTML = e;
+        pre.innerHTML = sanitize(e);
     }
     term.container.appendChild(pre);
 }
@@ -256,4 +255,32 @@ function computeChildWidth(parent) {
 
 function wrapA(raw) {
     return "<a>" + raw + "</a>";
+}
+
+function sanitize(input) {
+    // If undefined or doesn't contain tags, return
+    if (!input || !input.includes("<")) {
+        return input;
+    }
+    let whitelist = ["span>", "a>", "span ", "a ", "/span>", "/a>"];
+    let fragments = input.split("<");
+    let output = "";
+    fragments.forEach((fragment) => {
+        if (fragment) {
+            let keep = false;
+            for (let i = 0; i < whitelist.length; i++) {
+                if (fragment.startsWith(whitelist[i])) {
+                    keep = true;
+                    break;
+                }
+            }
+            if (keep) {
+                output += "<" + fragment;
+            } else {
+                output += "&lt;" + fragment;
+            }
+        }
+        console.log(output);
+    });
+    return output;
 }
