@@ -1,3 +1,22 @@
+function generateCalString(date) {
+    let startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    let numDays =  32 - new Date(date.getFullYear(), date.getMonth(), 32).getDate();
+    let daysIndex = startOfMonth + numDays;
+    let stringOut = "";
+
+    for (let i = 0; i < daysIndex; i++) {
+        if (i >= startOfMonth) {
+            let date = i - startOfMonth + 1;
+            if (date < 10) stringOut = stringOut + `  ${date} `; 
+            else stringOut = stringOut + ` ${date} `; 
+    
+            if (i % 7 == 6) stringOut = stringOut + "\n";
+        } else stringOut = stringOut + "    ";
+    }
+
+    return stringOut;
+}
+
 var cal = {
     description: "prints the calendar of the current month",
     help: [
@@ -24,8 +43,8 @@ var cal = {
         const dayLine = "Sun Mon Tue Wed Thu Fri Sat";
 
         
-        let splitString = e.split(" ");
-        let parse = []; for (let y = 0; y < splitString.length; y++) if (splitString[y]) parse.push(splitString[y]); 
+        let string = e.replace(/\s\s+/g, ' ').trim();
+        let parse = string.split(" ");
         let warning = "";
         try {
             if (parse.length > 3) {
@@ -69,24 +88,5 @@ var cal = {
         }
     }
 };
-
-function generateCalString(date) {
-    let startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    let numDays =  32 - new Date(date.getFullYear(), date.getMonth(), 32).getDate();
-    let daysIndex = startOfMonth + numDays;
-    let stringOut = "";
-
-    for (let i = 0; i < daysIndex; i++) {
-        if (i >= startOfMonth) {
-            let date = i - startOfMonth + 1;
-            if (date < 10) stringOut = stringOut + `  ${date} `; 
-            else stringOut = stringOut + ` ${date} `; 
-    
-            if (i % 7 == 6) stringOut = stringOut + "\n";
-        } else stringOut = stringOut + "    ";
-    }
-
-    return stringOut;
-}
 
 export default cal;
