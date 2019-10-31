@@ -7,11 +7,18 @@ function generateCalString(date) {
     for (let i = 0; i < daysIndex; i++) {
         if (i >= startOfMonth) {
             let date = i - startOfMonth + 1;
-            if (date < 10) stringOut = stringOut + `  ${date} `; 
-            else stringOut = stringOut + ` ${date} `; 
+            if (date < 10) { 
+                stringOut = stringOut + `  ${date} `; 
+            } else {
+                stringOut = stringOut + ` ${date} `; 
+            }
     
-            if (i % 7 == 6) stringOut = stringOut + "\n";
-        } else stringOut = stringOut + "    ";
+            if (i % 7 === 6) { 
+                stringOut = stringOut + "\n"; 
+            }
+        } else {
+            stringOut = stringOut + "    "; 
+        }
     }
 
     return stringOut;
@@ -46,6 +53,9 @@ var cal = {
         let string = e.replace(/\s\s+/g, ' ').trim();
         let parse = string.split(" ");
         let warning = "";
+        let date = new Date();
+        let year = date.getFullYear();
+        let monthName = monthNames[date.getMonth()];
         try {
             if (parse.length > 3) {
                 throw new Error("Too many arguments! Please see the function's usage with cal help")
@@ -56,23 +66,21 @@ var cal = {
                     throw new Error("Invalid month requested");
                 }
                     
-                if (parse.length == 2) {
-                    var year = new Date().getFullYear().toString();
-                    warning = "No valid year entered, assuming it is " + year + "\n";
+                if (parse.length === 2) {
+                    warning = "No valid year entered, assuming it is " + year.toString() + "\n";
                 } else if (isNaN(parse[2])) {
                     throw new Error("Not a valid number for year!");
                 } else if (parse[2] < 0) {
                     throw new Error("Invalid year requested - cannot be negative");
                 } else {
-                    var year = parseInt(parse[2]).toString();
+                    year = parseInt(parse[2], 10).toString();
                 }
 
-                var monthName = monthNames[parseInt(parse[1]) - 1];
-                var date = new Date (year, parseInt(parse[1]) - 1); 
+                monthName = monthNames[parseInt(parse[1], 10) - 1];
+                 
+                date.setFullYear(year);
+                date.setMonth(parseInt(parse[1], 10) - 1);
             } else {
-                var date = new Date();
-                var monthName = monthNames[date.getMonth()];
-                var year = date.getFullYear();
                 warning = "Printing for current month and year" + "\n";
             }
 
