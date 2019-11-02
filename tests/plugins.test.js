@@ -12,7 +12,7 @@ describe("bin", () => {
   test("bin", () => {
     bin.parent = new Pty();
     bin.function("bin");
-    expect(bin.parent.buffer[0]).toBe("hex: Not a valid number!");
+    expect(bin.parent.buffer[0]).toBe("bin: Not a valid number!");
   });
 
   test("bin 3", () => {

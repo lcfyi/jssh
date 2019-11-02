@@ -1,7 +1,7 @@
 const tictactoe = {
   description: "plays tic-tac-toe",
   help: ["Usage", "", "ttt"],
-  async function(e) {
+  async function() {
     let board = null;
     let playing = false;
     let winner = null;
@@ -133,11 +133,11 @@ function getWinner(board) {
   let counter = 0;
   for (let i = 0; i < board.length; i++) {
     if (board[i]) {
-        counter++;
+      counter++;
     }
   }
   if (counter === 9) {
-      return "Nobody";
+    return "Nobody";
   }
   // No winner
   return null;
@@ -161,7 +161,7 @@ function aiPlay(board) {
     if (board[i]) counter++;
   }
   if (counter === 9) {
-      return;
+    return;
   }
   while (!playMove(board, Math.floor(Math.random() * 8), "O"));
 }

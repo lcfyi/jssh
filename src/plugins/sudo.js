@@ -3,7 +3,7 @@ import colors from "../dracula.js";
 const sudo = {
   description: "authentication",
   help: ["Usage", "", "sudo"],
-  async function(e) {
+  async function() {
     let promise = this.parent.terminal.input("");
     this.parent.terminal.workingPrompt.input.type = "password";
     let element = this.parent.terminal.workingPrompt.element;

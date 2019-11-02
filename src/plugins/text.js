@@ -1,7 +1,7 @@
 const text = {
   description: "sends texts (requires auth)",
   help: ["Usage", "", "text [number] [body]"],
-  async function(e) {
+  async function() {
     // Parse the message
     let to = await this.parent.terminal.input("To: ");
     let body = await this.parent.terminal.input("Message: ");
