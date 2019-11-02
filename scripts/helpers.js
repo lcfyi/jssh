@@ -10,8 +10,8 @@ let getFileContents = path => {
 };
 
 let writeFileContents = (path, data) => {
-    return fs.writeFileSync(path, data, "utf-8");
-}
+  return fs.writeFileSync(path, data, "utf-8");
+};
 
 let createBackup = path => {
   let contents = getFileContents(path);

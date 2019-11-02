@@ -5,10 +5,15 @@ let bootstrap = () => {
   let fileContents = helpers.getFileContents(
     helpers.config.TERMPROPS_DIR + helpers.config.TERMPROPS_NAME
   );
-  let imports = helpers.generateImportHeaders(helpers.config.PLUGIN_DIR_NAME, plugins);
+  let imports = helpers.generateImportHeaders(
+    helpers.config.PLUGIN_DIR_NAME,
+    plugins
+  );
   let generatedCommandsList = helpers.generateCommandsObjectString(plugins);
 
-  helpers.createBackup(helpers.config.TERMPROPS_DIR + helpers.config.TERMPROPS_NAME);
+  helpers.createBackup(
+    helpers.config.TERMPROPS_DIR + helpers.config.TERMPROPS_NAME
+  );
 
   let finalFileContents = (imports + fileContents).replace(
     helpers.config.COMMAND_PLACEHOLDER,
