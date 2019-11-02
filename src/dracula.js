@@ -1,6 +1,6 @@
-var colors = {
+const colors = {
     background: "#282a36",
-    current_line: "#44475a",
+    currentLine: "#44475a",
     selection: "#44475a",
     foreground: "$f8f8f2",
     comment: "#6272a4",

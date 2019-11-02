@@ -1,6 +1,6 @@
 import * as mathjs from 'mathjs';
 
-var convert = {
+const convert = {
     description: "converts things",
     help: [
         "This function tries to be smart and parses your input based",
@@ -20,12 +20,11 @@ var convert = {
         try {
             if (!expression.includes("to") || expression.includes("convert")) {
                 throw new Error("not a conversion!");
-            } else {
-                var val = mathjs.eval(expression).toString();
             }
+            let val = mathjs.eval(expression).toString();
+            this.parent.terminal.writeln(val);
         } catch (e) {
-            val = "math.js: " + e.message;
-        } finally {
+            let val = "math.js: " + e.message;
             this.parent.terminal.writeln(val);
         }
     }

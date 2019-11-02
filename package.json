@@ -1,7 +1,9 @@
 {
   "name": "decabyt.es",
   "version": "1.0.0",
-  "private": true,
+  "author": "Leslie Cheng",
+  "repository": "https://github.com/lcfyi/decabyt.es",
+  "private": false,
   "scripts": {
     "test": "jest --verbose",
     "pack": "webpack",

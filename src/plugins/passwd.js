@@ -1,18 +1,14 @@
-var passwd = {
-    description: "Tells you whether you're auth'd for privileged commands.",
-    help: [
-        "Usage",
-        "",
-        "passwd"
-    ],
-    async function(e) {
-        let passwd = this.parent.terminal.passwd;
-        if (passwd !== undefined) {
-            this.parent.terminal.writeln("Currently authorized.");
-        } else {
-            this.parent.terminal.writeln("Currently not authorized.")
-        }
+const passwd = {
+  description: "Tells you whether you're auth'd for privileged commands.",
+  help: ["Usage", "", "passwd"],
+  async function(e) {
+    let passwd = this.parent.terminal.passwd;
+    if (passwd) {
+      this.parent.terminal.writeln("Currently authorized.");
+    } else {
+      this.parent.terminal.writeln("Currently not authorized.");
     }
+  }
 };
 
 export default passwd;
