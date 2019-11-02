@@ -158,8 +158,6 @@ async function process(term, command) {
   // Parse the command and split it up
   let parse = command.split(" ");
   // Do things only if we have commands to process
-  console.log(parse);
-  console.log(command);
   if (term.props) {
     if (parse[0] in term.props.commands) {
       // Wait for the function to finish. Only useful if the command
