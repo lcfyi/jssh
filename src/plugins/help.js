@@ -21,9 +21,17 @@ const help = {
       this.parent.terminal.writeln(text);
       // Get the keys of the commands
       let cmds = Object.keys(this.parent.commands);
+      let maxCount = cmds.reduce((max, cur) => {
+        if (cur.length > max) {
+          return cur.length;
+        } else {
+          return max;
+        }
+      }, 0);
+
       for (let i = 0; i < cmds.length; i++) {
         this.parent.terminal.writeln(
-          cmds[i] + "\t \t" + this.parent.commands[cmds[i]].description
+          cmds[i] + " ".repeat(maxCount - cmds[i].length) + "\t" + this.parent.commands[cmds[i]].description
         );
       }
     }
