@@ -1,4 +1,4 @@
-const tictactoe = {
+const ttt = {
   description: "plays tic-tac-toe",
   help: ["Usage", "", "ttt"],
   async function() {
@@ -166,4 +166,4 @@ function aiPlay(board) {
   while (!playMove(board, Math.floor(Math.random() * 8), "O"));
 }
 
-export default tictactoe;
+export default ttt;

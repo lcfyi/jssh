@@ -8,7 +8,7 @@ import time from "./plugins/time.js";
 import hex from "./plugins/hex.js";
 import bin from "./plugins/bin.js";
 import dec from "./plugins/dec.js";
-import tictactoe from "./plugins/tictactoe.js";
+import ttt from "./plugins/ttt.js";
 import sudo from "./plugins/sudo.js";
 import passwd from "./plugins/passwd.js";
 import text from "./plugins/text.js";
@@ -43,7 +43,7 @@ const termProps = {
     hex,
     bin,
     dec,
-    tictactoe,
+    ttt,
     sudo,
     passwd,
     text
