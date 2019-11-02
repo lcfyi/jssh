@@ -112,16 +112,6 @@ describe("writeln()", () => {
     expect(dom.childElementCount).toBe(0);
     dom.remove();
   });
-
-  test ("Undefined write", () => {
-    let words = undefined;
-    let dom = document.createElement("test");
-    let term = new Terminal();
-    term.init(dom); // Use the init function to see if it works
-    term.writeln(words);
-    expect(dom.childElementCount).toBe(0);
-    dom.remove();
-  });
 });
 
 describe("input()", () => {

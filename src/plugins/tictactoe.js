@@ -132,9 +132,13 @@ function getWinner(board) {
   // Check if the board is full
   let counter = 0;
   for (let i = 0; i < board.length; i++) {
-    if (board[i]) counter++;
+    if (board[i]) {
+        counter++;
+    }
   }
-  if (counter === 9) return "Nobody";
+  if (counter === 9) {
+      return "Nobody";
+  }
   // No winner
   return null;
 }
@@ -151,13 +155,15 @@ function playMove(board, move, player) {
 }
 
 function aiPlay(board) {
-  // Give this an actual AI TODO
+  // TODO Give this an actual AI
   let counter = 0;
   for (let i = 0; i < board.length; i++) {
     if (board[i]) counter++;
   }
-  if (counter === 9) return;
-  while (!playMove(board, Math.floor(Math.random() * 8), "O")) {}
+  if (counter === 9) {
+      return;
+  }
+  while (!playMove(board, Math.floor(Math.random() * 8), "O"));
 }
 
 export default tictactoe;

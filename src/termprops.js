@@ -33,22 +33,22 @@ const termProps = {
     "Type 'help' for more information."
   ],
   commands: {
-    help: help,
-    source: source,
-    math: math,
-    convert: convert,
-    special: special,
-    ipinfo: ipinfo,
-    time: time,
-    hex: hex,
-    bin: bin,
-    dec: dec,
-    ttt: tictactoe,
-    sudo: sudo,
-    passwd: passwd,
-    text: text
+    help,
+    source,
+    math,
+    convert,
+    special,
+    ipinfo,
+    time,
+    hex,
+    bin,
+    dec,
+    tictactoe,
+    sudo,
+    passwd,
+    text
   },
-  init: function() {
+  init() {
     for (let cmd in this.commands) {
       // Here we make sure we don't iterate into prototype methods
       if (Object.prototype.hasOwnProperty.call(this.commands, cmd)) {
