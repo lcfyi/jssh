@@ -1,17 +1,3 @@
-import help from "./plugins/help.js";
-import source from "./plugins/source.js";
-import math from "./plugins/math.js";
-import convert from "./plugins/convert.js";
-import special from "./plugins/special.js";
-import ipinfo from "./plugins/ipinfo.js";
-import time from "./plugins/time.js";
-import hex from "./plugins/hex.js";
-import bin from "./plugins/bin.js";
-import dec from "./plugins/dec.js";
-import ttt from "./plugins/ttt.js";
-import sudo from "./plugins/sudo.js";
-import passwd from "./plugins/passwd.js";
-import text from "./plugins/text.js";
 import colors from "./dracula.js";
 
 const termProps = {
@@ -32,22 +18,7 @@ const termProps = {
     " ",
     "Type 'help' for more information."
   ],
-  commands: {
-    help,
-    source,
-    math,
-    convert,
-    special,
-    ipinfo,
-    time,
-    hex,
-    bin,
-    dec,
-    ttt,
-    sudo,
-    passwd,
-    text
-  },
+  commands: {},
   init() {
     for (let cmd in this.commands) {
       // Here we make sure we don't iterate into prototype methods

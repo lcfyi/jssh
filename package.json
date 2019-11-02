@@ -5,10 +5,10 @@
   "repository": "https://github.com/lcfyi/decabyt.es",
   "private": false,
   "scripts": {
-    "test": "jest --verbose",
-    "lint": "eslint --ext .js ./src",
-    "pack": "webpack",
-    "build": "jest && eslint --ext .js ./src && webpack && netlify-lambda build src/api",
+    "test": "node scripts/bootstrap.js; jest --verbose; node scripts/cleanup.js",
+    "lint": "node scripts/bootstrap.js; eslint --ext .js ./src; node scripts/cleanup.js",
+    "pack": "node scripts/bootstrap.js; webpack; node scripts/cleanup.js",
+    "build": "node scripts/bootstrap.js; jest && eslint --ext .js ./src && webpack && netlify-lambda build src/api; node scripts/cleanup.js",
     "netlify-serve": "netlify-lambda serve src/api",
     "netlify-build": "netlify-lambda build src/api",
     "serve": "netlify dev"
