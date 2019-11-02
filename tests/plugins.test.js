@@ -69,7 +69,7 @@ describe("help", () => {
     help.parent.commands.test = {
       description: "test",
       help: ["test"],
-      function(e) {}
+      function() {}
     };
     help.function("help");
     let check = help.parent.buffer.filter(e => e.includes("test"));
@@ -81,7 +81,7 @@ describe("help", () => {
     help.parent.commands.test = {
       description: "test",
       help: ["test"],
-      function(e) {}
+      function() {}
     };
     help.function("help test");
     expect(help.parent.buffer[0]).toBe("test");

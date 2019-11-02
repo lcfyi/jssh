@@ -18,6 +18,8 @@
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "no-constant-condition": ["error", { "checkLoops": false }],
-    "arrow-parens": ["error", "as-needed"]
+    "arrow-parens": ["error", "as-needed"],
+    "no-undef": ["off"],
+    "no-console": ["off"]
   }
 }
