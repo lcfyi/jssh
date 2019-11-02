@@ -57,10 +57,10 @@ Takes an optional string parameter that will act as the default prompt string. I
 
 The heart and soul of the terminal, this object holds all the logic for the terminal. It should have the following properties:
 
--  `terminal` - will be automatically initialized by Terminal's constructor
--  `prompt` - the string appended before the user's input
--  `login` - a string or array of strings (with layout as described above) for the login message
--  `commands` - an object with all the commands
+- `terminal` will be automatically initialized by Terminal's constructor
+- `prompt` the string appended before the user's input
+- `login` a string or array of strings (with layout as described above) for the login message
+- `commands` an object with all the commands
 
 ## Commands
 
