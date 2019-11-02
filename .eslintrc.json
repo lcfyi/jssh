@@ -17,6 +17,7 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
-    "no-constant-condition": ["error", { "checkLoops": false }]
+    "no-constant-condition": ["error", { "checkLoops": false }],
+    "arrow-parens": ["error", "as-needed"]
   }
 }

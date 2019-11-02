@@ -1,4 +1,4 @@
-export default class waTerminal {
+export default class Terminal {
   /**
    * Constructor for the terminal, takes one argument which is an object
    * with a terminal, prompt, login, commands members and an init method.
@@ -151,7 +151,7 @@ export default class waTerminal {
 /**
  * This helper processes commands within the context of the provided
  * term instance.
- * @param {waTerminal} term the terminal instance
+ * @param {Terminal} term the terminal instance
  * @param {string} command the command to process
  */
 async function process(term, command) {
@@ -176,7 +176,7 @@ async function process(term, command) {
 /**
  * Helper method to prompt the user for input. Takes an optional
  * parameter for a special prompt.
- * @param {waTerminal} term the terminal instance
+ * @param {Terminal} term the terminal instance
  * @param {string} custom the custom command prompt
  */
 function prompt(term, custom) {
@@ -211,7 +211,7 @@ function prompt(term, custom) {
 /**
  * Helper method to disallow input and finalize the text. Will also return
  * the contents of the input box.
- * @param {waTerminal} term the terminal instance
+ * @param {Terminal} term the terminal instance
  */
 function finalizePrompt(term) {
   let input = "";
@@ -234,7 +234,7 @@ function finalizePrompt(term) {
 /**
  * Helper method to handle the different types of inputs the terminal
  * supports, to make life easier.
- * @param {waTerminal} term the terminal instance
+ * @param {Terminal} term the terminal instance
  * @param {*} line the object to write
  */
 function writeHelper(term, line) {

@@ -25,11 +25,11 @@ Tests are in `tests/` using Jest. You can run them with `npm run test`.
 
 The terminal is set up in a way where it's extremely easy to add commands in `termProps` (as described below).
 
-## waTerminal
+## Terminal
 
-Construct a new waTerminal with `new waTerminal(props)`. The props object is described below.
+Construct a new Terminal with `new Terminal(props)`. The props object is described below.
 
-waTerminal has 3 user-facing functions, `init()`, `login()`, and `writeln()`.
+Terminal has 3 user-facing functions, `init()`, `login()`, and `writeln()`.
 
 ### `init()`
 
@@ -57,10 +57,10 @@ Takes an optional string parameter that will act as the default prompt string. I
 
 The heart and soul of the terminal, this object holds all the logic for the terminal. It should have the following properties:
 
-- `terminal` - will be automatically initialized by waTerminal's constructor
-- `prompt` - the string appended before the user's input
-- `login` - a string or array of strings (with layout as described above) for the login message
-- `commands` - an object with all the commands
+-  `terminal` - will be automatically initialized by Terminal's constructor
+-  `prompt` - the string appended before the user's input
+-  `login` - a string or array of strings (with layout as described above) for the login message
+-  `commands` - an object with all the commands
 
 ## Commands
 

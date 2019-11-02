@@ -1,4 +1,4 @@
-import waTerminal from "./term.js";
+import Terminal from "./term.js";
 import termProps from "./termprops.js";
 import "./aesthecc.css";
 
@@ -8,7 +8,7 @@ import "./aesthecc.css";
  * log into our terminal.
  */
 window.onload = () => {
-  let term = new waTerminal(termProps);
+  let term = new Terminal(termProps);
   term.init(document.getElementById("terminal"));
   try {
     let ip = new XMLHttpRequest();
