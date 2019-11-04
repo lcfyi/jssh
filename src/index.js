@@ -20,6 +20,7 @@ window.onload = () => {
     term.writeln("----");
   } catch (e) {
     // Internet issues, can't resolve hostname
+    console.log(e);
     term.writeln("Current date and time: " + new Date().toString());
     term.writeln("Not connected to the internet.");
     term.writeln("----");
