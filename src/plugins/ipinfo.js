@@ -1,3 +1,5 @@
+import request from "../request.js";
+
 const ipinfo = {
   description: "prints out information about the given IP/hostname",
   help: [
@@ -7,14 +9,14 @@ const ipinfo = {
     "Note that you shouldn't have any spaces except between ipinfo",
     "the hostname/IP"
   ],
-  function(e) {
+  async function(e) {
     // TODO check if the IP is properly formed
     let ip = e.split(/[ ,]+/)[1];
     if (ip) {
       try {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://json.geoiplookup.io/" + ip, false);
-        xhr.send();
+        xhr.open("GET", "https://json.geoiplookup.io/" + ip);
+        await request(xhr);
         let response = JSON.parse(xhr.responseText);
         let printout = [
           "<a style='color:#ff79c6'>Approximate location and info of " +

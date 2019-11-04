@@ -1,4 +1,5 @@
 import colors from "../dracula.js";
+import request from "../request.js";
 
 const sudo = {
   description: "authentication",
@@ -15,8 +16,8 @@ const sudo = {
 
     try {
       let a = new XMLHttpRequest();
-      a.open("POST", ".netlify/functions/auth", false);
-      a.send(val);
+      a.open("POST", ".netlify/functions/auth");
+      await request(a, val);
 
       status = a.status;
       payload = a.responseText;
