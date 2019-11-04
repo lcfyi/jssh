@@ -17,12 +17,12 @@ const sudo = {
     try {
       let a = new XMLHttpRequest();
       a.open("POST", ".netlify/functions/auth");
-      await request(a, val);
+      await request(a, 5000, val);
 
       status = a.status;
       payload = a.responseText;
     } catch (e) {
-      this.parent.terminal.writeln("Cannot connect to auth server.");
+      this.parent.terminal.writeln("Failed to authorize.");
       return;
     }
     if (status === 200) {

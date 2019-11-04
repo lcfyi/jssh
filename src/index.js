@@ -14,7 +14,7 @@ window.onload = async () => {
   try {
     let ip = new XMLHttpRequest();
     ip.open("GET", "https://json.geoiplookup.io/");
-    await request(ip);
+    await request(ip, 1000);
     let payload = JSON.parse(ip.responseText);
     term.writeln("Current date and time: " + new Date().toString());
     term.writeln("Connected from " + payload.ip);

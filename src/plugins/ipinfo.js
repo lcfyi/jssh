@@ -16,7 +16,7 @@ const ipinfo = {
       try {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", "https://json.geoiplookup.io/" + ip);
-        await request(xhr);
+        await request(xhr, 5000);
         let response = JSON.parse(xhr.responseText);
         let printout = [
           "<a style='color:#ff79c6'>Approximate location and info of " +

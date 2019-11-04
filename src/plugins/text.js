@@ -12,7 +12,7 @@ const text = {
       text.open("POST", ".netlify/functions/text");
       text.setRequestHeader("authorization", this.parent.terminal.passwd);
       text.setRequestHeader("to", to);
-      await request(text, body);
+      await request(text, 5000, body);
   
       this.parent.terminal.writeln(text.responseText);
     } catch (e) {

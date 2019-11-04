@@ -1,15 +1,24 @@
 /**
  *
  * @param {XMLHttpRequest} xhr
- * @param {Object} body
+ * @param {Number} timeout
+ * @param {String} body
  */
-const request = (xhr, body) => {
+const request = (xhr, timeout, body) => {
   return new Promise((resolve, reject) => {
+    if (timeout) {
+      xhr.ontimeout = () => {
+        reject("Timed out.");
+      };
+      xhr.timeout = timeout;
+    }
     xhr.onreadystatechange = () => {
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        resolve(xhr);
-      } else if (xhr.status >= 401) {
-        reject(xhr);
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          resolve(xhr);
+        } else {
+          reject(xhr);
+        }
       }
     };
     xhr.send(body);
