@@ -22,11 +22,7 @@ const help = {
       // Get the keys of the commands
       let cmds = Object.keys(this.parent.commands);
       let maxCount = cmds.reduce((max, cur) => {
-        if (cur.length > max) {
-          return cur.length;
-        } else {
-          return max;
-        }
+        return (cur.length > max) ? cur.length : max;
       }, 0);
 
       for (let i = 0; i < cmds.length; i++) {
