@@ -5,13 +5,18 @@
   "repository": "https://github.com/lcfyi/decabyt.es",
   "private": false,
   "scripts": {
-    "test": "node scripts/bootstrap.js; jest --verbose; node scripts/cleanup.js",
-    "lint": "node scripts/bootstrap.js; eslint --ext .js ./src; node scripts/cleanup.js",
-    "pack": "node scripts/bootstrap.js; webpack; node scripts/cleanup.js",
-    "build": "node scripts/bootstrap.js; jest && eslint --ext .js ./src && webpack && netlify-lambda build src/api; node scripts/cleanup.js",
+    "test": "npm-run-all -c bootstrap jest cleanup",
+    "lint": "npm-run-all -c bootstrap eslint cleanup",
+    "pack": "npm-run-all -c bootstrap webpack cleanup",
+    "build": "npm-run-all -c bootstrap build-step cleanup",
     "netlify-serve": "netlify-lambda serve src/api",
     "netlify-build": "netlify-lambda build src/api",
-    "serve": "netlify dev"
+    "serve": "netlify dev",
+    "bootstrap": "node scripts/bootstrap.js",
+    "cleanup": "node scripts/cleanup.js",
+    "jest": "jest --verbose",
+    "eslint": "eslint --ext .js ./src",
+    "build-step": "eslint --ext .js ./src && webpack && netlify-lambda build src/api"
   },
   "dependencies": {
     "babel-jest": "^24.8.0",
@@ -21,6 +26,7 @@
     "mathjs": "^5.9.0",
     "netlify-cli": "^2.15.0",
     "netlify-lambda": "^1.6.3",
+    "prettier": "^1.19.1",
     "twilio": "^3.34.0",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.0"
@@ -30,6 +36,7 @@
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "npm-run-all": "^4.1.5",
     "style-loader": "^1.0.0"
   }
 }
