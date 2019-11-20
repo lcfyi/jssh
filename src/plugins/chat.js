@@ -39,12 +39,19 @@ const chat = {
      */
     let processLogic = (peerId, newUserMessage) => {
       if (!outgoingPeerIds.includes(peerId)) {
-        let connection = peer.connect(peerId);
-        peers.push(connection);
+        let connection = peer.connect(peerId, { serialization: "none" });
         outgoingPeerIds.push(peerId);
+        peers.push(connection);
         connection.on("open", () => {
           this.parent.terminal.writeln(newUserMessage);
-          connection.send(outgoingPeerIds.filter(e => e !== connection.peer));
+          connection.send(
+            JSON.stringify({
+              token: connection.peer,
+              peers: outgoingPeerIds.filter(
+                peerId => peerId !== connection.peer
+              )
+            })
+          );
         });
         connection.on("close", () => {
           this.parent.terminal.writeln("User disconnected.");
@@ -65,7 +72,7 @@ const chat = {
           peer = new Peer();
           id = await this.parent.terminal.input("ID: ");
           outgoingPeerIds.push(id);
-          peers.push(peer.connect(id));
+          peers.push(peer.connect(id, { serialization: "none" }));
           peers[0].on("open", () => {
             this.parent.terminal.writeln("Connected to other user.");
           });
@@ -100,12 +107,18 @@ const chat = {
          * the other peers to this server. We process each peer and
          * try to connect to them in order to open up a connection.
          */
-        if (Array.isArray(data)) {
-          data.map(peerId => {
-            processLogic(peerId, "Connected to other user.");
-          });
-        } else {
-          this.parent.terminal.writeln(data);
+        try {
+          let payload = JSON.parse(data);
+          if (payload.token && peer.id === payload.token) {
+            payload.peers.map(peerId => {
+              processLogic(peerId, "Connected to other user.");
+            });
+          } else if (payload.msg) {
+            this.parent.terminal.writeln(payload.msg);
+          }
+        } catch (e) {
+          // We don't care
+          console.log(e);
         }
       });
     });
@@ -128,7 +141,11 @@ const chat = {
           this.parent.terminal.writeln(help);
           break;
         default:
-          peers.map(p => p.send(`${userName}: ${msg}`));
+          peers.map(p =>
+            p.send(
+              JSON.stringify({ user: userName, msg: `${userName}: ${msg}` })
+            )
+          );
       }
     }
   }
