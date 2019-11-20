@@ -49,6 +49,8 @@ export default class Terminal {
             this.inputProps.isWaiting = false;
             this.inputProps.resolution = null;
           }
+          // Reset to the bottom of the stack
+          this.logIdx = this.log.length;
           break;
         case "ArrowUp":
           if (this.logIdx > 0) {
