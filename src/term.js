@@ -251,6 +251,7 @@ function writeHelper(term, line) {
   }
   term.container.insertBefore(pre, term.workingPrompt.element);
   if (term.workingPrompt.input) {
+    console.log("focus");
     term.workingPrompt.input.focus();
   }
   // window.scrollTo(0,document.body.scrollHeight);
