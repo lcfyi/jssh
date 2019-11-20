@@ -53,18 +53,20 @@ export default class Terminal {
           this.logIdx = this.log.length;
           break;
         case "ArrowUp":
-          if (this.logIdx > 0) {
+          if (this.logIdx > 0 && !this.inputProps.isWaiting) {
             this.logIdx--;
             this.workingPrompt.input.value = this.log[this.logIdx];
           }
           e.preventDefault();
           break;
         case "ArrowDown":
-          if (this.logIdx < this.log.length - 1) {
-            this.logIdx++;
-            this.workingPrompt.input.value = this.log[this.logIdx];
-          } else {
-            this.workingPrompt.input.value = "";
+          if (!this.inputProps.isWaiting) {
+            if (this.logIdx < this.log.length - 1) {
+              this.logIdx++;
+              this.workingPrompt.input.value = this.log[this.logIdx];
+            } else {
+              this.workingPrompt.input.value = "";
+            }
           }
           e.preventDefault();
           break;
@@ -192,7 +194,7 @@ function prompt(term, custom) {
   }
   term.workingPrompt.input = document.createElement("input");
   term.workingPrompt.input.setAttribute("autocorrect", "off");
-  term.workingPrompt.input.setAttribute("autocomplete", "off");
+  term.workingPrompt.input.setAttribute("autocomplete", "disabled"); // Chrome workaround
   term.workingPrompt.input.setAttribute("autocapitalize", "off");
   term.workingPrompt.input.setAttribute("spellcheck", "false");
   term.container.appendChild(term.workingPrompt.element);
