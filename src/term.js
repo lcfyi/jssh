@@ -49,6 +49,8 @@ export default class Terminal {
             this.inputProps.isWaiting = false;
             this.inputProps.resolution = null;
           }
+          // Reset to the bottom of the stack
+          this.logIdx = this.log.length;
           break;
         case "ArrowUp":
           if (this.logIdx > 0) {
@@ -76,10 +78,7 @@ export default class Terminal {
     });
     // Set up the click handler
     this.container.addEventListener("click", () => {
-      if (
-        window.getSelection().toString() === "" &&
-        this.workingPrompt.input
-      ) {
+      if (window.getSelection().toString() === "" && this.workingPrompt.input) {
         this.workingPrompt.input.focus();
       }
     });
@@ -238,9 +237,6 @@ function finalizePrompt(term) {
  * @param {*} line the object to write
  */
 function writeHelper(term, line) {
-  if (term.workingPrompt.element) {
-    finalizePrompt(term);
-  }
   // If the string is empty, add a space so it gets printed
   let e = line === "" ? " " : line;
   let pre = document.createElement("pre");
@@ -251,7 +247,11 @@ function writeHelper(term, line) {
     pre.setAttribute("style", "color:white");
     pre.innerHTML = sanitize(e);
   }
-  term.container.appendChild(pre);
+  term.container.insertBefore(pre, term.workingPrompt.element);
+  if (term.workingPrompt.input) {
+    term.workingPrompt.input.blur();
+    term.workingPrompt.input.focus();
+  }
 }
 
 function computeChildWidth(parent) {
