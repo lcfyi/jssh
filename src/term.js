@@ -235,9 +235,10 @@ function finalizePrompt(term) {
  * @param {*} line the object to write
  */
 function writeHelper(term, line) {
-  if (term.workingPrompt.element) {
-    finalizePrompt(term);
-  }
+  // if (term.workingPrompt.element) {
+  //   console.log("We're finalizing a lotta things");
+  //   finalizePrompt(term);
+  // }
   // If the string is empty, add a space so it gets printed
   let e = line === "" ? " " : line;
   let pre = document.createElement("pre");
@@ -248,7 +249,11 @@ function writeHelper(term, line) {
     pre.setAttribute("style", "color:white");
     pre.innerHTML = sanitize(e);
   }
-  term.container.appendChild(pre);
+  term.container.insertBefore(pre, term.workingPrompt.element);
+  if (term.workingPrompt.input) {
+    term.workingPrompt.input.focus();
+  }
+  // window.scrollTo(0,document.body.scrollHeight);
 }
 
 function computeChildWidth(parent) {
