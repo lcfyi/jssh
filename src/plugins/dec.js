@@ -10,17 +10,18 @@ const dec = {
     let expression = e.substring(e.indexOf(" ") + 1);
     try {
       let val = "";
-      if (expression.substring(0, 2) === "0b") {
-        val = parseInt(expression.substring(2), 2).toString();
-      } else if (expression.substring(0, 2) === "0x") {
-        val = parseInt(expression.substring(2), 16).toString();
-      } else if (expression.substring(0, 2) === "0o") {
-        val = parseInt(expression.substring(2), 8).toString();
-      } else {
-        throw new Error("Not a valid base!");
-      }
-      if (isNaN(val)) {
-        throw new Error("Malformed number!");
+      switch (expression.substring(0, 2)) {
+        case "0b":
+          val = parseInt(expression.substring(2), 2).toString();
+          break;
+        case "0x":
+          val = parseInt(expression.substring(2), 16).toString();
+          break;
+        case "0o":
+          val = parseInt(expression.substring(2), 8).toString();
+          break;
+        default:
+          throw new Error("Not a valid base!");
       }
       this.parent.terminal.writeln(val);
     } catch (error) {

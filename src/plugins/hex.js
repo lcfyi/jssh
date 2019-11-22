@@ -3,7 +3,7 @@ const hex = {
   help: [
     "Usage",
     "",
-    "hex [value] [digits]",
+    "hex [value] [number of digits]",
     "Will return the hex value of the number, with up to",
     "the specified digits. Will error out if the digits are ",
     "less than the actual value's digit count."
@@ -11,11 +11,26 @@ const hex = {
   function(e) {
     let parse = e.split(" ");
     try {
-      if (isNaN(parse[1])) {
+      let val = parseInt(parse[1]);
+      switch (parse[1].substring(0, 2)) {
+        case "0b":
+          val = parseInt(parse[1].substring(2), 2);
+          break;
+        case "0x":
+          val = parseInt(parse[1].substring(2), 16);
+          break;
+        case "0o":
+          val = parseInt(parse[1].substring(2), 8);
+          break;
+      }
+      if (isNaN(val)) {
         throw new Error("Not a valid number!");
       }
-      let val = parseInt(parse[1]).toString(16);
+      
+      val = val.toString(16);
+
       let digits = parseInt(parse[2]);
+
       if (!isNaN(digits)) {
         if (val.length > digits) {
           throw new Error("Actual digit count exceeds desired!");
