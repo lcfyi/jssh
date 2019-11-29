@@ -2,11 +2,11 @@
 
 ## Motivation
 
-Playing with `xtermjs` or `hterm` ended up revealing the fact that they're not very optimized for mobile, so I wanted to put something together that's more modern for simple "terminal-like" tasks. Thus, I'm roleplaying as a competent developer who's built a full PTY (term.js) that connects the shell (termprops.js) to the user's display (html, I suppose).
+Playing with `xtermjs` or `hterm` ended up revealing the fact that they're not very optimized for mobile, so I wanted to put something together that's more modern for simple "terminal-optimized" tasks. In an abstract way, we've got a PTY (term.js) that connects to the shell (termprops.js) to the user's display. 
 
-The goal is to create a mobile-friendly web front-end that can run quick functions that I normally used a Python shell for, such as common conversions and quick math.
+The real goal is to create a mobile-friendly web front-end that can run quick functions that I normally used a Python shell for, such as common conversions and quick math.
 
-Also, the roleplay continues with a full CD pipeline using Netlify and Jest.
+We've also got full CD! 
 
 ## Setup
 
