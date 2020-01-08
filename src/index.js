@@ -3,19 +3,18 @@ import termProps from "./termprops.js";
 import request from "./request.js";
 import "./aesthecc.css";
 
+// Service worker registration
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js");
+  });
+}
+
 /**
  * On window load, we create a new terminal instance with
  * the properties we pass in, print the current time, and
  * log into our terminal.
  */
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js").then(reg => {
-      console.log("SW registered", reg);
-    });
-  });
-}
-
 window.onload = async () => {
   let term = new Terminal(termProps);
   term.init(document.getElementById("terminal"));
