@@ -193,8 +193,9 @@ function prompt(term, custom) {
     }
   }
   term.workingPrompt.input = document.createElement("input");
+  term.workingPrompt.input.setAttribute("type", "text");
   term.workingPrompt.input.setAttribute("autocorrect", "off");
-  term.workingPrompt.input.setAttribute("autocomplete", "disabled"); // Chrome workaround
+  term.workingPrompt.input.setAttribute("autocomplete", "off");
   term.workingPrompt.input.setAttribute("autocapitalize", "off");
   term.workingPrompt.input.setAttribute("spellcheck", "false");
   term.container.appendChild(term.workingPrompt.element);
