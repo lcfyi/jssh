@@ -198,6 +198,7 @@ function prompt(term, custom) {
   term.workingPrompt.input.setAttribute("autocomplete", "off");
   term.workingPrompt.input.setAttribute("autocapitalize", "off");
   term.workingPrompt.input.setAttribute("spellcheck", "false");
+  term.workingPrompt.input.setAttribute("name", Math.random().toString(36));
   term.container.appendChild(term.workingPrompt.element);
   let promptWidth = computeChildWidth(term.workingPrompt.element);
   term.workingPrompt.input.setAttribute(
