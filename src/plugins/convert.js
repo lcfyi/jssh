@@ -21,7 +21,7 @@ const convert = {
       if (!expression.includes("to") || expression.includes("convert")) {
         throw new Error("not a conversion!");
       }
-      let val = mathjs.eval(expression).toString();
+      let val = mathjs.evaluate(expression).toString();
       this.parent.terminal.writeln(val);
     } catch (e) {
       let val = "math.js: " + e.message;

@@ -19,7 +19,7 @@ const math = {
       if (expression.includes("to") || expression.includes("math")) {
         throw new Error("not math!");
       }
-      let crunch = mathjs.eval(expression);
+      let crunch = mathjs.evaluate(expression);
       if (!crunch) {
         throw new Error("not math!");
       }
