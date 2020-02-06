@@ -13,7 +13,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ["!.gitignore"]
+      cleanOnceBeforeBuildPatterns: ["**/*", "!.gitignore"]
     }),
     new CopyPlugin([{ from: "static", to: "." }]),
     new WorkboxPlugin.GenerateSW({
