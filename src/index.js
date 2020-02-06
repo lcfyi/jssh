@@ -17,7 +17,6 @@ if ("serviceWorker" in navigator) {
  */
 window.onload = async () => {
   let term = new Terminal(termProps);
-  document.getElementById("terminal").innerHTML = "";
   term.init(document.getElementById("terminal"));
   term.writeln("Current date and time: " + new Date().toString());
   try {
