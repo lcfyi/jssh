@@ -25,14 +25,14 @@
     "dotenv": "^8.2.0",
     "jest": "^25.1.0",
     "mathjs": "^6.6.0",
-    "netlify-cli": "^2.31.0",
+    "netlify-cli": "^2.35.0",
     "netlify-lambda": "^1.6.3",
     "peerjs": "^1.2.0",
     "prettier": "^1.19.1",
-    "serialize-javascript": ">=2.1.2",
-    "twilio": "^3.39.4",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "serialize-javascript": "^3.0.0",
+    "twilio": "^3.39.5",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
