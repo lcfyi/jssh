@@ -7,10 +7,10 @@ const help = {
   function(e) {
     let parse = e.split(" ");
     if (parse.length > 1 && parse[1]) {
-      if (parse[1] in this.parent.commands) {
-        this.parent.terminal.writeln(this.parent.commands[parse[1]].help);
+      if (parse[1] in this.commands) {
+        this.terminal.writeln(this.commands[parse[1]].help);
       } else {
-        this.parent.terminal.writeln("Unknown command " + "'" + parse[1] + "'");
+        this.terminal.writeln("Unknown command " + "'" + parse[1] + "'");
       }
     } else {
       let text = [
@@ -18,19 +18,19 @@ const help = {
         "These help prompts are defined by the plugins themselves. They may not be helpful.",
         ""
       ];
-      this.parent.terminal.writeln(text);
+      this.terminal.writeln(text);
       // Get the keys of the commands
-      let cmds = Object.keys(this.parent.commands);
+      let cmds = Object.keys(this.commands);
       let maxCount = cmds.reduce((max, cur) => {
         return cur.length > max ? cur.length : max;
       }, 0);
 
       for (let i = 0; i < cmds.length; i++) {
-        this.parent.terminal.writeln(
+        this.terminal.writeln(
           cmds[i] +
             " ".repeat(maxCount - cmds[i].length) +
             "\t" +
-            this.parent.commands[cmds[i]].description
+            this.commands[cmds[i]].description
         );
       }
     }

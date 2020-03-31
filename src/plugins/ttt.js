@@ -5,42 +5,42 @@ const ttt = {
     let board = null;
     let playing = false;
     let winner = null;
-    this.parent.terminal.writeln(
+    this.terminal.writeln(
       "Type 'play' to start a new game. 'quit' to exit."
     );
-    this.parent.terminal.writeln("----");
+    this.terminal.writeln("----");
     while (true) {
-      let input = await this.parent.terminal.input();
+      let input = await this.terminal.input();
       switch (input) {
         case "play":
           if (!playing) {
-            // this.parent.terminal.writeln("New game:");
-            printHelpMessage(this.parent.terminal);
+            // this.terminal.writeln("New game:");
+            printHelpMessage(this.terminal);
             board = establishBoard();
             playing = true;
             winner = null;
           } else {
-            this.parent.terminal.writeln(
+            this.terminal.writeln(
               "<a style='color:#ff5555'>Active game!</a>"
             );
           }
           break;
         case "reset":
           if (playing) {
-            // this.parent.terminal.writeln("New game:");
-            printHelpMessage(this.parent.terminal);
+            // this.terminal.writeln("New game:");
+            printHelpMessage(this.terminal);
             board = establishBoard();
           }
           break;
         case "help":
-          printHelpMessage(this.parent.terminal);
+          printHelpMessage(this.terminal);
           break;
         case "quit":
           return;
         default:
           if (playing) {
             if (!isNaN(input) && !playMove(board, input, "X")) {
-              this.parent.terminal.writeln(
+              this.terminal.writeln(
                 "<a style='color:#ff5555'>Invalid move!</a>"
               );
             } else {
@@ -51,18 +51,18 @@ const ttt = {
       }
       if (playing) {
         if (winner) {
-          this.parent.terminal.writeln(
+          this.terminal.writeln(
             "<a style='color:#50fa7b'>" + winner + " won!</a>"
           );
           playing = false;
         } else {
-          this.parent.terminal.writeln(
+          this.terminal.writeln(
             "<a style='color:#ffb86c'>Current board</a>"
           );
-          printBoard(this.parent.terminal, board);
+          printBoard(this.terminal, board);
         }
       } else {
-        this.parent.terminal.writeln(
+        this.terminal.writeln(
           "No active game! Type 'play' to start a new game."
         );
       }

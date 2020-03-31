@@ -5,18 +5,18 @@ const text = {
   async function() {
     try {
       // Parse the message
-      let to = await this.parent.terminal.input("To: ");
-      let body = await this.parent.terminal.input("Message: ");
+      let to = await this.terminal.input("To: ");
+      let body = await this.terminal.input("Message: ");
   
       let text = new XMLHttpRequest();
       text.open("POST", ".netlify/functions/text");
-      text.setRequestHeader("authorization", this.parent.terminal.passwd);
+      text.setRequestHeader("authorization", this.terminal.passwd);
       text.setRequestHeader("to", to);
       await request(text, 5000, body);
   
-      this.parent.terminal.writeln(text.responseText);
+      this.terminal.writeln(text.responseText);
     } catch (e) {
-      this.parent.terminal.writeln("Couldn't send text.");
+      this.terminal.writeln("Couldn't send text.");
     }
   }
 };

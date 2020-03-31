@@ -32,12 +32,12 @@ const ipinfo = {
           "<a style='color:#8be9fd'>ISP: </a>" + response.isp,
           "<a style='color:#8be9fd'>Org: </a>" + response.org
         ];
-        this.parent.terminal.writeln(printout);
+        this.terminal.writeln(printout);
       } catch (e) {
-        this.parent.terminal.writeln("Error trying to get hostname info!");
+        this.terminal.writeln("Error trying to get hostname info!");
       }
     } else {
-      this.parent.terminal.writeln("You must specify a hostname!");
+      this.terminal.writeln("You must specify a hostname!");
     }
   }
 };

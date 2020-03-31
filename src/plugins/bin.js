@@ -39,11 +39,11 @@ const bin = {
           }
         }
       }
-      this.parent.terminal.writeln("0b" + val.toUpperCase());
-      this.parent.terminal.writeln("Digit count: " + val.length);
+      this.terminal.writeln("0b" + val.toUpperCase());
+      this.terminal.writeln("Digit count: " + val.length);
     } catch (error) {
       let val = "bin: " + error.message;
-      this.parent.terminal.writeln(val);
+      this.terminal.writeln(val);
     }
   }
 };

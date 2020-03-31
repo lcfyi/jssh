@@ -22,8 +22,9 @@ const termProps = {
   init() {
     for (let cmd in this.commands) {
       // Here we make sure we don't iterate into prototype methods
+      // We use Object.prototype since hasOwnProperty could be overridden in this.commands
       if (Object.prototype.hasOwnProperty.call(this.commands, cmd)) {
-        this.commands[cmd].parent = this;
+        this.commands[cmd].function = this.commands[cmd].function.bind(this);
       }
     }
     delete this.init;

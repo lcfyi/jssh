@@ -3,7 +3,7 @@ const source = {
   help: ["Prints the source of this site."],
   function() {
     let link = "https://github.com/lcfyi/decabyt.es";
-    this.parent.terminal.writeln(
+    this.terminal.writeln(
       "<a href='" + link + "' target='_blank'>github</a>"
     );
   }

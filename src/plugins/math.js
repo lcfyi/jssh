@@ -23,10 +23,10 @@ const math = {
       if (!crunch) {
         throw new Error("not math!");
       }
-      this.parent.terminal.writeln(crunch.toString());
+      this.terminal.writeln(crunch.toString());
     } catch (e) {
       let val = "math.js: " + e.message;
-      this.parent.terminal.writeln(val);
+      this.terminal.writeln(val);
     }
   }
 };

@@ -26,7 +26,7 @@ const spongebob = {
       ret += Math.round(Math.random()) ? c.toUpperCase() : c.toLowerCase();
     }
 
-    this.parent.terminal.writeln(ret);
+    this.terminal.writeln(ret);
   }
 };
 

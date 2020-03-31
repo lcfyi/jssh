@@ -10,7 +10,7 @@ const chat = {
     "It's peer to peer with webRTC."
   ],
   async function() {
-    let userName = await this.parent.terminal.input("Name: ");
+    let userName = await this.terminal.input("Name: ");
 
     let help = [
       'Press "c" to create a new chat room.',
@@ -19,7 +19,7 @@ const chat = {
       'Type "/h" for help.'
     ];
 
-    this.parent.terminal.writeln(help);
+    this.terminal.writeln(help);
 
     let choosing = true;
 
@@ -43,7 +43,7 @@ const chat = {
         outgoingPeerIds.push(peerId);
         peers.push(connection);
         connection.on("open", () => {
-          this.parent.terminal.writeln(newUserMessage);
+          this.terminal.writeln(newUserMessage);
           connection.send(
             JSON.stringify({
               token: connection.peer,
@@ -54,34 +54,34 @@ const chat = {
           );
         });
         connection.on("close", () => {
-          this.parent.terminal.writeln("User disconnected.");
+          this.terminal.writeln("User disconnected.");
         });
       }
     };
 
     while (choosing) {
-      let choice = await this.parent.terminal.input("Choose: ");
+      let choice = await this.terminal.input("Choose: ");
       let id;
       switch (choice) {
         case "c":
           peer = new Peer(generateID());
-          this.parent.terminal.writeln("Your ID is: " + peer.id);
+          this.terminal.writeln("Your ID is: " + peer.id);
           choosing = false;
           break;
         case "j":
           peer = new Peer();
-          id = await this.parent.terminal.input("ID: ");
+          id = await this.terminal.input("ID: ");
           outgoingPeerIds.push(id);
           peers.push(peer.connect(id, { serialization: "none" }));
           peers[0].on("open", () => {
-            this.parent.terminal.writeln("Connected to other user.");
+            this.terminal.writeln("Connected to other user.");
           });
           choosing = false;
           break;
         case "/e":
           return;
         case "/h":
-          this.parent.terminal.writeln(help);
+          this.terminal.writeln(help);
           break;
       }
     }
@@ -114,7 +114,7 @@ const chat = {
               processLogic(peerId, "Connected to other user.");
             });
           } else if (payload.msg) {
-            this.parent.terminal.writeln(payload.msg);
+            this.terminal.writeln(payload.msg);
           }
         } catch (e) {
           // We don't care
@@ -124,7 +124,7 @@ const chat = {
     });
 
     while (true) {
-      let msg = await this.parent.terminal.input(
+      let msg = await this.terminal.input(
         `<a style='color:${colors.cyan}'>${userName}:</a> `
       );
       switch (msg) {
@@ -138,7 +138,7 @@ const chat = {
             peer.destroy();
           });
         case "/h":
-          this.parent.terminal.writeln(help);
+          this.terminal.writeln(help);
           break;
         default:
           peers.map(p =>

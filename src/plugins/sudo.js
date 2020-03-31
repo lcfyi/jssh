@@ -5,9 +5,9 @@ const sudo = {
   description: "authentication",
   help: ["Usage", "", "sudo"],
   async function() {
-    let promise = this.parent.terminal.input("");
-    this.parent.terminal.workingPrompt.input.type = "password";
-    let element = this.parent.terminal.workingPrompt.element;
+    let promise = this.terminal.input("");
+    this.terminal.workingPrompt.input.type = "password";
+    let element = this.terminal.workingPrompt.element;
     let val = await promise;
     element.innerHTML = "";
 
@@ -22,19 +22,19 @@ const sudo = {
       status = a.status;
       payload = a.responseText;
     } catch (e) {
-      this.parent.terminal.writeln("Failed to authorize.");
+      this.terminal.writeln("Failed to authorize.");
       return;
     }
     if (status === 200) {
-      this.parent.terminal.passwd = payload;
-      this.parent.prompt =
+      this.terminal.passwd = payload;
+      this.prompt =
         "<a style='color:" +
         colors.green +
         "'>~</a><a style='color:" +
         colors.purple +
         "'>#</a> ";
     } else if (status === 401) {
-      this.parent.terminal.writeln(payload);
+      this.terminal.writeln(payload);
     }
   }
 };

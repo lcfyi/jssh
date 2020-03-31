@@ -22,10 +22,10 @@ const convert = {
         throw new Error("not a conversion!");
       }
       let val = mathjs.evaluate(expression).toString();
-      this.parent.terminal.writeln(val);
+      this.terminal.writeln(val);
     } catch (e) {
       let val = "math.js: " + e.message;
-      this.parent.terminal.writeln(val);
+      this.terminal.writeln(val);
     }
   }
 };

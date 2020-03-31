@@ -8,7 +8,7 @@ const count = {
   ],
   function(e) {
     let expression = e.substring(e.indexOf(" ") + 1);
-    this.parent.terminal.writeln(`Character count: ${expression.length}`);
+    this.terminal.writeln(`Character count: ${expression.length}`);
   }
 };
 

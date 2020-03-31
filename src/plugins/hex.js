@@ -40,11 +40,11 @@ const hex = {
           }
         }
       }
-      this.parent.terminal.writeln("0x" + val.toUpperCase());
-      this.parent.terminal.writeln("Digit count: " + val.length);
+      this.terminal.writeln("0x" + val.toUpperCase());
+      this.terminal.writeln("Digit count: " + val.length);
     } catch (error) {
       let val = "hex: " + error.message;
-      this.parent.terminal.writeln(val);
+      this.terminal.writeln(val);
     }
   }
 };

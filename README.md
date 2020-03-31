@@ -72,4 +72,4 @@ The `function` method takes the entire command as the argument, so if it depends
 
 ## Contributing
 
-Additional commands should be placed in `/src/plugins`. Each command will have access to the parent props object through `this.parent` (ie. access terminal through `this.parent.terminal`), which is useful for writing lines (`writeln()`) and accepting input (`input()`).
+Additional commands should be placed in `/src/plugins`. Each command will have access to the parent props object through `this` (ie. access terminal through `this.terminal`), which is useful for writing lines (`writeln()`) and accepting input (`input()`).

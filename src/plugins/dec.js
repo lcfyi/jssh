@@ -23,10 +23,10 @@ const dec = {
         default:
           throw new Error("Not a valid base!");
       }
-      this.parent.terminal.writeln(val);
+      this.terminal.writeln(val);
     } catch (error) {
       let val = "dec: " + error.message;
-      this.parent.terminal.writeln(val);
+      this.terminal.writeln(val);
     }
   }
 };
