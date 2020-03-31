@@ -4,7 +4,7 @@ const source = {
   function() {
     let link = "https://github.com/lcfyi/decabyt.es";
     this.terminal.writeln(
-      "<a href='" + link + "' target='_blank'>github</a>"
+      "<a href='" + link + "' target='_blank'>github</a>", true
     );
   }
 };

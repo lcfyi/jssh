@@ -5,9 +5,7 @@ const ttt = {
     let board = null;
     let playing = false;
     let winner = null;
-    this.terminal.writeln(
-      "Type 'play' to start a new game. 'quit' to exit."
-    );
+    this.terminal.writeln("Type 'play' to start a new game. 'quit' to exit.");
     this.terminal.writeln("----");
     while (true) {
       let input = await this.terminal.input();
@@ -21,7 +19,8 @@ const ttt = {
             winner = null;
           } else {
             this.terminal.writeln(
-              "<a style='color:#ff5555'>Active game!</a>"
+              "<a style='color:#ff5555'>Active game!</a>",
+              true
             );
           }
           break;
@@ -41,7 +40,8 @@ const ttt = {
           if (playing) {
             if (!isNaN(input) && !playMove(board, input, "X")) {
               this.terminal.writeln(
-                "<a style='color:#ff5555'>Invalid move!</a>"
+                "<a style='color:#ff5555'>Invalid move!</a>",
+                true
               );
             } else {
               aiPlay(board);
@@ -52,12 +52,14 @@ const ttt = {
       if (playing) {
         if (winner) {
           this.terminal.writeln(
-            "<a style='color:#50fa7b'>" + winner + " won!</a>"
+            "<a style='color:#50fa7b'>" + winner + " won!</a>",
+            true
           );
           playing = false;
         } else {
           this.terminal.writeln(
-            "<a style='color:#ffb86c'>Current board</a>"
+            "<a style='color:#ffb86c'>Current board</a>",
+            true
           );
           printBoard(this.terminal, board);
         }
@@ -105,18 +107,18 @@ function printBoard(term, board) {
   let row = "";
   for (let i = 0; i < 9; i++) {
     if (i % 3 === 0) {
-      term.writeln("<a style='color:#bd93f9'> -------------</a>");
+      term.writeln("<a style='color:#bd93f9'> -------------</a>", true);
       row += "<a style='color:#bd93f9'> | </a>";
     }
     // Beacause we have a 0 value for this check
     row += board[i] === null ? " " : board[i];
     row += "<a style='color:#bd93f9'> | </a>";
     if (i === 2 || i === 5 || i === 8) {
-      term.writeln(row);
+      term.writeln(row, true);
       row = "";
     }
   }
-  term.writeln("<a style='color:#bd93f9'  > -------------</a>");
+  term.writeln("<a style='color:#bd93f9'  > -------------</a>", true);
 }
 
 function getWinner(board) {

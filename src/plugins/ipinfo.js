@@ -32,7 +32,7 @@ const ipinfo = {
           "<a style='color:#8be9fd'>ISP: </a>" + response.isp,
           "<a style='color:#8be9fd'>Org: </a>" + response.org
         ];
-        this.terminal.writeln(printout);
+        this.terminal.writeln(printout, true);
       } catch (e) {
         this.terminal.writeln("Error trying to get hostname info!");
       }

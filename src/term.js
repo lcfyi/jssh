@@ -114,15 +114,16 @@ export default class Terminal {
    * arguments: either a string, an array of strings, or an object that has
    * a text and color attribute
    * @param {string, array, object} line text to write as a line
+   * @param {Boolean} safe whether string needs sanitization
    */
-  writeln(line) {
+  writeln(line, safe) {
     if (line) {
       if (Array.isArray(line)) {
         for (let i = 0; i < line.length; i++) {
-          writeHelper(this, line[i]);
+          writeHelper(this, line[i], safe);
         }
       } else {
-        writeHelper(this, line);
+        writeHelper(this, line, safe);
       }
     }
   }
@@ -239,17 +240,18 @@ function finalizePrompt(term) {
  * supports, to make life easier.
  * @param {Terminal} term the terminal instance
  * @param {*} line the object to write
+ * @param {Boolean} safe whether this should be sanitized
  */
-function writeHelper(term, line) {
+function writeHelper(term, line, safe) {
   // If the string is empty, add a space so it gets printed
   let e = line === "" ? " " : line;
   let pre = document.createElement("pre");
   if (e.text && e.color) {
     pre.setAttribute("style", "color:" + e.color);
-    pre.innerHTML = sanitize(e.text);
+    pre.innerHTML = safe ? e.text : sanitize(e.text);
   } else {
     pre.setAttribute("style", "color:white");
-    pre.innerHTML = sanitize(e);
+    pre.innerHTML = safe ? e : sanitize(e);
   }
   term.container.insertBefore(pre, term.workingPrompt.element);
   if (term.workingPrompt.input) {
@@ -274,27 +276,5 @@ function wrapA(raw) {
 }
 
 function sanitize(input) {
-  if (!input || !input.includes("<")) {
-    return input;
-  }
-  let whitelist = ["span>", "a>", "span ", "a ", "/span>", "/a>"];
-  let fragments = input.split("<");
-  let output = "";
-  fragments.forEach(fragment => {
-    if (fragment) {
-      let keep = false;
-      for (let i = 0; i < whitelist.length; i++) {
-        if (fragment.startsWith(whitelist[i])) {
-          keep = true;
-          break;
-        }
-      }
-      if (keep) {
-        output += "<" + fragment;
-      } else {
-        output += "&lt;" + fragment;
-      }
-    }
-  });
-  return output;
+  return input.replace("<", "&lt;").replace(">", "&gt;");
 }

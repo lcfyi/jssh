@@ -35,7 +35,7 @@ Construct a new Terminal with `new Terminal(props)`. The props object is describ
 
 Terminal has 3 user-facing functions, `init()`, `login()`, and `writeln()`.
 
-### `init()`
+### `init(DOMElement)`
 
 Takes the DOM element to attach to as an argument.
 
@@ -43,9 +43,9 @@ Takes the DOM element to attach to as an argument.
 
 No arguments; will print the login message in `termProps.login` before prompting the user for input.
 
-### `writeln()`
+### `writeln(string(s)[, safe])`
 
-Takes a string, or array of strings to print to the terminal. For example, `"demo string"` or `["demo", "string"]`.
+Takes a string or array of strings to print to the terminal (for example, `"demo string"` or `["demo", "string"]`), and also a boolean for whether the passed string is safe to print. By default, strings aren't safe and will be sanitized.
 
 Further customization can be done if each string was in an array with the first element as the string, and the second string as the colour to print to the terminal. For example, `["demo string", "red"]` or `[["demo", "red"], ["string", "green"]]`.
 
