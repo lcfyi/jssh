@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
+const childProcess = require("child_process");
 
 module.exports = {
   module: {
@@ -17,8 +18,14 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __COMMIT_HASH: JSON.stringify(
-        require("child_process")
+        childProcess
           .execSync("git rev-parse --short HEAD")
+          .toString()
+          .trim()
+      ),
+      __COMMIT_COUNT: JSON.stringify(
+        childProcess
+          .execSync("git rev-list --count HEAD")
           .toString()
           .trim()
       )

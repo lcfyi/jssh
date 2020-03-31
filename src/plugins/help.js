@@ -14,7 +14,7 @@ const help = {
       }
     } else {
       let text = [
-        `jsh, build ${__COMMIT_HASH}`,
+        `jsh, r${__COMMIT_COUNT}`,
         "These help prompts are defined by the plugins themselves. They may not be helpful.",
         ""
       ];
