@@ -28,6 +28,9 @@ module.exports = {
           .execSync("git rev-list --count HEAD")
           .toString()
           .trim()
+      ),
+      __BUILD_DATE: JSON.stringify(
+        new Date()
       )
     }),
     new CleanWebpackPlugin({

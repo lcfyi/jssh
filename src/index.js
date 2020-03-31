@@ -18,6 +18,7 @@ if ("serviceWorker" in navigator) {
 window.onload = async () => {
   let term = new Terminal(termProps);
   term.init(document.getElementById("terminal"));
+  term.writeln(`decabyt.es ${__COMMIT_HASH} (built ${__BUILD_DATE})`);
   term.writeln("Current date and time: " + new Date().toString());
   try {
     let ip = new XMLHttpRequest();
@@ -27,7 +28,6 @@ window.onload = async () => {
   } catch (e) {
     term.writeln("Couldn't get client identity.");
   }
-  term.writeln(`Loading build <a href="https://github.com/lcfyi/decabyt.es/commit/${__COMMIT_HASH}">${__COMMIT_HASH}</a>`);
   term.writeln("----");
   term.login();
 };
