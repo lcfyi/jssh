@@ -21,10 +21,9 @@ window.onload = async () => {
   term.writeln("Current date and time: " + new Date().toString());
   try {
     let ip = new XMLHttpRequest();
-    ip.open("GET", "https://json.geoiplookup.io/");
+    ip.open("GET", ".netlify/functions/echo");
     await request(ip, 1000);
-    let payload = JSON.parse(ip.responseText);
-    term.writeln("Connected from " + payload.ip);
+    term.writeln("Connected from " + ip.responseText);
     term.writeln("----");
   } catch (e) {
     // Internet issues, can't resolve hostname
