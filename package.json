@@ -7,7 +7,7 @@
   "scripts": {
     "test": "npm-run-all -c bootstrap jest cleanup",
     "lint": "npm-run-all -c bootstrap eslint cleanup",
-    "pack": "npm-run-all -c bootstrap webpack cleanup",
+    "pack": "npm-run-all -c bootstrap pack-step cleanup",
     "build": "npm-run-all -c bootstrap build-step cleanup",
     "netlify-serve": "netlify-lambda serve src/api",
     "netlify-build": "netlify-lambda build src/api",
@@ -17,6 +17,7 @@
     "cleanup": "node scripts/cleanup.js",
     "jest": "jest --verbose",
     "eslint": "eslint --ext .js ./src",
+    "pack-step": "webpack",
     "build-step": "eslint --ext .js ./src && webpack && netlify-lambda build src/api"
   },
   "dependencies": {
