@@ -17,6 +17,10 @@ Output will be in `dist/`. Build runs the tests and packs it if successful. If y
 
 You can also take the output of this file and instantiate it in any page; just make sure you have a `#terminal` div (unless you rename it in `index.js`).
 
+### Local Development
+
+There isn't hot reload support just yet, but you can run a Netlify dev server (`npm run serve`) and build every time you make a change. This way, you can test functions while having a dev server set up. 
+
 ## Tests
 
 Tests are in `tests/` using Jest. You can run them with `npm run test`.
