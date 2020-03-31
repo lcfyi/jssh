@@ -14,7 +14,7 @@ const text = {
       text.setRequestHeader("to", to);
       await request(text, 5000, body);
   
-      this.terminal.writeln(text.responseText);
+      this.terminal.writeln(`Twilio response: ${text.responseText}`);
     } catch (e) {
       this.terminal.writeln("Couldn't send text.");
     }
