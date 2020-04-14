@@ -11,7 +11,7 @@
     "build": "eslint --ext .js ./src && webpack && netlify-lambda build src/api",
     "netlify-serve": "netlify-lambda serve src/api",
     "netlify-build": "netlify-lambda build src/api",
-    "serve": "webpack && netlify dev"
+    "serve": "netlify dev"
   },
   "dependencies": {
     "babel-jest": "^25.2.4",
