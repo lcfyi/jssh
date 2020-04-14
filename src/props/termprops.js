@@ -1,4 +1,4 @@
-import colors from "./dracula.js";
+import colors from "../dracula.js";
 
 const termProps = {
   terminal: null,

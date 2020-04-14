@@ -1,5 +1,5 @@
 import Terminal from "./term.js";
-import termProps from "./termprops.js";
+import termProps from "./props/bootstrap.js";
 import request from "./request.js";
 import "./aesthecc.css";
 

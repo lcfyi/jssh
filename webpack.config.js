@@ -12,6 +12,14 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /bootstrap.js$/,
+        use: [
+          {
+            loader: "val-loader"
+          }
+        ]
       }
     ]
   },
@@ -29,9 +37,7 @@ module.exports = {
           .toString()
           .trim()
       ),
-      __BUILD_DATE: JSON.stringify(
-        new Date()
-      )
+      __BUILD_DATE: JSON.stringify(new Date())
     }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: ["**/*", "!.gitignore"]
