@@ -1,5 +1,4 @@
 import twilio from "twilio";
-require("dotenv").config();
 
 /**
  * Sends an SMS, after verifying the details.
