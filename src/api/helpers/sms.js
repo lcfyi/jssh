@@ -16,14 +16,18 @@ export default function sms(to, body) {
     let payload = {
       to,
       body,
-      from: process.env.TWILIO_PHONE_NUMBER
+      from: process.env.TWILIO_PHONE_NUMBER,
     };
 
-    client.messages
-      .create(payload)
-      .then(
-        message => resolve(message.status),
-        message => reject(message.status)
-      );
+    client.messages.create(payload).then(
+      (message) =>
+        resolve(
+          `${message.status.charAt(0).toUpperCase()}${message.status.slice(1)}.`
+        ),
+      (message) =>
+        reject(
+          `${message.status.charAt(0).toUpperCase()}${message.status.slice(1)}.`
+        )
+    );
   });
 }
