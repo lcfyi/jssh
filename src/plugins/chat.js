@@ -7,7 +7,7 @@ const chat = {
     "Usage",
     "",
     "You'll get instructions. Just try it.",
-    "It's peer to peer with webRTC."
+    "It's peer to peer with webRTC.",
   ],
   async function() {
     let userName = await this.terminal.input("Name: ");
@@ -16,7 +16,7 @@ const chat = {
       'Press "c" to create a new chat room.',
       'Press "j" to join a chat room.',
       'Type "/e" to exit.',
-      'Type "/h" for help.'
+      'Type "/h" for help.',
     ];
 
     this.terminal.writeln(help);
@@ -48,8 +48,8 @@ const chat = {
             JSON.stringify({
               token: connection.peer,
               peers: outgoingPeerIds.filter(
-                peerId => peerId !== connection.peer
-              )
+                (peerId) => peerId !== connection.peer
+              ),
             })
           );
         });
@@ -90,7 +90,7 @@ const chat = {
     help.shift();
     help.shift();
 
-    peer.on("connection", conn => {
+    peer.on("connection", (conn) => {
       /**
        * When a new connection is opened (when a peer connects to us
        * directly), this will be called. processLogic will then compare
@@ -101,7 +101,7 @@ const chat = {
         processLogic(conn.peer, "New user joined.");
       });
 
-      conn.on("data", data => {
+      conn.on("data", (data) => {
         /**
          * During a handshake, we should receive an array with all
          * the other peers to this server. We process each peer and
@@ -110,7 +110,7 @@ const chat = {
         try {
           let payload = JSON.parse(data);
           if (payload.token && peer.id === payload.token) {
-            payload.peers.map(peerId => {
+            payload.peers.map((peerId) => {
               processLogic(peerId, "Connected to other user.");
             });
           } else if (payload.msg) {
@@ -130,8 +130,8 @@ const chat = {
       switch (msg) {
         case "/e":
           // Ensure that we've closed all our connections and peer
-          peers.map(p => p.close());
-          return new Promise(resolve => {
+          peers.map((p) => p.close());
+          return new Promise((resolve) => {
             peer.on("close", () => {
               resolve();
             });
@@ -141,14 +141,14 @@ const chat = {
           this.terminal.writeln(help);
           break;
         default:
-          peers.map(p =>
+          peers.map((p) =>
             p.send(
               JSON.stringify({ user: userName, msg: `${userName}: ${msg}` })
             )
           );
       }
     }
-  }
+  },
 };
 
 function generateID() {
