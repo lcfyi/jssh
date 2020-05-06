@@ -7,18 +7,22 @@ const text = {
       // Parse the message
       let to = await this.terminal.input("To: ");
       let body = await this.terminal.input("Message: ");
-  
+
       let text = new XMLHttpRequest();
       text.open("POST", ".netlify/functions/text");
       text.setRequestHeader("authorization", this.terminal.passwd);
       text.setRequestHeader("to", to);
       await request(text, 5000, body);
-  
+
       this.terminal.writeln(`Twilio response: ${text.responseText}`);
     } catch (e) {
-      this.terminal.writeln(`Couldn't send text: ${e.responseText}`);
+      this.terminal.writeln(
+        `Couldn't send text: ${
+          e.responseText ? e.responseText : "No response."
+        }`
+      );
     }
-  }
+  },
 };
 
 export default text;
