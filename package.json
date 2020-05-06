@@ -9,8 +9,6 @@
     "lint": "eslint --ext .js ./src",
     "pack": "webpack",
     "build": "eslint --ext .js ./src && webpack && netlify-lambda build src/api",
-    "netlify-serve": "netlify-lambda serve src/api",
-    "netlify-build": "netlify-lambda build src/api",
     "serve": "netlify dev"
   },
   "dependencies": {
@@ -25,8 +23,9 @@
     "eslint-plugin-prettier": "^3.1.2",
     "html-webpack-plugin": "^4.0.3",
     "jest": "^25.2.4",
+    "jsonwebtoken": "^8.5.1",
     "mathjs": "^6.6.2",
-    "netlify-cli": "^2.40.0",
+    "netlify-cli": "^2.50.0",
     "netlify-lambda": "^1.6.3",
     "peerjs": "^1.2.0",
     "prettier": "^1.19.1",
