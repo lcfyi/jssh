@@ -1,34 +1,35 @@
-import verify from "./helpers/verify.js";
+import { verify } from "./helpers/jwt.js";
 import sms from "./helpers/sms.js";
 
 export function handler(event, context, callback) {
   console.log(event);
   if (event.httpMethod === "POST") {
-    if (verify(event.headers.authorization)) {
+    try {
+      verify(event.headers.authorization);
       sms(event.headers.to, event.body).then(
-        res => {
+        (res) => {
           callback(null, {
             statusCode: 200,
-            body: res
+            body: res,
           });
         },
-        rej => {
+        (rej) => {
           callback(null, {
             statusCode: 400,
-            body: rej
+            body: rej,
           });
         }
       );
-    } else {
+    } catch (e) {
       callback(null, {
         statusCode: 401,
-        body: "Not authorized."
+        body: `${e.message.charAt(0).toUpperCase()}${e.message.slice(1)}.`,
       });
     }
   } else {
     callback(null, {
       statusCode: 401,
-      body: "Incorrect request."
+      body: "Incorrect request.",
     });
   }
 }

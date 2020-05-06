@@ -1,13 +1,13 @@
-import hash from "./helpers/hash.js";
-import gateway from "./helpers/gateway.js";
+import { sign } from "./helpers/jwt.js";
+import authenticate from "./helpers/authenticate.js";
 
 export function handler(event, context, callback) {
   console.log(event);
   if (event.httpMethod === "POST") {
-    if (gateway(event.body)) {
+    if (authenticate(event.body)) {
       callback(null, {
         statusCode: 200,
-        body: hash()
+        body: sign()
       });
     } else {
       callback(null, {
