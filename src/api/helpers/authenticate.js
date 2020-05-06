@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 /**
  * Simple check to verify the passphrase provided.
  */

@@ -1,5 +1,4 @@
 import jsonwebtoken from "jsonwebtoken";
-require("dotenv").config();
 
 export function sign() {
   return jsonwebtoken.sign({}, process.env.HASH_SEED, {
