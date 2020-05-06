@@ -18,7 +18,7 @@
     "quotes": ["error", "double", { "avoidEscape": true }],
     "semi": ["error", "always"],
     "no-constant-condition": ["error", { "checkLoops": false }],
-    "arrow-parens": ["error", "as-needed"],
+    "arrow-parens": ["error", "always"],
     "no-undef": ["off"],
     "no-console": ["off"]
   }
