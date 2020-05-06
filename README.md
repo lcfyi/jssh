@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ff1e5f00-d1b3-4afc-82ba-afb0fd954c23/deploy-status)](https://app.netlify.com/sites/elastic-bohr-2f351e/deploys) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ee1759e74e8413fb5796c69d8f1aaf7)](https://www.codacy.com/manual/lcfyi/decabyt.es?utm_source=github.com&utm_medium=referral&utm_content=lcfyi/decabyt.es&utm_campaign=Badge_Grade)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ff1e5f00-d1b3-4afc-82ba-afb0fd954c23/deploy-status)](https://app.netlify.com/sites/decabytes/deploys) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ee1759e74e8413fb5796c69d8f1aaf7)](https://www.codacy.com/manual/lcfyi/decabyt.es?utm_source=github.com&utm_medium=referral&utm_content=lcfyi/decabyt.es&utm_campaign=Badge_Grade)
 
 ## Motivation
 
