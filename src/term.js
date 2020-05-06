@@ -18,12 +18,12 @@ export default class Terminal {
     // Props for our input element
     this.workingPrompt = {
       element: null,
-      input: null
+      input: null,
     };
     // Props for our user input element
     this.inputProps = {
       isWaiting: false,
-      resolution: null
+      resolution: null,
     };
   }
 
@@ -35,7 +35,7 @@ export default class Terminal {
   init(dom) {
     this.container = dom;
     // Set up the key handler
-    this.container.addEventListener("keydown", e => {
+    this.container.addEventListener("keydown", (e) => {
       switch (e.key) {
         case "Enter":
           // Normal command context
@@ -142,7 +142,7 @@ export default class Terminal {
     } else {
       prompt(this, wrapA(pre));
     }
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.inputProps.resolution = resolve;
     });
   }

@@ -16,7 +16,7 @@ const text = {
   
       this.terminal.writeln(`Twilio response: ${text.responseText}`);
     } catch (e) {
-      this.terminal.writeln("Couldn't send text.");
+      this.terminal.writeln(`Couldn't send text: ${e.responseText}`);
     }
   }
 };
