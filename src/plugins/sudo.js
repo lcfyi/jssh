@@ -16,8 +16,9 @@ const sudo = {
   * can access it and set it as the authorizatio header for future calls.
   */
   async function() {
-    let promise = this.terminal.input("");
+    let promise = this.terminal.input();
     this.terminal.workingPrompt.input.type = "password";
+    // Save the element before we return the promise, since it gets destroyed
     let element = this.terminal.workingPrompt.element;
     let val = await promise;
     element.innerHTML = "";
