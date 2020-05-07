@@ -7,8 +7,12 @@ const count = {
     "Returns the character count of the string."
   ],
   function(e) {
-    let expression = e.substring(e.indexOf(" ") + 1);
-    this.terminal.writeln(`Character count: ${expression.length}`);
+    if (e.includes(" ")) {
+      let expression = e.substring(e.indexOf(" ") + 1);
+      this.terminal.writeln(`Character count: ${expression.length}`);
+    } else {
+      this.terminal.writeln("No input");
+    }
   }
 };
 
