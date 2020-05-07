@@ -47,7 +47,7 @@ No arguments; will print the login message in `termProps.login` before prompting
 
 Takes a string or array of strings to print to the terminal (for example, `"demo string"` or `["demo", "string"]`), and also a boolean for whether the passed string is safe to print. By default, strings aren't safe and will be sanitized.
 
-Further customization can be done if each string was in an array with the first element as the string, and the second string as the colour to print to the terminal. For example, `["demo string", "red"]` or `[["demo", "red"], ["string", "green"]]`.
+You can also pass an object with `text` and `color` as keys to color the text. For example, `{text: "text to print", color: "black"}` will print black text.
 
 This is useful if you want to print things to the terminal before the login prompt. Otherwise, the other prints should be handled in `termProps`.
 
