@@ -1,4 +1,5 @@
 import request from "../request.js";
+import colors from "../colors.js";
 
 const ipinfo = {
   description: "prints out information about the given IP/hostname",
@@ -7,7 +8,7 @@ const ipinfo = {
     "",
     "ipinfo <hostname/IP>",
     "Note that you shouldn't have any spaces except between ipinfo",
-    "the hostname/IP"
+    "the hostname/IP",
   ],
   async function(e) {
     // TODO check if the IP is properly formed
@@ -19,18 +20,19 @@ const ipinfo = {
         await request(xhr, 5000);
         let response = JSON.parse(xhr.responseText);
         let printout = [
-          "<a style='color:#ff79c6'>Approximate location and info of " +
-            response.ip +
-            "</a>",
-          "<a style='color:#8be9fd'>Hostname: </a>" + response.hostname,
-          "<a style='color:#8be9fd'>District: </a>" + response.district,
-          "<a style='color:#8be9fd'>Region: </a>" + response.region,
-          "<a style='color:#8be9fd'>City: </a>" + response.city,
-          "<a style='color:#8be9fd'>Country: </a>" + response.country_name,
-          "<a style='color:#8be9fd'>Continent: </a>" + response.continent_code,
-          "<a style='color:#8be9fd'>Postal code: </a>" + response.postal_code,
-          "<a style='color:#8be9fd'>ISP: </a>" + response.isp,
-          "<a style='color:#8be9fd'>Org: </a>" + response.org
+          `<a style='color:${colors.pink}'>Approximate location and info of ${response.ip}</a>`,
+          `<a style='color:${colors.cyan}'>Hostname: </a>` + response.hostname,
+          `<a style='color:${colors.cyan}'>District: </a>` + response.district,
+          `<a style='color:${colors.cyan}'>Region: </a>` + response.region,
+          `<a style='color:${colors.cyan}'>City: </a>` + response.city,
+          `<a style='color:${colors.cyan}'>Country: </a>` +
+            response.country_name,
+          `<a style='color:${colors.cyan}'>Continent: </a>` +
+            response.continent_code,
+          `<a style='color:${colors.cyan}'>Postal code: </a>` +
+            response.postal_code,
+          `<a style='color:${colors.cyan}'>ISP: </a>` + response.isp,
+          `<a style='color:${colors.cyan}'>Org: </a>` + response.org,
         ];
         this.terminal.writeln(printout, true);
       } catch (e) {
@@ -39,7 +41,7 @@ const ipinfo = {
     } else {
       this.terminal.writeln("You must specify a hostname!");
     }
-  }
+  },
 };
 
 export default ipinfo;
