@@ -1,4 +1,4 @@
-import colors from "../dracula.js";
+import colors from "../colors.js";
 import request from "../request.js";
 
 const sudo = {

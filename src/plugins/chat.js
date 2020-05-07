@@ -1,5 +1,5 @@
 import Peer from "peerjs";
-import colors from "../dracula.js";
+import colors from "../colors.js";
 
 const chat = {
   description: "chat with people, p2p",
