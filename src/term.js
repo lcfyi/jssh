@@ -99,8 +99,12 @@ export default class Terminal {
       }
     });
     // Set up the click handler
-    this.container.addEventListener("click", () => {
-      if (window.getSelection().toString() === "" && this.workingPrompt.input) {
+    this.container.addEventListener("click", (e) => {
+      if (
+        window.getSelection().toString() === "" &&
+        this.workingPrompt.input &&
+        !e.target.href
+      ) {
         this.workingPrompt.input.focus();
       }
     });
