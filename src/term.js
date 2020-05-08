@@ -255,6 +255,8 @@ function writeHelper(term, line, safe) {
       pre.innerHTML = safe ? e : sanitize(e);
     }
     term.container.insertBefore(pre, term.workingPrompt.element);
+    // Scroll the element into view
+    pre.scrollIntoView();
     if (term.workingPrompt.input) {
       term.workingPrompt.input.blur();
       term.workingPrompt.input.focus();
