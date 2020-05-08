@@ -8,7 +8,7 @@
     "test": "jest --verbose",
     "lint": "eslint --ext .js ./src",
     "pack": "webpack",
-    "build": "eslint --ext .js ./src && webpack && netlify-lambda build src/api",
+    "build": "npm run lint && npm run test && npm run pack && netlify-lambda build src/api",
     "serve": "netlify dev"
   },
   "dependencies": {
