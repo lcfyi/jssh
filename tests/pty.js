@@ -1,24 +1,16 @@
 function pty() {
-  this.buffer = [];
   this.commands = {};
   this.terminal = {
-    writeln: e => {
+    writeln: function(e) {
       if (Array.isArray(e)) {
-        for (let i = 0; i < e.length; i++) {
-          if (Array.isArray(e[i])) {
-            this.buffer.push(e[i][0]);
-          } else {
-            this.buffer.push(e[i]);
-          }
-        }
+        e.forEach((line) => {
+          this.writeln(line);
+        });
       } else {
-        if (Array.isArray(e)) {
-          this.buffer.push(e[0]);
-        } else {
-          this.buffer.push(e);
-        }
+        this.buffer.push(e);
       }
-    }
+    },
+    buffer: [],
   };
 }
 

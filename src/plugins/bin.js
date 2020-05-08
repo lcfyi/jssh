@@ -6,12 +6,15 @@ const bin = {
     "bin [value] [number of digits]",
     "Will return the binary value of the number, with up to",
     "the specified digits. Will error out if the digits are ",
-    "less than the actual value's digit count."
+    "less than the actual value's digit count.",
   ],
   function(e) {
     let parse = e.split(" ");
     try {
       let val = parseInt(parse[1]);
+      if (isNaN(val)) {
+        throw new Error("Not a valid number!");
+      }
       switch (parse[1].substring(0, 2)) {
         case "0b":
           val = parseInt(parse[1].substring(2), 2);
@@ -22,9 +25,6 @@ const bin = {
         case "0o":
           val = parseInt(parse[1].substring(2), 8);
           break;
-      }
-      if (isNaN(val)) {
-        throw new Error("Not a valid number!");
       }
 
       val = val.toString(2);
@@ -45,7 +45,7 @@ const bin = {
       let val = "bin: " + error.message;
       this.terminal.writeln(val);
     }
-  }
+  },
 };
 
 export default bin;

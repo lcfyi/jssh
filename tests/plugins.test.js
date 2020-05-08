@@ -8,140 +8,147 @@ import source from "./../src/plugins/source.js";
 import time from "./../src/plugins/time.js";
 import Pty from "./pty.js";
 
-describe("bin", () => {
-  test("bin", () => {
-    bin.parent = new Pty();
-    bin.function("bin");
-    expect(bin.parent.buffer[0]).toBe("bin: Not a valid number!");
+describe("plugin tests", () => {
+  let pty = new Pty();
+
+  beforeEach(() => {
+    pty.terminal.buffer = [];
+    pty.commands = {};
   });
 
-  test("bin 3", () => {
-    bin.parent = new Pty();
-    bin.function("bin 3");
-    expect(bin.parent.buffer[0]).toBe("0b11");
-    expect(bin.parent.buffer[1]).toBe("Digit count: 2");
-  });
-});
+  describe("bin", () => {
+    bin.function = bin.function.bind(pty);
 
-describe("convert", () => {
-  test("convert", () => {
-    convert.parent = new Pty();
-    convert.function("convert");
-    expect(convert.parent.buffer[0]).toBe("math.js: not a conversion!");
-  });
+    test("bin", () => {
+      bin.function("bin");
+      expect(pty.terminal.buffer[0]).toBe("bin: Not a valid number!");
+    });
 
-  test("convert 12degF to degC", () => {
-    convert.parent = new Pty();
-    convert.function("convert 42degF to degC");
-    expect(convert.parent.buffer[0]).toBe("5.5555555555556 degC");
+    test("bin 3", () => {
+      bin.function("bin 3");
+      expect(pty.terminal.buffer[0]).toBe("0b11");
+      expect(pty.terminal.buffer[1]).toBe("Digit count: 2");
+    });
   });
 
-  test("convert eval('#')", () => {
-    convert.parent = new Pty();
-    convert.function("convert eval('#')");
-    expect(convert.parent.buffer[0]).toBe("math.js: not a conversion!");
-  });
-});
+  describe("convert", () => {
+    convert.function = convert.function.bind(pty);
 
-describe("dec", () => {
-  test("dec", () => {
-    dec.parent = new Pty();
-    dec.function("dec");
-    expect(dec.parent.buffer[0]).toBe("dec: Not a valid base!");
-  });
+    test("convert", () => {
+      convert.function("convert");
+      expect(pty.terminal.buffer[0]).toBe("math.js: not a conversion!");
+    });
 
-  test("dec 0x10", () => {
-    dec.parent = new Pty();
-    dec.function("dec 0x10");
-    expect(dec.parent.buffer[0]).toBe("16");
-  });
-});
+    test("convert 12degF to degC", () => {
+      convert.function("convert 42degF to degC");
+      expect(pty.terminal.buffer[0]).toBe("5.5555555555556 degC");
+    });
 
-describe("help", () => {
-  test("help", () => {
-    help.parent = new Pty();
-    help.function("help");
-    expect(help.parent.buffer[0].includes("jsh")).toBe(true);
+    test("convert eval('#')", () => {
+      convert.function("convert eval('#')");
+      expect(pty.terminal.buffer[0]).toBe("math.js: not a conversion!");
+    });
   });
 
-  test("help (with arbitrary command)", () => {
-    help.parent = new Pty();
-    help.parent.commands.test = {
-      description: "test",
-      help: ["test"],
-      function() {}
-    };
-    help.function("help");
-    let check = help.parent.buffer.filter(e => e.includes("test"));
-    expect(check.length).toBe(1);
+  describe("dec", () => {
+    dec.function = dec.function.bind(pty);
+
+    test("dec", () => {
+      dec.function("dec");
+      expect(pty.terminal.buffer[0]).toBe("dec: Not a valid base!");
+    });
+
+    test("dec 0x10", () => {
+      dec.function("dec 0x10");
+      expect(pty.terminal.buffer[0]).toBe("16");
+    });
   });
 
-  test("help test", () => {
-    help.parent = new Pty();
-    help.parent.commands.test = {
-      description: "test",
-      help: ["test"],
-      function() {}
-    };
-    help.function("help test");
-    expect(help.parent.buffer[0]).toBe("test");
-  });
-});
+  describe("help", () => {
+    help.function = help.function.bind(pty);
 
-describe("hex", () => {
-  test("hex", () => {
-    hex.parent = new Pty();
-    hex.function("hex");
-    expect(hex.parent.buffer[0]).toBe("hex: Not a valid number!");
-  });
+    test("help", () => {
+      help.function("help");
+      expect(pty.terminal.buffer[0].includes("jsh")).toBe(true);
+    });
 
-  test("hex 10 0", () => {
-    hex.parent = new Pty();
-    hex.function("hex 10 0");
-    expect(hex.parent.buffer[0]).toBe(
-      "hex: Actual digit count exceeds desired!"
-    );
-  });
+    test("help (with arbitrary command)", () => {
+      pty.commands.test = {
+        description: "test",
+        help: ["test"],
+        function() {},
+      };
+      help.function("help");
+      let check = pty.terminal.buffer.filter((e) => e.includes("test"));
+      expect(check.length).toBe(1);
+    });
 
-  test("hex 10", () => {
-    hex.parent = new Pty();
-    hex.function("hex 10");
-    expect(hex.parent.buffer[0]).toBe("0xA");
-  });
-});
-
-describe("math", () => {
-  test("math ", () => {
-    math.parent = new Pty();
-    math.function("math ");
-    expect(math.parent.buffer[0]).toBe("math.js: not math!");
+    test("help test", () => {
+      pty.commands.test = {
+        description: "test",
+        help: ["test"],
+        function() {},
+      };
+      help.function("help test");
+      expect(pty.terminal.buffer[0]).toBe("test");
+    });
   });
 
-  test("math (12 + 23) * 20 / 5", () => {
-    math.parent = new Pty();
-    math.function("math (12 + 23) * 20 / 5");
-    expect(math.parent.buffer[0]).toBe("140");
+  describe("hex", () => {
+    hex.function = hex.function.bind(pty);
+
+    test("hex", () => {
+      hex.function("hex");
+      expect(pty.terminal.buffer[0]).toBe("hex: Not a valid number!");
+    });
+
+    test("hex 10 0", () => {
+      hex.function("hex 10 0");
+      expect(pty.terminal.buffer[0]).toBe(
+        "hex: Actual digit count exceeds desired!"
+      );
+    });
+
+    test("hex 10", () => {
+      hex.function("hex 10");
+      expect(pty.terminal.buffer[0]).toBe("0xA");
+    });
   });
 
-  test("math eval('#')", () => {
-    math.parent = new Pty();
-    math.function("math eval('#')");
-    expect(math.parent.buffer[0]).toBe("math.js: not math!");
-  });
-});
+  describe("math", () => {
+    math.function = math.function.bind(pty);
 
-describe("source", () => {
-  test("source", () => {
-    source.parent = new Pty();
-    source.function("source");
-    expect(source.parent.buffer[0].includes("github.com")).toBe(true);
-  });
-});
+    test("math ", () => {
+      math.function("math ");
+      expect(pty.terminal.buffer[0]).toBe("math.js: not math!");
+    });
 
-describe("time", () => {
-  test("time", () => {
-    time.parent = new Pty();
-    time.function("time");
-    expect(time.parent.buffer[0].includes("Time")).toBe(true);
+    test("math (12 + 23) * 20 / 5", () => {
+      math.function("math (12 + 23) * 20 / 5");
+      expect(pty.terminal.buffer[0]).toBe("140");
+    });
+
+    test("math eval('#')", () => {
+      math.function("math eval('#')");
+      expect(pty.terminal.buffer[0]).toBe("math.js: not math!");
+    });
+  });
+
+  describe("source", () => {
+    source.function = source.function.bind(pty);
+
+    test("source", () => {
+      source.function("source");
+      expect(pty.terminal.buffer[0].includes("github.com")).toBe(true);
+    });
+  });
+
+  describe("time", () => {
+    time.function = time.function.bind(pty);
+
+    test("time", () => {
+      time.function("time");
+      expect(pty.terminal.buffer[0].includes("Time")).toBe(true);
+    });
   });
 });

@@ -6,12 +6,15 @@ const hex = {
     "hex [value] [number of digits]",
     "Will return the hex value of the number, with up to",
     "the specified digits. Will error out if the digits are ",
-    "less than the actual value's digit count."
+    "less than the actual value's digit count.",
   ],
   function(e) {
     let parse = e.split(" ");
     try {
       let val = parseInt(parse[1]);
+      if (isNaN(val)) {
+        throw new Error("Not a valid number!");
+      }
       switch (parse[1].substring(0, 2)) {
         case "0b":
           val = parseInt(parse[1].substring(2), 2);
@@ -23,10 +26,7 @@ const hex = {
           val = parseInt(parse[1].substring(2), 8);
           break;
       }
-      if (isNaN(val)) {
-        throw new Error("Not a valid number!");
-      }
-      
+
       val = val.toString(16);
 
       let digits = parseInt(parse[2]);
@@ -46,7 +46,7 @@ const hex = {
       let val = "hex: " + error.message;
       this.terminal.writeln(val);
     }
-  }
+  },
 };
 
 export default hex;
