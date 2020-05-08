@@ -24,12 +24,13 @@ export default class Terminal {
     this.inputProps = {
       isWaiting: false,
       resolution: null,
+      rejection: null,
     };
   }
 
   /**
    * This function initializes the terminal and establishes the DOM
-   * object that it will attach to. It doesn't print anythnig yet.
+   * object that it will attach to. It doesn't print anything yet.
    * @param {DOMElement} dom the DOM element to attach to
    */
   init(dom) {
@@ -37,6 +38,24 @@ export default class Terminal {
     // Set up the key handler
     this.container.addEventListener("keydown", (e) => {
       switch (e.key) {
+        case "c":
+          if (e.ctrlKey) {
+            if (this.inputProps.isWaiting) {
+              // Within this context, we can just reject since
+              // the handler will call prompt(terminal) for us
+              finalizePrompt(this);
+              this.inputProps.rejection("exited.");
+              // Reset the values
+              this.inputProps.isWaiting = false;
+              this.inputProps.resolution = null;
+              this.inputProps.rejection = null;
+            } else {
+              // Behave like a real terminal; ctrl+c to go next
+              finalizePrompt(this);
+              prompt(this);
+            }
+          }
+          break;
         case "Enter":
           // Normal command context
           if (!this.inputProps.isWaiting) {
@@ -48,6 +67,7 @@ export default class Terminal {
             // Reset the values
             this.inputProps.isWaiting = false;
             this.inputProps.resolution = null;
+            this.inputProps.rejection = null;
           }
           // Reset to the bottom of the stack
           this.logIdx = this.log.length;
@@ -140,8 +160,9 @@ export default class Terminal {
     } else {
       prompt(this, wrapA(pre));
     }
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.inputProps.resolution = resolve;
+      this.inputProps.rejection = reject;
     });
   }
 }
@@ -165,7 +186,7 @@ async function process(term, command) {
       try {
         await term.props.commands[parse[0]].function(command);
       } catch (e) {
-        term.writeln(command + ": " + e.message);
+        term.writeln(`${command.split(" ")[0]}: ${e.message ? e.message : e}`);
       }
     } else if (parse[0]) {
       term.writeln(command + ": command not found");
