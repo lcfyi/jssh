@@ -33,7 +33,7 @@ The terminal is set up in a way where it's extremely easy to add commands in `te
 
 Construct a new Terminal with `new Terminal(props)`. The props object is described below.
 
-Terminal has 3 user-facing functions, `init()`, `login()`, and `writeln()`.
+Terminal has 3 user-facing functions, `init()`, `login()`, and `writeln()`. Command history is logged per session and can be accessed with the up/down arrow keys.
 
 ### `init(DOMElement)`
 
@@ -55,7 +55,7 @@ Additional commands should only use `writeln()` to print to the output.
 
 ### `input([prompt])`
 
-Takes an optional string parameter that will act as the default prompt string. It returns a promise, which resolves with the user input so you must account for that when designing a function (ie. your function should be async).
+Takes an optional string parameter that will act as the default prompt string. It returns a promise, which resolves with the user input so you must account for that when designing a function (ie. your function should be async). By default, your promise will be rejected with `Ctrl+C` (exiting your function), unless you catch the rejection when waiting for input.
 
 ## termProps
 
