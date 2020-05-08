@@ -18,7 +18,7 @@ const onedark = {
   currentLine: "#49515f",
   selection: "#49515f",
   foreground: "$abb2bf",
-  comment: "#e8e8e8",
+  comment: "#7f848e",
   cyan: "#56b6c2",
   green: "#98c379",
   orange: "#ffb86c",
