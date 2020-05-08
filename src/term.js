@@ -243,20 +243,24 @@ function finalizePrompt(term) {
  * @param {Boolean} safe whether this should be sanitized
  */
 function writeHelper(term, line, safe) {
-  // If the string is empty, add a space so it gets printed
-  let e = line === "" ? " " : line;
-  let pre = document.createElement("pre");
-  if (e.text && e.color) {
-    pre.setAttribute("style", "color:" + e.color);
-    pre.innerHTML = safe ? e.text : sanitize(e.text);
-  } else {
-    pre.setAttribute("style", "color:white");
-    pre.innerHTML = safe ? e : sanitize(e);
-  }
-  term.container.insertBefore(pre, term.workingPrompt.element);
-  if (term.workingPrompt.input) {
-    term.workingPrompt.input.blur();
-    term.workingPrompt.input.focus();
+  try {
+    // If the string is empty, add a space so it gets printed
+    let e = line === "" ? " " : line;
+    let pre = document.createElement("pre");
+    if (e.text && e.color) {
+      pre.setAttribute("style", "color:" + e.color);
+      pre.innerHTML = safe ? e.text : sanitize(e.text);
+    } else {
+      pre.setAttribute("style", "color:white");
+      pre.innerHTML = safe ? e : sanitize(e);
+    }
+    term.container.insertBefore(pre, term.workingPrompt.element);
+    if (term.workingPrompt.input) {
+      term.workingPrompt.input.blur();
+      term.workingPrompt.input.focus();
+    }
+  } catch (e) {
+    // Fail silently, since this'll happen if line is null which is fine
   }
 }
 
