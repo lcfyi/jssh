@@ -117,19 +117,17 @@ export default class Terminal {
    * @param {Boolean} safe whether string needs sanitization
    */
   writeln(line, safe) {
-    if (line) {
-      if (Array.isArray(line)) {
-        for (let i = 0; i < line.length; i++) {
-          writeHelper(this, line[i], safe);
-        }
-      } else {
-        writeHelper(this, line, safe);
-      }
+    if (Array.isArray(line)) {
+      line.forEach((subline) => {
+        this.writeln(subline, safe);
+      });
+    } else {
+      writeHelper(this, line, safe);
     }
   }
 
   /**
-   * Allows functiosn to handle and recieve input from the user while within
+   * Allows functions to handle and recieve input from the user while within
    * a function. Should be awaited as it returns a Promise. Argument dictates
    * what the prompt prefix looks like.
    * @param {string} pre the prompt prefix
@@ -164,7 +162,11 @@ async function process(term, command) {
     if (parse[0] in term.props.commands) {
       // Wait for the function to finish. Only useful if the command
       // was an async command
-      await term.props.commands[parse[0]].function(command);
+      try {
+        await term.props.commands[parse[0]].function(command);
+      } catch (e) {
+        term.writeln(command + ": " + e.message);
+      }
     } else if (parse[0]) {
       term.writeln(command + ": command not found");
     }
@@ -245,7 +247,7 @@ function finalizePrompt(term) {
 function writeHelper(term, line, safe) {
   try {
     // If the string is empty, add a space so it gets printed
-    let e = line === "" ? " " : line;
+    let e = line ? line : " ";
     let pre = document.createElement("pre");
     if (e.text && e.color) {
       pre.setAttribute("style", "color:" + e.color);
@@ -262,7 +264,7 @@ function writeHelper(term, line, safe) {
       term.workingPrompt.input.focus();
     }
   } catch (e) {
-    // Fail silently, since this'll happen if line is null which is fine
+    console.error("[TERM] Write line failed.");
   }
 }
 
