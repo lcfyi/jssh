@@ -25,10 +25,10 @@ window.onload = async () => {
   });
   term.writeln("Current date and time: " + new Date().toString());
   try {
-    let ip = new XMLHttpRequest();
-    ip.open("GET", ".netlify/functions/echo");
-    await request(ip, 1000);
-    term.writeln("Connected from " + ip.responseText);
+    let ip = await request(".netlify/functions/echo", {
+      timeout: 1500,
+    });
+    term.writeln("Connected from " + ip);
   } catch (e) {
     term.writeln("Couldn't get client identity.");
   }

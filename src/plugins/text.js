@@ -8,17 +8,21 @@ const text = {
       let to = await this.terminal.input("To: ");
       let body = await this.terminal.input("Message: ");
 
-      let text = new XMLHttpRequest();
-      text.open("POST", ".netlify/functions/text");
-      text.setRequestHeader("authorization", this.terminal.passwd);
-      text.setRequestHeader("to", to);
-      await request(text, 5000, body);
+      let text = await request(".netlify/functions/text", {
+        timeout: 5000,
+        method: "POST",
+        headers: {
+          authorization: this.terminal.passwd,
+          to: to,
+        },
+        body: body,
+      });
 
-      this.terminal.writeln(`Twilio response: ${text.responseText}`);
+      this.terminal.writeln(`Twilio response: ${text}`);
     } catch (e) {
       this.terminal.writeln(
         `Couldn't send text: ${
-          e.responseText ? e.responseText : "No response."
+          e ? e : "No response."
         }`
       );
     }

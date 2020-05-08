@@ -15,10 +15,11 @@ const ipinfo = {
     let ip = e.split(/[ ,]+/)[1];
     if (ip) {
       try {
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", "https://json.geoiplookup.io/" + ip);
-        await request(xhr, 5000);
-        let response = JSON.parse(xhr.responseText);
+        let response = JSON.parse(
+          await request("https://json.geoiplookup.io/" + ip, {
+            timeout: 5000,
+          })
+        );
         let printout = [
           `<a style='color:${colors.pink}'>Approximate location and info of ${response.ip}</a>`,
           `<a style='color:${colors.cyan}'>Hostname: </a>` + response.hostname,
