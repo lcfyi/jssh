@@ -109,7 +109,7 @@ describe("writeln()", () => {
     let term = new Terminal();
     term.init(dom); // Use the init function to see if it works
     term.writeln(words);
-    expect(dom.childElementCount).toBe(0);
+    expect(dom.childElementCount).toBe(1);
     dom.remove();
   });
 });
