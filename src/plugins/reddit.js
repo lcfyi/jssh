@@ -190,7 +190,7 @@ const reddit = {
         case "find":
           switch (modifiers[0]) {
             case "comment":
-            case "comments":
+            case "comments": {
               let regex = new RegExp(`(${modifiers[1]})`, "ig");
               await longPrinter(
                 comments.filter((e) =>
@@ -216,6 +216,7 @@ const reddit = {
                 }
               );
               break;
+            }
             case "link":
             case "links":
               await longPrinter(
