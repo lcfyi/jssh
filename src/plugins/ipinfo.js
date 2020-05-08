@@ -12,7 +12,7 @@ const ipinfo = {
   ],
   async function(e) {
     // TODO check if the IP is properly formed
-    let ip = e.split(/[ ,]+/)[1];
+    let ip = e.split(/[ ]+/)[1];
     if (ip) {
       try {
         let response = JSON.parse(
