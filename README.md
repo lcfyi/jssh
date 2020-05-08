@@ -53,7 +53,7 @@ This is useful if you want to print things to the terminal before the login prom
 
 Additional commands should only use `writeln()` to print to the output.
 
-### `input()`
+### `input([prompt])`
 
 Takes an optional string parameter that will act as the default prompt string. It returns a promise, which resolves with the user input so you must account for that when designing a function (ie. your function should be async).
 
@@ -73,6 +73,20 @@ Each command in the `termProps.commands` object should have `description` and `h
 The `description` should be a short, simple string, and the `help` property can be as long as you'd like. It is printed with `help [command]`.
 
 The `function` method takes the entire command as the argument, so if it depends on some value after the command (eg. `command [arguments]`), some additional processing has to be done to extract the arguments.
+
+## Helpers
+
+### `request(url, [options])
+
+A `request` helper is optionally available in `src/request.js`, which simplifies handling requests. It takes a `url` as a string and an options object. 
+
+The options include:
+- `timeout` (default: `0`)
+- `method` (default: `GET`)
+- `headers` (default: `{}`)
+- `body` (default: `undefined`)
+- `queryParams` (default: `{}`)
+- `hideCors` will use [CORS Anywhere](https://cors-anywhere.herokuapp.com/) to proxy the request (default: `false`)
 
 ## Contributing
 
