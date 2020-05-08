@@ -89,7 +89,7 @@ describe("writeln()", () => {
   test("Array of strings with styling", () => {
     let words = [
       { text: "test", color: "red" },
-      { text: "string", color: "blue" }
+      { text: "string", color: "blue" },
     ];
     let dom = document.createElement("test");
     let term = new Terminal();
@@ -103,7 +103,7 @@ describe("writeln()", () => {
     dom.remove();
   });
 
-  test ("Null write", () => {
+  test("Null write", () => {
     let words = null;
     let dom = document.createElement("test");
     let term = new Terminal();
@@ -125,7 +125,7 @@ describe("input()", () => {
     expect(term.inputProps.resolution).toBe(null);
     let val = term.input();
     term.inputProps.resolution("test");
-    val.then(e => expect(e).toBe("test"));
+    val.then((e) => expect(e).toBe("test"));
   });
 
   test("Simple input 2, no props", () => {
@@ -134,7 +134,7 @@ describe("input()", () => {
     term.init(dom);
     let val = term.input();
     term.inputProps.resolution("");
-    val.then(e => expect(e).toBe(""));
+    val.then((e) => expect(e).toBe(""));
   });
 });
 

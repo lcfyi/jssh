@@ -1,7 +1,3 @@
-#terminal::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
-}
-
 #terminal {
   background: #282c34;
   width: 100%;
@@ -12,8 +8,12 @@
   -ms-overflow-style: none; /* IE */
 }
 
+#terminal::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
 #terminal pre {
-  margin: 0px 0px 0px 0px;
+  margin: 0 0 0 0;
   font-family: "Roboto Mono", monospace;
   color: white;
   font-size: 12pt;
@@ -28,8 +28,8 @@
   color: white;
   font-family: "Roboto Mono", monospace;
   font-size: 12pt;
-  padding: 0px 0px 0px 0px;
-  margin: 0px 0px 0px 0px;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
 }
 
 #terminal a:link {

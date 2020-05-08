@@ -1,15 +1,15 @@
 {
   "name": "decabyt.es",
   "version": "1.0.0",
-  "author": "Leslie Cheng",
-  "repository": "https://github.com/lcfyi/decabyt.es",
   "private": false,
+  "repository": "https://github.com/lcfyi/decabyt.es",
+  "author": "Leslie Cheng",
   "scripts": {
-    "test": "jest --verbose",
+    "build": "npm run lint && npm run test && npm run pack && netlify-lambda build src/api",
     "lint": "eslint --ext .js ./src",
     "pack": "webpack",
-    "build": "npm run lint && npm run test && npm run pack && netlify-lambda build src/api",
-    "serve": "netlify dev"
+    "serve": "netlify dev",
+    "test": "jest --verbose"
   },
   "dependencies": {
     "babel-jest": "^25.2.4",

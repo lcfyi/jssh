@@ -76,7 +76,7 @@ The `function` method takes the entire command as the argument, so if it depends
 
 ## Helpers
 
-### `request(url, [options])
+### `request(url, [options])`
 
 A `request` helper is optionally available in `src/request.js`, which simplifies handling requests. It takes a `url` as a string and an options object. 
 
