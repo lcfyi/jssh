@@ -156,7 +156,7 @@ const reddit = {
                 });
                 this.terminal.writeln(comment.meta);
                 this.terminal.writeln(
-                  `<a href="${comment.link}">source</a>`,
+                  `<a target="_blank" href="${comment.link}">source</a>`,
                   true
                 );
                 this.terminal.writeln();
@@ -171,7 +171,7 @@ const reddit = {
                 });
                 this.terminal.writeln(link.meta);
                 this.terminal.writeln(
-                  `<a href="${link.link}">source</a>`,
+                  `<a target="_blank" href="${link.link}">source</a>`,
                   true
                 );
                 this.terminal.writeln();
@@ -209,7 +209,7 @@ const reddit = {
                     true
                   );
                   this.terminal.writeln(
-                    `<a href="${comment.link}">source</a>`,
+                    `<a target="_blank" href="${comment.link}">source</a>`,
                     true
                   );
                   this.terminal.writeln();
@@ -228,7 +228,7 @@ const reddit = {
                   });
                   this.terminal.writeln(link.meta);
                   this.terminal.writeln(
-                    `<a href="${link.link}">source</a>`,
+                    `<a target="_blank" href="${link.link}">source</a>`,
                     true
                   );
                   this.terminal.writeln();
