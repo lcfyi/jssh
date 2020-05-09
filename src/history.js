@@ -17,25 +17,21 @@ export default class History {
   pushItem(value) {
     this.history.push(value);
     this.index = this.history.length;
-    this.sync();
+    sync(this);
   }
 
   arrowUp() {
     if (this.index > 0) {
       this.index--;
-      return this.history[this.index];
-    } else {
-      return this.history[this.index] ? this.history[this.index] : "";
     }
+    return safeReturn(this);
   }
 
   arrowDown() {
-    if (this.index < this.history.length - 1) {
+    if (this.index < this.history.length) {
       this.index++;
-      return this.history[this.index];
-    } else {
-      return "";
     }
+    return safeReturn(this);
   }
 
   resetIndex() {
@@ -45,10 +41,22 @@ export default class History {
   resetHistory() {
     this.history = [];
     this.index = 0;
-    this.sync();
+    sync(this);
   }
+}
 
-  sync() {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(this.history));
-  }
+/**
+ * Safe return function.
+ * @param {History} history
+ */
+function safeReturn(history) {
+  return history.history[history.index] ? history.history[history.index] : "";
+}
+
+/**
+ * Sync to local storage.
+ * @param {History} history
+ */
+function sync(history) {
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history.history));
 }
