@@ -24,10 +24,8 @@ export default class History {
     if (this.index > 0) {
       this.index--;
       return this.history[this.index];
-    } else if (this.history.length == 1) {
-      return this.history[this.index];
     } else {
-      return "";
+      return this.history[this.index] ? this.history[this.index] : "";
     }
   }
 
