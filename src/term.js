@@ -1,3 +1,5 @@
+import History from "./history.js";
+
 export default class Terminal {
   /**
    * Constructor for the terminal, takes one argument which is an object
@@ -165,60 +167,6 @@ export default class Terminal {
 }
 
 // --------------------- "private" members ---------------------
-
-class History {
-  constructor() {
-    // Not private or class field since we don't have babel loader
-    this.HISTORY_KEY = "history";
-    let history = localStorage.getItem(this.HISTORY_KEY);
-    if (!history) {
-      history = [];
-      localStorage.setItem(this.HISTORY_KEY, JSON.stringify(history));
-    } else {
-      history = JSON.parse(history);
-    }
-    this.history = history;
-    this.index = history.length;
-  }
-
-  pushItem(value) {
-    this.history.push(value);
-    this.index = this.history.length;
-    this.sync();
-  }
-
-  arrowUp() {
-    if (this.index > 0) {
-      this.index--;
-      return this.history[this.index];
-    } else {
-      return this.history[this.index];
-    }
-  }
-
-  arrowDown() {
-    if (this.index < this.history.length - 1) {
-      this.index++;
-      return this.history[this.index];
-    } else {
-      return "";
-    }
-  }
-
-  resetIndex() {
-    this.index = this.history.length;
-  }
-
-  resetHistory() {
-    this.history = [];
-    this.index = 0;
-    this.sync();
-  }
-
-  sync() {
-    localStorage.setItem(this.HISTORY_KEY, JSON.stringify(this.history));
-  }
-}
 
 /**
  * This helper processes commands within the context of the provided
