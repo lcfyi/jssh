@@ -48,6 +48,7 @@ const brainfuck = {
         check: () => {
           if (guard > max) throw new Error("Interpreter timed out.");
         },
+        reset: () => guard = 0,
       };
     })(WHILE_GUARD);
 
@@ -75,6 +76,7 @@ const brainfuck = {
             printBuffer = [];
           }
           data[dp] = (await this.terminal.input(`mem:${dp}> `)).charCodeAt(0);
+          guardCheck.reset();
           break;
         case "[":
           if (data[dp] === 0) {
