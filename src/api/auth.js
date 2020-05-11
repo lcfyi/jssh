@@ -1,24 +1,24 @@
 import { sign } from "./helpers/jwt.js";
 import authenticate from "./helpers/authenticate.js";
 
-export function handler(event, context, callback) {
+export async function handler(event) {
   console.log(event);
   if (event.httpMethod === "POST") {
     if (authenticate(event.body)) {
-      callback(null, {
+      return {
         statusCode: 200,
-        body: sign()
-      });
+        body: sign(),
+      };
     } else {
-      callback(null, {
+      return {
         statusCode: 401,
-        body: "Incorrect password."
-      });
+        body: "Incorrect password.",
+      };
     }
   } else {
-    callback(null, {
+    return {
       statusCode: 401,
-      body: "Incorrect request."
-    });
+      body: "Incorrect request.",
+    };
   }
 }

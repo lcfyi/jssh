@@ -1,7 +1,7 @@
-export function handler(event, context, callback) {
+export async function handler(event) {
   console.log(event);
-  callback(null, {
+  return {
     statusCode: 200,
-    body: event.headers["client-ip"]
-  });
+    body: event.headers["client-ip"],
+  };
 }

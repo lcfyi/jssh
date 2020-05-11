@@ -1,35 +1,26 @@
 import { verify } from "./helpers/jwt.js";
 import sms from "./helpers/sms.js";
 
-export function handler(event, context, callback) {
+export async function handler(event) {
   console.log(event);
   if (event.httpMethod === "POST") {
     try {
       verify(event.headers.authorization);
-      sms(event.headers.to, event.body).then(
-        (res) => {
-          callback(null, {
-            statusCode: 200,
-            body: res,
-          });
-        },
-        (rej) => {
-          callback(null, {
-            statusCode: 400,
-            body: rej,
-          });
-        }
-      );
+      let result = await sms(event.headers.to, event.body);
+      return {
+        statusCode: 200,
+        body: result,
+      };
     } catch (e) {
-      callback(null, {
+      return {
         statusCode: 401,
         body: `${e.message.charAt(0).toUpperCase()}${e.message.slice(1)}.`,
-      });
+      };
     }
   } else {
-    callback(null, {
+    return {
       statusCode: 401,
       body: "Incorrect request.",
-    });
+    };
   }
 }
