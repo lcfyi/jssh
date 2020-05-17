@@ -1,5 +1,6 @@
 import colors from "../colors.js";
 import request from "../request.js";
+import jsonwebtoken from "jsonwebtoken";
 
 const sudo = {
   description: "authentication",
@@ -24,11 +25,18 @@ const sudo = {
     element.innerHTML = "";
 
     try {
-      this.terminal.passwd = await request(".netlify/functions/auth", {
+      let token = await request(".netlify/functions/auth", {
         timeout: 10000,
         method: "POST",
         body: val,
       });
+      let prompt = this.prompt;
+      setTimeout(() => {
+        this.prompt = prompt;
+        delete this.terminal.passwd;
+        this.terminal.writeln("Token expired.");
+      }, jsonwebtoken.decode(token)["exp"] * 1000 - Date.now());
+      this.terminal.passwd = token;
       this.prompt =
         "<a style='color:" +
         colors.green +

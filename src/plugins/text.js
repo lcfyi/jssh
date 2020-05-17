@@ -12,7 +12,7 @@ const text = {
         timeout: 5000,
         method: "POST",
         headers: {
-          authorization: this.terminal.passwd,
+          authorization: this.terminal.passwd ? this.terminal.passwd : "",
           to: to,
         },
         body: body,
@@ -20,11 +20,7 @@ const text = {
 
       this.terminal.writeln(`Twilio response: ${text}`);
     } catch (e) {
-      this.terminal.writeln(
-        `Couldn't send text: ${
-          e ? e : "No response."
-        }`
-      );
+      this.terminal.writeln(`Couldn't send text: ${e ? e : "No response."}`);
     }
   },
 };
