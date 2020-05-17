@@ -5,10 +5,11 @@
   "repository": "https://github.com/lcfyi/decabyt.es",
   "author": "Leslie Cheng",
   "scripts": {
-    "build": "npm run lint && npm run test && npm run pack && netlify-lambda build src/api",
+    "build": "npm run lint && npm run test && npm run pack && netlify-lambda build -c webpack.functions.js src/api",
     "lint": "eslint --ext .js ./src",
     "pack": "webpack",
     "serve": "netlify dev",
+    "function-serve": "netlify-lambda serve -c webpack.functions.js src/api",
     "test": "jest --verbose"
   },
   "dependencies": {
@@ -34,6 +35,8 @@
     "val-loader": "^2.1.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2",
+    "whois-json": "^2.0.4",
     "workbox-webpack-plugin": "^5.1.2"
   }
 }
