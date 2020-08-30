@@ -1,6 +1,5 @@
 import Terminal from "./term.js";
 import termProps from "./props/bootstrap.js";
-import request from "./request.js";
 import colors from "./colors.js";
 import "./aesthecc.css";
 
@@ -24,14 +23,6 @@ window.onload = async () => {
     color: colors.green,
   });
   term.writeln("Current date and time: " + new Date().toString());
-  try {
-    let ip = await request(".netlify/functions/echo", {
-      timeout: 1500,
-    });
-    term.writeln("Connected from " + ip);
-  } catch (e) {
-    term.writeln("Couldn't get client identity.");
-  }
   term.writeln("----");
   term.login();
 };
