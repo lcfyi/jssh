@@ -171,25 +171,25 @@ function aiPlay(board) {
     return;
   }
 
-  playMove(board, minimax(board, "O").index, "O");
+  playMove(board, minimax(board, "O", 1).index, "O");
 }
 
 // Recursively searches entire state space assuming optimal moves,
 // with terminal conditions providing final score values which roll back
-function minimax (board, player) {
- 
+function minimax (board, player, currentDepth) {
+
   // Terminal conditions for recursive calls
   let winnerInfo = getWinner(board);
   if (winnerInfo) {
     switch (winnerInfo.player) {
       case "O": 
-        return {score: 10};
-    
+        return {score: 10, depth: currentDepth};
+
       case "X":
-        return {score: -10};
+        return {score: -10, depth: currentDepth};
 
       case "Nobody":
-        return {score: 0};
+        return {score: 0, depth: currentDepth};
 
       default:
         break;
@@ -206,11 +206,20 @@ function minimax (board, player) {
       let updatedBoard = [...board];
       updatedBoard[i] = player; 
       let opponent = player === "O" ? "X" : "O";
-      let resultInfo = minimax(updatedBoard, opponent); 
-      moves.push({index: i, score: resultInfo.score});
+      let resultInfo = minimax(updatedBoard, opponent, currentDepth + 1); 
+      moves.push({index: i, score: resultInfo.score, depth: resultInfo.depth});
     }
   }
 
+  // At top level, decide shortest path to victory
+  if (currentDepth == 1) {
+    let winMoves = moves.filter((move) => { return move.score > 0; });
+    if (winMoves.length > 0) {
+      let retMove = winMoves.reduce((a, b) => a.depth < b.depth ? a : b);
+      return retMove;
+    } 
+  }
+  
   // AI Player stores largest values (ideally +ve), Human player stores smallest values (ideally -ve)
   return player === "O" ? moves.reduce((a, b) => a.score > b.score ? a : b) : moves.reduce((a, b) => a.score < b.score ? a : b);
 }
