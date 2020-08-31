@@ -172,7 +172,6 @@ function aiPlay(board) {
   }
 
   let moveInfo = minimax(board, "O", 1);
-  console.log(moveInfo);
   let winMoves = moveInfo.filter((move) => { return move.score > 0; });
   let moveToPlay = winMoves.length > 0 ? winMoves.reduce((a, b) => a.depth < b.depth ? a : b) : moveInfo.reduce((a, b) => a.score > b.score ? a : b);
   playMove(board, moveToPlay.index, "O");
