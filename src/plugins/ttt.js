@@ -171,7 +171,11 @@ function aiPlay(board) {
     return;
   }
 
-  playMove(board, minimax(board, "O", 1).index, "O");
+  let moveInfo = minimax(board, "O", 1);
+  console.log(moveInfo);
+  let winMoves = moveInfo.filter((move) => { return move.score > 0; });
+  let moveToPlay = winMoves.length > 0 ? winMoves.reduce((a, b) => a.depth < b.depth ? a : b) : moveInfo.reduce((a, b) => a.score > b.score ? a : b);
+  playMove(board, moveToPlay.index, "O");
 }
 
 // Recursively searches entire state space assuming optimal moves,
@@ -183,13 +187,13 @@ function minimax (board, player, currentDepth) {
   if (winnerInfo) {
     switch (winnerInfo.player) {
       case "O": 
-        return {score: 10, depth: currentDepth};
+        return [{score: 10, depth: currentDepth}];
 
       case "X":
-        return {score: -10, depth: currentDepth};
+        return [{score: -10, depth: currentDepth}];
 
       case "Nobody":
-        return {score: 0, depth: currentDepth};
+        return [{score: 0, depth: currentDepth}];
 
       default:
         break;
@@ -198,6 +202,7 @@ function minimax (board, player, currentDepth) {
 
   // Store information for all valid moves
   let moves = [];
+  let isAIPlayer = player === "O";
 
   // Check the effects of all available moves recursively, 
   // (relatively) small finite state space makes it easy
@@ -205,23 +210,16 @@ function minimax (board, player, currentDepth) {
     if (!board[i]) { 
       let updatedBoard = [...board];
       updatedBoard[i] = player; 
-      let opponent = player === "O" ? "X" : "O";
-      let resultInfo = minimax(updatedBoard, opponent, currentDepth + 1); 
+      let opponent = isAIPlayer ? "X" : "O";
+      let moveInfo = minimax(updatedBoard, opponent, currentDepth + 1); 
+
+      // AI Player consolidates minimized values from Human Player move
+      let resultInfo = isAIPlayer ? moveInfo.reduce((a, b) => a.score < b.score ? a : b) : moveInfo.reduce((a, b) => a.score > b.score ? a : b);
       moves.push({index: i, score: resultInfo.score, depth: resultInfo.depth});
     }
   }
-
-  // At top level, decide shortest path to victory
-  if (currentDepth == 1) {
-    let winMoves = moves.filter((move) => { return move.score > 0; });
-    if (winMoves.length > 0) {
-      let retMove = winMoves.reduce((a, b) => a.depth < b.depth ? a : b);
-      return retMove;
-    } 
-  }
   
-  // AI Player stores largest values (ideally +ve), Human player stores smallest values (ideally -ve)
-  return player === "O" ? moves.reduce((a, b) => a.score > b.score ? a : b) : moves.reduce((a, b) => a.score < b.score ? a : b);
+  return moves;
 }
 
 export default ttt;
