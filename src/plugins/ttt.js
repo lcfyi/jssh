@@ -215,8 +215,7 @@ function minimax (board, player, currentDepth) {
       // 3: Human Player maximizes values propagated from AI player's actions
       if (!retMove || (retMove.score === moveInfo.score && moveInfo.depth < retMove.depth) ||
           (isAIPlayer && retMove.score < moveInfo.score) || (!isAIPlayer && retMove.score > moveInfo.score)) {
-        retMove = {...moveInfo};
-        retMove.index = i;
+        retMove = {...moveInfo, index: i};
       }
     }
   }
