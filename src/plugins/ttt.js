@@ -70,7 +70,7 @@ const ttt = {
         );
       }
     }
-  }
+  },
 };
 
 let winConds = [
@@ -81,7 +81,7 @@ let winConds = [
   [1, 4, 7],
   [2, 5, 8],
   [0, 4, 8],
-  [2, 4, 6]
+  [2, 4, 6],
 ];
 
 function establishBoard() {
@@ -115,7 +115,12 @@ function printBoard(term, board, winnerCondition) {
     if (!winnerCondition) {
       row += board[i] === null ? " " : board[i];
     } else {
-      row += board[i] === null ? " " : (winnerCondition.includes(i) ? `<a style='color:#50fa7b'>${board[i]}</a>` : board[i]);
+      row +=
+        board[i] === null
+          ? " "
+          : winnerCondition.includes(i)
+          ? `<a style='color:#50fa7b'>${board[i]}</a>`
+          : board[i];
     }
     row += "<a style='color:#bd93f9'> | </a>";
     if (i === 2 || i === 5 || i === 8) {
@@ -129,12 +134,12 @@ function printBoard(term, board, winnerCondition) {
 function getWinner(board) {
   // Check the win conditions
   for (let i = 0; i < winConds.length; i++) {
-    if ( 
+    if (
       board[winConds[i][0]] !== null &&
       board[winConds[i][0]] === board[winConds[i][1]] &&
       board[winConds[i][1]] === board[winConds[i][2]]
     ) {
-      return {player: board[winConds[i][0]], condition: winConds[i]};
+      return { player: board[winConds[i][0]], condition: winConds[i] };
     }
   }
   // Check if the board is full
@@ -145,7 +150,7 @@ function getWinner(board) {
     }
   }
   if (counter === 9) {
-    return {player: "Nobody", condition: null};
+    return { player: "Nobody", condition: null };
   }
   // No winner
   return null;
@@ -176,50 +181,53 @@ function aiPlay(board) {
 
 // Recursively searches entire state space assuming optimal moves,
 // with terminal conditions providing final score values which roll back
-function minimax (board, player, currentDepth) {
-
+function minimax(board, player, currentDepth) {
   // Terminal conditions for recursive calls
   let winnerInfo = getWinner(board);
   if (winnerInfo) {
     switch (winnerInfo.player) {
-      case "O": 
-        return {index: null, score: 10, depth: currentDepth};
+      case "O":
+        return { index: null, score: 10, depth: currentDepth };
 
       case "X":
-        return {index: null, score: -10, depth: currentDepth};
+        return { index: null, score: -10, depth: currentDepth };
 
       case "Nobody":
-        return {index: null, score: 0, depth: currentDepth};
+        return { index: null, score: 0, depth: currentDepth };
 
       default:
         break;
     }
-  } 
+  }
 
   let isAIPlayer = player === "O";
   let retMove = null;
 
-  // Check the effects of all available moves recursively, 
+  // Check the effects of all available moves recursively,
   // (relatively) small finite state space makes it easy
-  for (let i = 0; i < 9; i++) { 
-    if (!board[i]) { 
+  for (let i = 0; i < 9; i++) {
+    if (!board[i]) {
       let updatedBoard = [...board];
-      updatedBoard[i] = player; 
+      updatedBoard[i] = player;
       let opponent = isAIPlayer ? "X" : "O";
-      let moveInfo = minimax(updatedBoard, opponent, currentDepth + 1); 
+      let moveInfo = minimax(updatedBoard, opponent, currentDepth + 1);
 
       // By index of conditions:
       // 0: replace a null value with a copy of the first moveInfo object that recurses back
       // 1: always try to select a quicker ending path for the same score, AI or human
       // 2: AI Player minimizes values propagated from human player's actions
       // 3: Human Player maximizes values propagated from AI player's actions
-      if (!retMove || (retMove.score === moveInfo.score && moveInfo.depth < retMove.depth) ||
-          (isAIPlayer && retMove.score < moveInfo.score) || (!isAIPlayer && retMove.score > moveInfo.score)) {
-        retMove = {...moveInfo, index: i};
+      if (
+        !retMove ||
+        (retMove.score === moveInfo.score && moveInfo.depth < retMove.depth) ||
+        (isAIPlayer && retMove.score < moveInfo.score) ||
+        (!isAIPlayer && retMove.score > moveInfo.score)
+      ) {
+        retMove = { ...moveInfo, index: i };
       }
     }
   }
-  
+
   return retMove;
 }
 
