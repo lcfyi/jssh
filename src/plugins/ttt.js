@@ -52,16 +52,17 @@ const ttt = {
       if (playing) {
         if (winner) {
           this.terminal.writeln(
-            "<a style='color:#50fa7b'>" + winner + " won!</a>",
+            "<a style='color:#50fa7b'>" + winner.player + " won!</a>",
             true
           );
           playing = false;
+          printBoard(this.terminal, board, winner.condition);
         } else {
           this.terminal.writeln(
             "<a style='color:#ffb86c'>Current board</a>",
             true
           );
-          printBoard(this.terminal, board);
+          printBoard(this.terminal, board, null);
         }
       } else {
         this.terminal.writeln(
@@ -98,12 +99,12 @@ function printHelpMessage(term) {
   for (let i = 0; i < 9; i++) {
     helperBoard.push(i);
   }
-  printBoard(term, helperBoard);
+  printBoard(term, helperBoard, null);
   term.writeln("The above board is your guide.");
   term.writeln("--------");
 }
 
-function printBoard(term, board) {
+function printBoard(term, board, winnerCondition) {
   let row = "";
   for (let i = 0; i < 9; i++) {
     if (i % 3 === 0) {
@@ -111,7 +112,11 @@ function printBoard(term, board) {
       row += "<a style='color:#bd93f9'> | </a>";
     }
     // Beacause we have a 0 value for this check
-    row += board[i] === null ? " " : board[i];
+    if (!winnerCondition) {
+      row += board[i] === null ? " " : board[i];
+    } else {
+      row += board[i] === null ? " " : (winnerCondition.includes(i) ? `<a style='color:#50fa7b'>${board[i]}</a>` : board[i]);
+    }
     row += "<a style='color:#bd93f9'> | </a>";
     if (i === 2 || i === 5 || i === 8) {
       term.writeln(row, true);
@@ -124,11 +129,12 @@ function printBoard(term, board) {
 function getWinner(board) {
   // Check the win conditions
   for (let i = 0; i < winConds.length; i++) {
-    if (
+    if ( 
+      board[winConds[i][0]] !== null &&
       board[winConds[i][0]] === board[winConds[i][1]] &&
       board[winConds[i][1]] === board[winConds[i][2]]
     ) {
-      return board[winConds[i][0]];
+      return {player: board[winConds[i][0]], condition: winConds[i]};
     }
   }
   // Check if the board is full
@@ -139,7 +145,7 @@ function getWinner(board) {
     }
   }
   if (counter === 9) {
-    return "Nobody";
+    return {player: "Nobody", condition: null};
   }
   // No winner
   return null;
@@ -148,7 +154,7 @@ function getWinner(board) {
 function playMove(board, move, player) {
   // Check if it's a proper move if it is, return true.
   // Otherwise return false
-  if (!board[move] && parseInt(move) >= 0 && parseInt(move) <= 9) {
+  if (!board[move] && parseInt(move) >= 0 && parseInt(move) < 9) {
     board[move] = player;
     return true;
   } else {
@@ -157,7 +163,6 @@ function playMove(board, move, player) {
 }
 
 function aiPlay(board) {
-  // TODO Give this an actual AI
   let counter = 0;
   for (let i = 0; i < board.length; i++) {
     if (board[i]) counter++;
@@ -165,7 +170,57 @@ function aiPlay(board) {
   if (counter === 9) {
     return;
   }
-  while (!playMove(board, Math.floor(Math.random() * 8), "O"));
+
+  playMove(board, minimax(board, "O", 1).index, "O");
+}
+
+// Recursively searches entire state space assuming optimal moves,
+// with terminal conditions providing final score values which roll back
+function minimax (board, player, currentDepth) {
+
+  // Terminal conditions for recursive calls
+  let winnerInfo = getWinner(board);
+  if (winnerInfo) {
+    switch (winnerInfo.player) {
+      case "O": 
+        return {index: null, score: 10, depth: currentDepth};
+
+      case "X":
+        return {index: null, score: -10, depth: currentDepth};
+
+      case "Nobody":
+        return {index: null, score: 0, depth: currentDepth};
+
+      default:
+        break;
+    }
+  } 
+
+  let isAIPlayer = player === "O";
+  let retMove = null;
+
+  // Check the effects of all available moves recursively, 
+  // (relatively) small finite state space makes it easy
+  for (let i = 0; i < 9; i++) { 
+    if (!board[i]) { 
+      let updatedBoard = [...board];
+      updatedBoard[i] = player; 
+      let opponent = isAIPlayer ? "X" : "O";
+      let moveInfo = minimax(updatedBoard, opponent, currentDepth + 1); 
+
+      // By index of conditions:
+      // 0: replace a null value with a copy of the first moveInfo object that recurses back
+      // 1: always try to select a quicker ending path for the same score, AI or human
+      // 2: AI Player minimizes values propagated from human player's actions
+      // 3: Human Player maximizes values propagated from AI player's actions
+      if (!retMove || (retMove.score === moveInfo.score && moveInfo.depth < retMove.depth) ||
+          (isAIPlayer && retMove.score < moveInfo.score) || (!isAIPlayer && retMove.score > moveInfo.score)) {
+        retMove = {...moveInfo, index: i};
+      }
+    }
+  }
+  
+  return retMove;
 }
 
 export default ttt;
