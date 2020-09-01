@@ -196,8 +196,6 @@ function minimax (board, player, currentDepth) {
     }
   } 
 
-  // Store information for all valid moves
-  // let moves = [];
   let isAIPlayer = player === "O";
   let retMove = null;
 
