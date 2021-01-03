@@ -9,9 +9,9 @@ const count = {
   function(e) {
     if (e.includes(" ")) {
       let expression = e.substring(e.indexOf(" ") + 1);
-      this.terminal.writeln(`Character count: ${expression.length}`);
+      this.terminal.writeln(`Character count: ${[...expression].length}`);
     } else {
-      this.terminal.writeln("No input");
+      this.terminal.writeln("No input.");
     }
   }
 };
