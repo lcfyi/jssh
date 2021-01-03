@@ -110,8 +110,8 @@ export default class Terminal {
         this.workingPrompt.input.setAttribute(
           "style",
           "width: " +
-            (this.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
-            "px"
+          (this.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
+          "px"
         );
       }
     });
@@ -227,8 +227,8 @@ function prompt(term, custom) {
   term.workingPrompt.input.setAttribute(
     "style",
     "width: " +
-      (term.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
-      "px"
+    (term.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
+    "px"
   );
   term.workingPrompt.element.appendChild(term.workingPrompt.input);
   term.workingPrompt.input.focus();
@@ -303,5 +303,9 @@ function wrapA(raw) {
 }
 
 function sanitize(input) {
-  return input.replace("<", "&lt;").replace(">", "&gt;");
+  return input.replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
