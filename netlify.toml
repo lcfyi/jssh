@@ -15,6 +15,7 @@
   TWILIO_AUTH_TOKEN = "also not so secret"
   TWILIO_PHONE_NUMBER = "1" # Ok grandma
   TOKEN_EXPIRY_TIME = "3600"
+  HASH_SEED = "seed"
 
 [[headers]]
   for = "/*"
