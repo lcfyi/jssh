@@ -6,11 +6,8 @@ const clear = {
     if (command[1] === "history") {
       this.terminal.history.resetHistory();
     } else {
-      // Remove lastChild Node from "terminal" DOM until top 5 remain (maintain session metadata)
-      let childrenToRemove = this.terminal.container.childElementCount - 5;
-      while (childrenToRemove != 0) {
+      while (this.terminal.container.childElementCount) {
         this.terminal.container.removeChild(this.terminal.container.lastChild);
-        childrenToRemove--;
       }
     }
   },
