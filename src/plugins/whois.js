@@ -20,11 +20,11 @@ const whois = {
           })
         );
         let printout = [
-          `<a style='color:${colors.pink}'>WHOIS Information</a>`,
+          `<span style='color:${colors.pink}'>WHOIS Information</span>`,
         ];
         for (let entry in response) {
           printout.push(
-            `<a style='color:${colors.cyan}'>${entry}: </a>${response[entry]}`
+            `<span style='color:${colors.cyan}'>${entry}: </span>${response[entry]}`
           );
         }
         this.terminal.writeln(printout, true);

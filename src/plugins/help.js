@@ -1,8 +1,11 @@
+import colors from "../colors.js";
+import stringUtils from "../stringUtils.js";
+
 const help = {
   description: "prints help messages",
   help: [
     "Prints help messages for particular commands. Can work",
-    "on this command, too. Try it."
+    "on this command, too. Try it.",
   ],
   function(e) {
     let parse = e.split(" ");
@@ -14,11 +17,11 @@ const help = {
       }
     } else {
       let text = [
-        `jsh, r${__COMMIT_COUNT}`,
+        `<span style="color:${colors.cyan}">jsh</span>, <span style="color:${colors.red}">${__COMMIT_COUNT}</span>`,
         "These help prompts are defined by the plugins themselves. They may not be helpful.",
-        ""
+        "",
       ];
-      this.terminal.writeln(text);
+      this.terminal.writeln(text, true);
       // Get the keys of the commands
       let cmds = Object.keys(this.commands);
       let maxCount = cmds.reduce((max, cur) => {
@@ -30,11 +33,14 @@ const help = {
           cmds[i] +
             " ".repeat(maxCount - cmds[i].length) +
             "\t" +
-            this.commands[cmds[i]].description
+            `<span style="color:${colors.comment}">${stringUtils.sanitize(
+              this.commands[cmds[i]].description
+            )}</span>`,
+          true
         );
       }
     }
-  }
+  },
 };
 
 export default help;

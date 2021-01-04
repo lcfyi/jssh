@@ -3,11 +3,11 @@ import colors from "../colors.js";
 const termProps = {
   terminal: null,
   prompt:
-    "<a style='color:" +
+    "<span style='color:" +
     colors.green +
-    "'>~</a><a style='color:" +
+    "'>~</span><span style='color:" +
     colors.purple +
-    "'>$</a> ",
+    "'>$</span> ",
   login: [
     " ",
     {text: " ________                   ", color: colors.cyan },

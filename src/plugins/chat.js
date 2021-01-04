@@ -125,7 +125,7 @@ const chat = {
 
     while (true) {
       let msg = await this.terminal.input(
-        `<a style='color:${colors.cyan}'>${userName}:</a> `
+        `<span style='color:${colors.cyan}'>${userName}:</span> `
       );
       switch (msg) {
         case "/e":

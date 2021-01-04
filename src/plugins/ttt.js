@@ -19,7 +19,7 @@ const ttt = {
             winner = null;
           } else {
             this.terminal.writeln(
-              "<a style='color:#ff5555'>Active game!</a>",
+              "<span style='color:#ff5555'>Active game!</span>",
               true
             );
           }
@@ -40,7 +40,7 @@ const ttt = {
           if (playing) {
             if (!isNaN(input) && !playMove(board, input, "X")) {
               this.terminal.writeln(
-                "<a style='color:#ff5555'>Invalid move!</a>",
+                "<span style='color:#ff5555'>Invalid move!</span>",
                 true
               );
             } else {
@@ -52,14 +52,14 @@ const ttt = {
       if (playing) {
         if (winner) {
           this.terminal.writeln(
-            "<a style='color:#50fa7b'>" + winner.player + " won!</a>",
+            "<span style='color:#50fa7b'>" + winner.player + " won!</span>",
             true
           );
           playing = false;
           printBoard(this.terminal, board, winner.condition);
         } else {
           this.terminal.writeln(
-            "<a style='color:#ffb86c'>Current board</a>",
+            "<span style='color:#ffb86c'>Current board</span>",
             true
           );
           printBoard(this.terminal, board, null);
@@ -108,8 +108,8 @@ function printBoard(term, board, winnerCondition) {
   let row = "";
   for (let i = 0; i < 9; i++) {
     if (i % 3 === 0) {
-      term.writeln("<a style='color:#bd93f9'> -------------</a>", true);
-      row += "<a style='color:#bd93f9'> | </a>";
+      term.writeln("<span style='color:#bd93f9'> -------------</span>", true);
+      row += "<span style='color:#bd93f9'> | </span>";
     }
     // Beacause we have a 0 value for this check
     if (!winnerCondition) {
@@ -119,16 +119,16 @@ function printBoard(term, board, winnerCondition) {
         board[i] === null
           ? " "
           : winnerCondition.includes(i)
-          ? `<a style='color:#50fa7b'>${board[i]}</a>`
+          ? `<span style='color:#50fa7b'>${board[i]}</span>`
           : board[i];
     }
-    row += "<a style='color:#bd93f9'> | </a>";
+    row += "<span style='color:#bd93f9'> | </span>";
     if (i === 2 || i === 5 || i === 8) {
       term.writeln(row, true);
       row = "";
     }
   }
-  term.writeln("<a style='color:#bd93f9'  > -------------</a>", true);
+  term.writeln("<span style='color:#bd93f9'  > -------------</span>", true);
 }
 
 function getWinner(board) {

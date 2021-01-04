@@ -1,4 +1,5 @@
 import History from "./history.js";
+import stringUtils from "./stringUtils.js";
 
 export default class Terminal {
   /**
@@ -110,8 +111,8 @@ export default class Terminal {
         this.workingPrompt.input.setAttribute(
           "style",
           "width: " +
-          (this.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
-          "px"
+            (this.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
+            "px"
         );
       }
     });
@@ -155,9 +156,9 @@ export default class Terminal {
     this.inputProps.isWaiting = true;
     // Set up the prompt
     if (!pre) {
-      prompt(this, wrapA("> "));
+      prompt(this, wrap("> "));
     } else {
-      prompt(this, wrapA(pre));
+      prompt(this, wrap(pre));
     }
     return new Promise((resolve, reject) => {
       this.inputProps.resolution = resolve;
@@ -212,7 +213,7 @@ function prompt(term, custom) {
     } else if (term.props) {
       term.workingPrompt.element.innerHTML += term.props.prompt;
     } else {
-      term.workingPrompt.element.innerHTML += wrapA("> ");
+      term.workingPrompt.element.innerHTML += wrap("> ");
     }
   }
   term.workingPrompt.input = document.createElement("input");
@@ -227,8 +228,8 @@ function prompt(term, custom) {
   term.workingPrompt.input.setAttribute(
     "style",
     "width: " +
-    (term.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
-    "px"
+      (term.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
+      "px"
   );
   term.workingPrompt.element.appendChild(term.workingPrompt.input);
   term.workingPrompt.input.focus();
@@ -248,7 +249,7 @@ function finalizePrompt(term) {
       term.history.pushItem(input);
     }
     term.workingPrompt.input.remove();
-    term.workingPrompt.element.innerHTML += sanitize(input);
+    term.workingPrompt.element.innerHTML += stringUtils.sanitize(input);
     // Reset our values
     term.workingPrompt.element = null;
     term.workingPrompt.input = null;
@@ -270,10 +271,10 @@ function writeHelper(term, line, safe) {
     let pre = document.createElement("pre");
     if (e.text && e.color) {
       pre.setAttribute("style", "color:" + e.color);
-      pre.innerHTML = safe ? e.text : sanitize(e.text);
+      pre.innerHTML = safe ? e.text : stringUtils.sanitize(e.text);
     } else {
       pre.setAttribute("style", "color:white");
-      pre.innerHTML = safe ? e : sanitize(e);
+      pre.innerHTML = safe ? e : stringUtils.sanitize(e);
     }
     term.container.insertBefore(pre, term.workingPrompt.element);
     // Scroll the element into view
@@ -298,14 +299,6 @@ function computeChildWidth(parent) {
   return width;
 }
 
-function wrapA(raw) {
-  return "<a>" + raw + "</a>";
-}
-
-function sanitize(input) {
-  return input.replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+function wrap(raw) {
+  return "<span>" + raw + "</span>";
 }

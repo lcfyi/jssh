@@ -38,11 +38,11 @@ const sudo = {
       }, jsonwebtoken.decode(token)["exp"] * 1000 - Date.now());
       this.terminal.passwd = token;
       this.prompt =
-        "<a style='color:" +
+        "<span style='color:" +
         colors.green +
-        "'>~</a><a style='color:" +
+        "'>~</span><span style='color:" +
         colors.purple +
-        "'>#</a> ";
+        "'>#</span> ";
     } catch (e) {
       this.terminal.writeln("Failed to authorize.");
     }

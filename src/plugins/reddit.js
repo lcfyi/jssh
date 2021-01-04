@@ -9,9 +9,9 @@ const listPrinter = (term, values) => {
   );
   console.log(maxCount);
   term.writeln(
-    `<a style='color:${colors.red}'>Subreddit${" ".repeat(
+    `<span style='color:${colors.red}'>Subreddit${" ".repeat(
       maxCount - "Subreddit".length
-    )} Count</a>`,
+    )} Count</span>`,
     true
   );
   values.forEach((sub) => {
@@ -69,7 +69,7 @@ const reddit = {
     try {
       do {
         this.terminal.writeln(
-          `<a style='color:${colors.comment}'>Fetching page ${page++}..</a>`,
+          `<span style='color:${colors.comment}'>Fetching page ${page++}..</span>`,
           true
         );
         let response = JSON.parse(
@@ -124,7 +124,7 @@ const reddit = {
 
     while (true) {
       let input = await this.terminal.input(
-        `<a style='color:${colors.green}'>reddit:</a><a style='color:${colors.cyan}'>/user/${username}</a>$ `
+        `<span style='color:${colors.green}'>reddit:</span><span style='color:${colors.cyan}'>/user/${username}</span>$ `
       );
       input = input.split(" ").filter((e) => e);
       let command = input[0];
@@ -204,7 +204,7 @@ const reddit = {
                   this.terminal.writeln(
                     naiveSanitize(comment.meta).replace(
                       regex,
-                      `<a style='color:${colors.red}'>$1</a>`
+                      `<span style='color:${colors.red}'>$1</span>`
                     ),
                     true
                   );

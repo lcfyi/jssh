@@ -21,19 +21,19 @@ const ipinfo = {
           })
         );
         let printout = [
-          `<a style='color:${colors.pink}'>Approximate location and info of ${response.ip}</a>`,
-          `<a style='color:${colors.cyan}'>Hostname: </a>` + response.hostname,
-          `<a style='color:${colors.cyan}'>District: </a>` + response.district,
-          `<a style='color:${colors.cyan}'>Region: </a>` + response.region,
-          `<a style='color:${colors.cyan}'>City: </a>` + response.city,
-          `<a style='color:${colors.cyan}'>Country: </a>` +
+          `<span style='color:${colors.pink}'>Approximate location and info of ${response.ip}</span>`,
+          `<span style='color:${colors.cyan}'>Hostname: </span>` + response.hostname,
+          `<span style='color:${colors.cyan}'>District: </span>` + response.district,
+          `<span style='color:${colors.cyan}'>Region: </span>` + response.region,
+          `<span style='color:${colors.cyan}'>City: </span>` + response.city,
+          `<span style='color:${colors.cyan}'>Country: </span>` +
             response.country_name,
-          `<a style='color:${colors.cyan}'>Continent: </a>` +
+          `<span style='color:${colors.cyan}'>Continent: </span>` +
             response.continent_code,
-          `<a style='color:${colors.cyan}'>Postal code: </a>` +
+          `<span style='color:${colors.cyan}'>Postal code: </span>` +
             response.postal_code,
-          `<a style='color:${colors.cyan}'>ISP: </a>` + response.isp,
-          `<a style='color:${colors.cyan}'>Org: </a>` + response.org,
+          `<span style='color:${colors.cyan}'>ISP: </span>` + response.isp,
+          `<span style='color:${colors.cyan}'>Org: </span>` + response.org,
         ];
         this.terminal.writeln(printout, true);
       } catch (e) {
