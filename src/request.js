@@ -5,7 +5,7 @@
  * method, headers (object), body, queryParams (object), 
  * and hideCors
  */
-const request = (url, options) => {
+const request = (url, options = {}) => {
   return new Promise((resolve, reject) => {
     if (!url) {
       throw new Error("Invalid parameters to request.");
