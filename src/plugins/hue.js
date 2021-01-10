@@ -30,6 +30,11 @@ const hue = {
     `<span style="color:${colors.green}">presets</span>`,
     "  savanna, tropical, arctic, spring, relax, read,",
     "  concentrate, energize, bright, dimmed, nightlight",
+    "",
+    `<span style="color:${colors.red}">caveats</span>`,
+    "  Note that since the hue is on your local network, you'll have to",
+    "  visit the website occasionally to allow your browser to access the",
+    "  hue bridge over an invalid SSL certificate."
   ],
   async function(e) {
     const args = utils.argParse(e);
@@ -63,12 +68,14 @@ const hue = {
         } else {
           return unauthorized(this);
         }
+      default:
+        this.terminal.writeln("Unrecognized command. Try help hue.");
     }
   },
 };
 
 const DISCOVERY_URL = "https://discovery.meethue.com/";
-const HUE_ADDR_BASE = "http://";
+const HUE_ADDR_BASE = "https://";
 const CREDENTIALS_LS_KEY = "hue_credentials";
 const MAX_REGISTER_TRIES = 20;
 const HUE_PRESETS = {
@@ -188,7 +195,14 @@ async function register(context, address) {
       })
     );
   };
-  await registerHandler();
+  try {
+    await registerHandler();
+  } catch (e) {
+    return context.terminal.writeln(
+      `Failed to ping the base station. You may have to accept the invalid certificate first: <a href="${HUE_ADDR_BASE}${address}">visit</a>`,
+      true
+    );
+  }
   context.terminal.writeln(
     "Now press the link button... (refresh your browser to cancel)"
   );
