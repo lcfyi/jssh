@@ -41,7 +41,7 @@ export default class Terminal {
     this.container.addEventListener("keydown", (e) => {
       switch (e.key) {
         case "c":
-          if (e.ctrlKey) {
+          if (e.ctrlKey && e.target.selectionStart === e.target.selectionEnd) {
             if (this.inputProps.isWaiting) {
               // Within this context, we can just reject since
               // the handler will call prompt(terminal) for us
