@@ -34,7 +34,7 @@ const hue = {
     `<span style="color:${colors.red}">caveats</span>`,
     "  Note that since the hue is on your local network, you'll have to",
     "  visit the website occasionally to allow your browser to access the",
-    "  hue bridge over an invalid SSL certificate."
+    "  hue bridge over an invalid SSL certificate.",
   ],
   async function(e) {
     const args = utils.argParse(e);
@@ -199,7 +199,7 @@ async function register(context, address) {
     await registerHandler();
   } catch (e) {
     return context.terminal.writeln(
-      `Failed to ping the base station. You may have to accept the invalid certificate first: <a href="${HUE_ADDR_BASE}${address}">visit</a>`,
+      `Failed to ping the base station. You may have to accept the invalid certificate first by visiting <a href="${HUE_ADDR_BASE}${address}">this page</a>.`,
       true
     );
   }
