@@ -198,7 +198,7 @@ async function register(context, address) {
   try {
     await registerHandler();
   } catch (e) {
-    return certificateError(context, address, e);
+    return certificateError(context, address);
   }
   context.terminal.writeln(
     "Now press the link button... (refresh your browser to cancel)"
@@ -277,7 +277,7 @@ async function set(context, lights, setting) {
             .join(", ")}`
         );
       } catch (e) {
-        return certificateError(context, credentials.address, e);
+        return certificateError(context, credentials.address);
       }
     }
   };
@@ -315,14 +315,14 @@ async function set(context, lights, setting) {
   }
 }
 
-async function certificateError(context, address, e) {
+async function certificateError(context, address) {
   if (context) {
     context.terminal.writeln(
       `Failed to ping the base station. You may have to accept the invalid certificate first by visiting <a href="${HUE_ADDR_BASE}${address}">this page</a>.`,
       true
     );
   }
-  throw e;
+  throw new Error("Network error.");
 }
 
 async function unauthorized(context) {
@@ -347,7 +347,7 @@ async function getAllLights() {
     }
     return lightsMap;
   } catch (e) {
-    return certificateError(undefined, credentials.address, e);
+    return certificateError(undefined, credentials.address);
   }
 }
 
