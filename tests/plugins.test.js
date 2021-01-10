@@ -69,7 +69,7 @@ describe("plugin tests", () => {
 
     test("help", () => {
       help.function("help");
-      expect(pty.terminal.buffer[0].includes("jsh")).toBe(true);
+      expect(pty.terminal.buffer[0].includes("jssh")).toBe(true);
     });
 
     test("help (with arbitrary command)", () => {
