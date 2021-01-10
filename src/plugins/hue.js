@@ -318,7 +318,7 @@ async function set(context, lights, setting) {
 async function certificateError(context, address) {
   if (context) {
     context.terminal.writeln(
-      `Failed to ping the base station. You may have to accept the invalid certificate first by visiting <a href="${HUE_ADDR_BASE}${address}">this page</a>.`,
+      `Failed to ping the base station. You may have to accept the invalid certificate first by visiting <a href="${HUE_ADDR_BASE}${address}" target="_blank">this page</a>.`,
       true
     );
   }
