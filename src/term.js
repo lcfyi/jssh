@@ -87,7 +87,16 @@ export default class Terminal {
           e.preventDefault();
           break;
         case "Tab":
-          // We prevent the tab key from doing anything
+          if (this.workingPrompt.input) {
+            let value = this.workingPrompt.input.value;
+            let start = this.workingPrompt.input.selectionStart;
+            let end = this.workingPrompt.input.selectionEnd;
+
+            this.workingPrompt.input.value =
+              value.slice(0, start) + "  " + value.slice(end);
+            this.workingPrompt.input.selectionStart = start + 2;
+            this.workingPrompt.input.selectionEnd = start + 2;
+          }
           e.preventDefault();
           break;
         default:
