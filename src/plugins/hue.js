@@ -198,7 +198,7 @@ async function register(context, address) {
   try {
     await registerHandler();
   } catch (e) {
-    return certificateError(context, address);
+    return certificateError(context, address, e);
   }
   context.terminal.writeln(
     "Now press the link button... (refresh your browser to cancel)"
@@ -277,7 +277,7 @@ async function set(context, lights, setting) {
             .join(", ")}`
         );
       } catch (e) {
-        return certificateError(context, credentials.address);
+        return certificateError(context, credentials.address, e);
       }
     }
   };
@@ -315,14 +315,14 @@ async function set(context, lights, setting) {
   }
 }
 
-async function certificateError(context, address) {
+async function certificateError(context, address, e) {
   if (context) {
     context.terminal.writeln(
       `Failed to ping the base station. You may have to accept the invalid certificate first by visiting <a href="${HUE_ADDR_BASE}${address}">this page</a>.`,
       true
     );
   }
-  throw new Error("certificate error. Visit the page to accept the self-signed certificate.");
+  throw e;
 }
 
 async function unauthorized(context) {
@@ -341,14 +341,14 @@ async function getAllLights() {
           "/lights"
       )
     );
+    let lightsMap = {};
+    for (let [light, metadata] of Object.entries(lightsList)) {
+      lightsMap[light] = metadata["name"];
+    }
+    return lightsMap;
   } catch (e) {
-    return certificateError(undefined, credentials.address);
+    return certificateError(undefined, credentials.address, e);
   }
-  let lightsMap = {};
-  for (let [light, metadata] of Object.entries(lightsList)) {
-    lightsMap[light] = metadata["name"];
-  }
-  return lightsMap;
 }
 
 export default hue;
