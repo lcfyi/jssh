@@ -19,7 +19,7 @@ window.onload = async () => {
   let term = new Terminal(termProps);
   term.init(document.getElementById("terminal"));
   term.writeln({
-    text: `decabyt.es ${__COMMIT_HASH} (built ${__BUILD_DATE})`,
+    text: `jssh ${__COMMIT_HASH} (built ${__BUILD_DATE})`,
     color: colors.green,
   });
   term.writeln("Current date and time: " + new Date().toString());

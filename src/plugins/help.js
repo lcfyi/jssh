@@ -17,7 +17,7 @@ const help = {
       }
     } else {
       let text = [
-        `<span style="color:${colors.cyan}">jsh</span>, <span style="color:${colors.red}">${__COMMIT_COUNT}</span>`,
+        `<span style="color:${colors.cyan}">jssh</span>, v.<span style="color:${colors.red}">${__COMMIT_COUNT}</span>`,
         "These help prompts are defined by the plugins themselves. They may not be helpful.",
         "",
       ];

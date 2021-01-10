@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ff1e5f00-d1b3-4afc-82ba-afb0fd954c23/deploy-status)](https://app.netlify.com/sites/decabytes/deploys) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ee1759e74e8413fb5796c69d8f1aaf7)](https://www.codacy.com/manual/lcfyi/decabyt.es?utm_source=github.com&utm_medium=referral&utm_content=lcfyi/decabyt.es&utm_campaign=Badge_Grade)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/319bf658-f965-4157-a62b-adf8baee3c45/deploy-status)](https://app.netlify.com/sites/jssh/deploys)
 
 ## Motivation
 
@@ -25,7 +25,7 @@ There isn't hot reload support just yet, but you can run a Netlify dev server (`
 
 Tests are in `tests/` using Jest. You can run them with `npm run test`.
 
-## decabyt.es
+## jssh
 
 The terminal is set up in a way where it's extremely easy to add commands in `termProps` (as described below).
 

@@ -1,8 +1,8 @@
 {
-  "name": "decabyt.es",
+  "name": "jssh",
   "version": "1.0.0",
   "private": false,
-  "repository": "https://github.com/lcfyi/decabyt.es",
+  "repository": "https://github.com/lcfyi/jssh",
   "author": "Leslie Cheng",
   "scripts": {
     "build": "npm run lint && npm run test && npm run pack && netlify-lambda build -c webpack.functions.js src/api",
