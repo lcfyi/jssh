@@ -1,5 +1,5 @@
 import colors from "../colors.js";
-import stringUtils from "../stringUtils.js";
+import utils from "../utils.js";
 
 const help = {
   description: "prints help messages",
@@ -8,10 +8,10 @@ const help = {
     "on this command, too. Try it.",
   ],
   function(e) {
-    let parse = e.split(" ");
+    let parse = utils.argParse(e);
     if (parse.length > 1 && parse[1]) {
       if (parse[1] in this.commands) {
-        this.terminal.writeln(this.commands[parse[1]].help);
+        this.terminal.writeln(this.commands[parse[1]].help, true);
       } else {
         this.terminal.writeln("Unknown command " + "'" + parse[1] + "'");
       }
@@ -33,7 +33,7 @@ const help = {
           cmds[i] +
             " ".repeat(maxCount - cmds[i].length) +
             "\t" +
-            `<span style="color:${colors.comment}">${stringUtils.sanitize(
+            `<span style="color:${colors.comment}">${utils.sanitize(
               this.commands[cmds[i]].description
             )}</span>`,
           true

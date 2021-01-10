@@ -1,6 +1,6 @@
 import colors from "../colors.js";
 import request from "../request.js";
-import stringUtils from "../stringUtils.js";
+import utils from "../utils.js";
 
 const CACHE_URL = "https://tldr.sh/assets/index.json";
 const BASE_URL =
@@ -22,7 +22,7 @@ const tldr = {
       this.terminal.writeln("Updating cache...");
       await updateCache(this);
     }
-    let args = stringUtils.argParse(e).slice(1);
+    let args = utils.argParse(e).slice(1);
     let command = args[0] ? args[0].toLowerCase() : "";
 
     if (this.cacheMapping.has(command)) {
@@ -98,13 +98,13 @@ async function getCommandInfo(command, platform, language = DEFAULT_LANG) {
 }
 
 function formatMarkdown(lines) {
-  return stringUtils.splitLines(lines).map((line) => {
+  return utils.splitLines(lines).map((line) => {
     if (line.startsWith("#")) {
-      return `<span style="color:${colors.cyan}">${stringUtils.strip(
-        stringUtils.sanitize(line.replace(/#/g, ""))
+      return `<span style="color:${colors.cyan}">${utils.strip(
+        utils.sanitize(line.replace(/#/g, ""))
       )}</span>`;
     } else {
-      line = stringUtils.sanitize(line);
+      line = utils.sanitize(line);
       return line.replace(
         /`[\s\S]+?`/g,
         (l) =>

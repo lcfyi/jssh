@@ -1,5 +1,5 @@
 import History from "./history.js";
-import stringUtils from "./stringUtils.js";
+import utils from "./utils.js";
 
 export default class Terminal {
   /**
@@ -249,7 +249,7 @@ function finalizePrompt(term) {
       term.history.pushItem(input);
     }
     term.workingPrompt.input.remove();
-    term.workingPrompt.element.innerHTML += stringUtils.sanitize(input);
+    term.workingPrompt.element.innerHTML += utils.sanitize(input);
     // Reset our values
     term.workingPrompt.element = null;
     term.workingPrompt.input = null;
@@ -271,10 +271,10 @@ function writeHelper(term, line, safe) {
     let pre = document.createElement("pre");
     if (e.text && e.color) {
       pre.setAttribute("style", "color:" + e.color);
-      pre.innerHTML = safe ? e.text : stringUtils.sanitize(e.text);
+      pre.innerHTML = safe ? e.text : utils.sanitize(e.text);
     } else {
       pre.setAttribute("style", "color:white");
-      pre.innerHTML = safe ? e : stringUtils.sanitize(e);
+      pre.innerHTML = safe ? e : utils.sanitize(e);
     }
     term.container.insertBefore(pre, term.workingPrompt.element);
     // Scroll the element into view

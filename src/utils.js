@@ -5,7 +5,7 @@
  * @returns {Array} arguments including command
  */
 const argParse = (args) => {
-  return args.split(/[ ]+/);
+  return args.replace(/^\s+|\s+$/g, "").split(/[ ]+/);
 };
 
 /**
@@ -40,9 +40,20 @@ const sanitize = (string) => {
     .replace(/'/g, "&#039;");
 };
 
+/**
+ * Async sleep.
+ * @param {Number} time to sleep in ms
+ */
+const sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
+};
+
 export default {
   argParse,
   splitLines,
   strip,
   sanitize,
+  sleep,
 };
