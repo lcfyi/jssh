@@ -347,7 +347,7 @@ async function getAllLights() {
     }
     return lightsMap;
   } catch (e) {
-    return certificateError(undefined, credentials.address);
+    return certificateError(context, credentials.address);
   }
 }
 
