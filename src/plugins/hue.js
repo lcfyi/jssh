@@ -235,7 +235,7 @@ async function config(context) {
 }
 
 async function list(context) {
-  const allLights = await getAllLights();
+  const allLights = await getAllLights(context);
   for (let [light, name] of Object.entries(allLights)) {
     context.terminal.writeln(` ${light} - ${name}`);
   }
@@ -243,7 +243,7 @@ async function list(context) {
 
 async function set(context, lights, setting) {
   if (lights === "all") {
-    lights = Object.keys(await getAllLights());
+    lights = Object.keys(await getAllLights(context));
   } else {
     lights = lights.split(",").filter((e) => e && !isNaN(e));
   }
@@ -329,7 +329,7 @@ async function unauthorized(context) {
   context.terminal.writeln("You must register a hue base station first.");
 }
 
-async function getAllLights() {
+async function getAllLights(context) {
   const credentials = CredentialsManager.credentials;
   try {
     const lightsList = JSON.parse(
