@@ -73,13 +73,12 @@ const reddit = {
           true
         );
         let response = JSON.parse(
-          await request(`https://reddit.com/u/${username}.json`, {
+          await request(`https://www.reddit.com/user/${username}.json`, {
             // timeout: 7000,
             queryParams: {
               after: after,
               limit: 100,
             },
-            hideCors: true,
           })
         );
         after = response.data.after;
