@@ -86,7 +86,6 @@ The options include:
 - `headers` (default: `{}`)
 - `body` (default: `undefined`)
 - `queryParams` (default: `{}`)
-- `hideCors` will use [CORS Anywhere](https://cors-anywhere.herokuapp.com/) to proxy the request (default: `false`)
 
 ## Contributing
 

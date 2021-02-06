@@ -2,8 +2,7 @@
  * Wrapper for XHR to send requests.
  * @param {String} url
  * @param {Object} options parameters include timeout,
- * method, headers (object), body, queryParams (object), 
- * and hideCors
+ * method, headers (object), body, queryParams (object)
  */
 const request = (url, options = {}) => {
   return new Promise((resolve, reject) => {
@@ -24,10 +23,6 @@ const request = (url, options = {}) => {
     }
     if (parameters.length) {
       url += "?" + parameters.join("&");
-    }
-
-    if (options.hideCors) {
-      url = `https://cors-anywhere.herokuapp.com/${url}`;
     }
 
     // Use XMLHttpRequest instead of fetch so we have timeout
