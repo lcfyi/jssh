@@ -296,12 +296,9 @@ async function set(context, lights, setting) {
     let [bri, sat, hue] = setting.split(",").map((e) => Number(e));
     // Check undefined specifically since these values can be 0
     if (bri !== undefined && sat !== undefined && hue !== undefined) {
-      if (bri > 254) bri = 254;
-      if (bri < 0) bri = 0;
-      if (sat > 254) sat = 254;
-      if (sat < 0) sat = 0;
-      if (hue < 0) hue = 0;
-      if (hue > 65535) hue = 65535;
+      bri = bound(bri, 0, 254);
+      sat = bound(sat, 0, 254);
+      hue = bound(hue, 0, 65535);
       context.terminal.writeln(`Setting bri: ${bri}, sat: ${sat}, hue: ${hue}`);
       return setLights({
         bri: bri,
@@ -315,7 +312,7 @@ async function set(context, lights, setting) {
   }
 }
 
-async function certificateError(context, address) {
+function certificateError(context, address) {
   if (context) {
     context.terminal.writeln(
       `Failed to ping the base station. You may have to accept the invalid certificate first by visiting <a href="${HUE_ADDR_BASE}${address}" target="_blank">this page</a>.`,
@@ -325,8 +322,12 @@ async function certificateError(context, address) {
   throw new Error("Network error.");
 }
 
-async function unauthorized(context) {
+function unauthorized(context) {
   context.terminal.writeln("You must register a hue base station first.");
+}
+
+function bound(value, lower, upper) {
+  return Math.min(upper, Math.max(lower, value));
 }
 
 async function getAllLights(context) {
