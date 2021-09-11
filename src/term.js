@@ -1,6 +1,9 @@
 import History from "./history.js";
 import utils from "./utils.js";
 
+const INPUT_INLINE_STYLES = "z-index: 100;";
+const GHOST_INLINE_STYLES = "color: gray; pointer-events: none;";
+
 export default class Terminal {
   /**
    * Constructor for the terminal, takes one argument which is an object
@@ -20,6 +23,7 @@ export default class Terminal {
     // Props for our input element
     this.workingPrompt = {
       element: null,
+      ghost: null,
       input: null,
     };
     // Props for our user input element
@@ -86,6 +90,18 @@ export default class Terminal {
           }
           e.preventDefault();
           break;
+        case "ArrowRight":
+          if (this.workingPrompt.input) {
+            let value = this.workingPrompt.input.value;
+            let start = this.workingPrompt.input.selectionStart;
+            let end = this.workingPrompt.input.selectionEnd;
+
+            if (start === end && end == value.length) {
+              // Emulate zsh-autosuggestion behaviour where we'll fill in the ghost
+              this.workingPrompt.input.value = this.workingPrompt.ghost.value;
+            }
+          }
+          break;
         case "Tab":
           if (this.workingPrompt.input) {
             let value = this.workingPrompt.input.value;
@@ -103,6 +119,31 @@ export default class Terminal {
         // Nothing
       }
     });
+    // // For events that need to be committed
+    this.container.addEventListener("keyup", (e) => {
+      if (this.workingPrompt.input && this.workingPrompt.ghost) {
+        if (this.workingPrompt.input.value) {
+          let found = false;
+          // TODO make this more efficient with a trie so we don't have to scan
+          // the entire history every time
+          for (let i = this.history.history.length - 1; i >= 0; i--) {
+            if (
+              this.history.history[i].startsWith(this.workingPrompt.input.value)
+            ) {
+              this.workingPrompt.ghost.value = this.history.history[i];
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            this.workingPrompt.ghost.value = "";
+          }
+        } else {
+          // Empty text, no suggestions
+          this.workingPrompt.ghost.value = "";
+        }
+      }
+    });
     // Set up the click handler
     this.container.addEventListener("click", (e) => {
       if (
@@ -115,15 +156,16 @@ export default class Terminal {
     });
     // Set up a handler to resize the text input
     window.addEventListener("resize", () => {
-      if (this.workingPrompt.input) {
-        let promptWidth = computeChildWidth(this.workingPrompt.element);
-        this.workingPrompt.input.setAttribute(
-          "style",
-          "width: " +
-            (this.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
-            "px"
-        );
-      }
+      setInputStyling(
+        this.workingPrompt.element,
+        this.workingPrompt.input,
+        INPUT_INLINE_STYLES
+      );
+      setInputStyling(
+        this.workingPrompt.element,
+        this.workingPrompt.ghost,
+        GHOST_INLINE_STYLES
+      );
     });
   }
 
@@ -233,14 +275,19 @@ function prompt(term, custom) {
   term.workingPrompt.input.setAttribute("spellcheck", "false");
   term.workingPrompt.input.setAttribute("name", Math.random().toString(36));
   term.container.appendChild(term.workingPrompt.element);
-  let promptWidth = computeChildWidth(term.workingPrompt.element);
-  term.workingPrompt.input.setAttribute(
-    "style",
-    "width: " +
-      (term.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
-      "px"
+  setInputStyling(
+    term.workingPrompt.element,
+    term.workingPrompt.input,
+    INPUT_INLINE_STYLES
+  );
+  term.workingPrompt.ghost = document.createElement("input");
+  setInputStyling(
+    term.workingPrompt.element,
+    term.workingPrompt.ghost,
+    GHOST_INLINE_STYLES
   );
   term.workingPrompt.element.appendChild(term.workingPrompt.input);
+  term.workingPrompt.element.appendChild(term.workingPrompt.ghost);
   term.workingPrompt.input.focus();
 }
 
@@ -306,6 +353,17 @@ function computeChildWidth(parent) {
     width += parent.children[i].offsetWidth;
   }
   return width;
+}
+
+function setInputStyling(preamble, input, styling = "") {
+  if (input && preamble) {
+    let promptWidth = computeChildWidth(input);
+    input.setAttribute(
+      "style",
+      `width: ${preamble.offsetWidth * 0.9 -
+        promptWidth}px; position: absolute; ${styling}`
+    );
+  }
 }
 
 function wrap(raw) {
