@@ -28,9 +28,24 @@ export default class Terminal {
     };
     // Props for our user input element
     this.inputProps = {
-      isWaiting: false,
+      isWaitingForCommandInput: false,
       resolution: null,
       rejection: null,
+    };
+
+    // Define an instance method. The transpiler doesn't
+    // support the ES6 loaders required for class fields
+    this.autosuggestionEventHandler = (event) => {
+      // This should be registered to the main input so we don't
+      // need to check the existence of the main input
+      if (
+        !this.inputProps.isWaitingForCommandInput &&
+        this.workingPrompt.ghost
+      ) {
+        this.workingPrompt.ghost.value = this.history.getSuggestion(
+          event.target.value
+        );
+      }
     };
   }
 
@@ -46,13 +61,13 @@ export default class Terminal {
       switch (e.key) {
         case "c":
           if (e.ctrlKey && e.target.selectionStart === e.target.selectionEnd) {
-            if (this.inputProps.isWaiting) {
+            if (this.inputProps.isWaitingForCommandInput) {
               // Within this context, we can just reject since
               // the handler will call prompt(terminal) for us
               finalizePrompt(this);
               this.inputProps.rejection("exited.");
               // Reset the values
-              this.inputProps.isWaiting = false;
+              this.inputProps.isWaitingForCommandInput = false;
               this.inputProps.resolution = null;
               this.inputProps.rejection = null;
             } else {
@@ -64,14 +79,14 @@ export default class Terminal {
           break;
         case "Enter":
           // Normal command context
-          if (!this.inputProps.isWaiting) {
+          if (!this.inputProps.isWaitingForCommandInput) {
             process(this, finalizePrompt(this));
             // Within command input context
           } else {
             let value = finalizePrompt(this);
             this.inputProps.resolution(value);
             // Reset the values
-            this.inputProps.isWaiting = false;
+            this.inputProps.isWaitingForCommandInput = false;
             this.inputProps.resolution = null;
             this.inputProps.rejection = null;
           }
@@ -79,14 +94,16 @@ export default class Terminal {
           this.history.resetIndex();
           break;
         case "ArrowUp":
-          if (!this.inputProps.isWaiting) {
+          if (!this.inputProps.isWaitingForCommandInput) {
             this.workingPrompt.input.value = this.history.arrowUp();
+            this.workingPrompt.ghost.value = "";
           }
           e.preventDefault();
           break;
         case "ArrowDown":
-          if (!this.inputProps.isWaiting) {
+          if (!this.inputProps.isWaitingForCommandInput) {
             this.workingPrompt.input.value = this.history.arrowDown();
+            this.workingPrompt.ghost.value = "";
           }
           e.preventDefault();
           break;
@@ -96,7 +113,12 @@ export default class Terminal {
             let start = this.workingPrompt.input.selectionStart;
             let end = this.workingPrompt.input.selectionEnd;
 
-            if (start === end && end == value.length) {
+            if (
+              start === end &&
+              end == value.length &&
+              this.workingPrompt.ghost &&
+              this.workingPrompt.ghost.value
+            ) {
               // Emulate zsh-autosuggestion behaviour where we'll fill in the ghost
               this.workingPrompt.input.value = this.workingPrompt.ghost.value;
             }
@@ -112,36 +134,14 @@ export default class Terminal {
               value.slice(0, start) + "  " + value.slice(end);
             this.workingPrompt.input.selectionStart = start + 2;
             this.workingPrompt.input.selectionEnd = start + 2;
+            this.autosuggestionEventHandler({
+              target: this.workingPrompt.input,
+            });
           }
           e.preventDefault();
           break;
         default:
         // Nothing
-      }
-    });
-    // // For events that need to be committed
-    this.container.addEventListener("keyup", (e) => {
-      if (this.workingPrompt.input && this.workingPrompt.ghost) {
-        if (this.workingPrompt.input.value) {
-          let found = false;
-          // TODO make this more efficient with a trie so we don't have to scan
-          // the entire history every time
-          for (let i = this.history.history.length - 1; i >= 0; i--) {
-            if (
-              this.history.history[i].startsWith(this.workingPrompt.input.value)
-            ) {
-              this.workingPrompt.ghost.value = this.history.history[i];
-              found = true;
-              break;
-            }
-          }
-          if (!found) {
-            this.workingPrompt.ghost.value = "";
-          }
-        } else {
-          // Empty text, no suggestions
-          this.workingPrompt.ghost.value = "";
-        }
       }
     });
     // Set up the click handler
@@ -204,7 +204,7 @@ export default class Terminal {
    * @param {string} pre the prompt prefix
    */
   input(pre) {
-    this.inputProps.isWaiting = true;
+    this.inputProps.isWaitingForCommandInput = true;
     // Set up the prompt
     if (!pre) {
       prompt(this, wrap("> "));
@@ -281,6 +281,12 @@ function prompt(term, custom) {
     INPUT_INLINE_STYLES
   );
   term.workingPrompt.ghost = document.createElement("input");
+  term.workingPrompt.ghost.setAttribute("type", "text");
+  term.workingPrompt.ghost.setAttribute("disabled", "true");
+  term.workingPrompt.input.addEventListener(
+    "input",
+    term.autosuggestionEventHandler
+  );
   setInputStyling(
     term.workingPrompt.element,
     term.workingPrompt.ghost,
@@ -301,7 +307,7 @@ function finalizePrompt(term) {
   if (term.workingPrompt.element) {
     input = term.workingPrompt.input.value;
     // Add to our log of previous commands
-    if (input && !term.inputProps.isWaiting) {
+    if (input && !term.inputProps.isWaitingForCommandInput) {
       term.history.pushItem(input);
     }
     term.workingPrompt.input.remove();
