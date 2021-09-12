@@ -311,6 +311,7 @@ function finalizePrompt(term) {
       term.history.pushItem(input);
     }
     term.workingPrompt.input.remove();
+    term.workingPrompt.ghost.remove();
     term.workingPrompt.element.innerHTML += utils.sanitize(input);
     // Reset our values
     term.workingPrompt.element = null;
@@ -364,6 +365,9 @@ function computeChildWidth(parent) {
 function setInputStyling(preamble, input, styling = "") {
   if (input && preamble) {
     let promptWidth = computeChildWidth(input);
+    // TODO this needs to be fixed because absolute takes it out of flow
+    // in the context of the container
+    // https://stackoverflow.com/questions/6780614/css-how-to-position-two-elements-on-top-of-each-other-without-specifying-a-hei/51949049#51949049
     input.setAttribute(
       "style",
       `width: ${preamble.offsetWidth * 0.9 -

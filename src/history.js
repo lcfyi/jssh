@@ -34,6 +34,23 @@ export default class History {
     return safeReturn(this);
   }
 
+  /**
+   * Get a suggestion from history based on the given prefix.
+   * @param {String} prefix
+   * @returns suggestion matching prefix, or empty string
+   */
+  getSuggestion(prefix) {
+    // TODO make this more efficient
+    if (prefix) {
+      for (let i = this.history.length - 1; i >= 0; i--) {
+        if (this.history[i].startsWith(prefix)) {
+          return this.history[i];
+        }
+      }
+    }
+    return "";
+  }
+
   resetIndex() {
     this.index = this.history.length;
   }
