@@ -18,6 +18,25 @@ const splitLines = (lines) => {
 };
 
 /**
+ * Alphanumeric testing.
+ * @param {String} string
+ * @returns {Boolean} whether the string is alphanumeric
+ */
+const isAlphaNumeric = (string) => {
+  for (let i = 0; i < string.length; i++) {
+    const chr = string.charAt(i);
+    if (
+      !(chr >= "0" && chr <= "9") &&
+      !(chr >= "a" && chr <= "z") &&
+      !(chr >= "A" && chr <= "Z")
+    ) {
+      return false;
+    }
+  }
+  return true;
+};
+
+/**
  * Strip whitespace from lines.
  * @param {String} string raw string
  * @returns {String} modified string
@@ -53,6 +72,7 @@ const sleep = (time) => {
 export default {
   argParse,
   splitLines,
+  isAlphaNumeric,
   strip,
   sanitize,
   sleep,
