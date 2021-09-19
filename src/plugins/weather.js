@@ -7,7 +7,7 @@ const NUMBER_OF_LINES = 7; // Hardcoded because.. well
 const weather = {
   description: "grabs the weather based on your current IP",
   help: ["Usage", "", "weather", "This uses wttr.in under the hood."],
-  async function(e) {
+  async function() {
     const weatherData = await request(URL);
 
     // We'll create a dummy element and dangerously set the contents
