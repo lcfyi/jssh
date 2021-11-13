@@ -1,6 +1,9 @@
 import History from "./history.js";
 import utils from "./utils.js";
 
+const INPUT_INLINE_STYLES = "z-index: 100;";
+const GHOST_INLINE_STYLES = "color: gray; pointer-events: none;";
+
 export default class Terminal {
   /**
    * Constructor for the terminal, takes one argument which is an object
@@ -20,13 +23,29 @@ export default class Terminal {
     // Props for our input element
     this.workingPrompt = {
       element: null,
+      ghost: null,
       input: null,
     };
     // Props for our user input element
     this.inputProps = {
-      isWaiting: false,
+      isWaitingForCommandInput: false,
       resolution: null,
       rejection: null,
+    };
+
+    // Define an instance method. The transpiler doesn't
+    // support the ES6 loaders required for class fields
+    this.autosuggestionEventHandler = (event) => {
+      // This should be registered to the main input so we don't
+      // need to check the existence of the main input
+      if (
+        !this.inputProps.isWaitingForCommandInput &&
+        this.workingPrompt.ghost
+      ) {
+        this.workingPrompt.ghost.value = this.history.getSuggestion(
+          event.target.value
+        );
+      }
     };
   }
 
@@ -42,13 +61,13 @@ export default class Terminal {
       switch (e.key) {
         case "c":
           if (e.ctrlKey && e.target.selectionStart === e.target.selectionEnd) {
-            if (this.inputProps.isWaiting) {
+            if (this.inputProps.isWaitingForCommandInput) {
               // Within this context, we can just reject since
               // the handler will call prompt(terminal) for us
               finalizePrompt(this);
               this.inputProps.rejection("exited.");
               // Reset the values
-              this.inputProps.isWaiting = false;
+              this.inputProps.isWaitingForCommandInput = false;
               this.inputProps.resolution = null;
               this.inputProps.rejection = null;
             } else {
@@ -60,14 +79,14 @@ export default class Terminal {
           break;
         case "Enter":
           // Normal command context
-          if (!this.inputProps.isWaiting) {
+          if (!this.inputProps.isWaitingForCommandInput) {
             process(this, finalizePrompt(this));
             // Within command input context
           } else {
             let value = finalizePrompt(this);
             this.inputProps.resolution(value);
             // Reset the values
-            this.inputProps.isWaiting = false;
+            this.inputProps.isWaitingForCommandInput = false;
             this.inputProps.resolution = null;
             this.inputProps.rejection = null;
           }
@@ -75,16 +94,35 @@ export default class Terminal {
           this.history.resetIndex();
           break;
         case "ArrowUp":
-          if (!this.inputProps.isWaiting) {
+          if (!this.inputProps.isWaitingForCommandInput) {
             this.workingPrompt.input.value = this.history.arrowUp();
+            this.workingPrompt.ghost.value = "";
           }
           e.preventDefault();
           break;
         case "ArrowDown":
-          if (!this.inputProps.isWaiting) {
+          if (!this.inputProps.isWaitingForCommandInput) {
             this.workingPrompt.input.value = this.history.arrowDown();
+            this.workingPrompt.ghost.value = "";
           }
           e.preventDefault();
+          break;
+        case "ArrowRight":
+          if (this.workingPrompt.input) {
+            let value = this.workingPrompt.input.value;
+            let start = this.workingPrompt.input.selectionStart;
+            let end = this.workingPrompt.input.selectionEnd;
+
+            if (
+              start === end &&
+              end == value.length &&
+              this.workingPrompt.ghost &&
+              this.workingPrompt.ghost.value
+            ) {
+              // Emulate zsh-autosuggestion behaviour where we'll fill in the ghost
+              this.workingPrompt.input.value = this.workingPrompt.ghost.value;
+            }
+          }
           break;
         case "Tab":
           if (this.workingPrompt.input) {
@@ -96,6 +134,9 @@ export default class Terminal {
               value.slice(0, start) + "  " + value.slice(end);
             this.workingPrompt.input.selectionStart = start + 2;
             this.workingPrompt.input.selectionEnd = start + 2;
+            this.autosuggestionEventHandler({
+              target: this.workingPrompt.input,
+            });
           }
           e.preventDefault();
           break;
@@ -115,15 +156,16 @@ export default class Terminal {
     });
     // Set up a handler to resize the text input
     window.addEventListener("resize", () => {
-      if (this.workingPrompt.input) {
-        let promptWidth = computeChildWidth(this.workingPrompt.element);
-        this.workingPrompt.input.setAttribute(
-          "style",
-          "width: " +
-            (this.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
-            "px"
-        );
-      }
+      setInputStyling(
+        this.workingPrompt.element,
+        this.workingPrompt.input,
+        INPUT_INLINE_STYLES
+      );
+      setInputStyling(
+        this.workingPrompt.element,
+        this.workingPrompt.ghost,
+        GHOST_INLINE_STYLES
+      );
     });
   }
 
@@ -162,7 +204,7 @@ export default class Terminal {
    * @param {string} pre the prompt prefix
    */
   input(pre) {
-    this.inputProps.isWaiting = true;
+    this.inputProps.isWaitingForCommandInput = true;
     // Set up the prompt
     if (!pre) {
       prompt(this, wrap("> "));
@@ -233,14 +275,35 @@ function prompt(term, custom) {
   term.workingPrompt.input.setAttribute("spellcheck", "false");
   term.workingPrompt.input.setAttribute("name", Math.random().toString(36));
   term.container.appendChild(term.workingPrompt.element);
-  let promptWidth = computeChildWidth(term.workingPrompt.element);
-  term.workingPrompt.input.setAttribute(
-    "style",
-    "width: " +
-      (term.workingPrompt.element.offsetWidth * 0.9 - promptWidth) +
-      "px"
+  setInputStyling(
+    term.workingPrompt.element,
+    term.workingPrompt.input,
+    INPUT_INLINE_STYLES
   );
-  term.workingPrompt.element.appendChild(term.workingPrompt.input);
+  term.workingPrompt.ghost = document.createElement("input");
+  term.workingPrompt.ghost.setAttribute("type", "text");
+  term.workingPrompt.ghost.setAttribute("disabled", "true");
+  term.workingPrompt.input.addEventListener(
+    "input",
+    term.autosuggestionEventHandler
+  );
+  setInputStyling(
+    term.workingPrompt.element,
+    term.workingPrompt.ghost,
+    GHOST_INLINE_STYLES
+  );
+
+  // This wrapper allows us to create an inline-grid element which we can
+  // use to stack the regular and ghost inputs, allowing for autosuggestions
+  // https://stackoverflow.com/questions/6780614/css-how-to-position-two-elements-on-top-of-each-other-without-specifying-a-hei/51949049#51949049
+
+  const wrapper = document.createElement("span");
+  wrapper.setAttribute("style", "display: inline-grid");
+
+  wrapper.appendChild(term.workingPrompt.input);
+  wrapper.appendChild(term.workingPrompt.ghost);
+
+  term.workingPrompt.element.appendChild(wrapper);
   term.workingPrompt.input.focus();
 }
 
@@ -254,10 +317,11 @@ function finalizePrompt(term) {
   if (term.workingPrompt.element) {
     input = term.workingPrompt.input.value;
     // Add to our log of previous commands
-    if (input && !term.inputProps.isWaiting) {
+    if (input && !term.inputProps.isWaitingForCommandInput) {
       term.history.pushItem(input);
     }
     term.workingPrompt.input.remove();
+    term.workingPrompt.ghost.remove();
     term.workingPrompt.element.innerHTML += utils.sanitize(input);
     // Reset our values
     term.workingPrompt.element = null;
@@ -306,6 +370,17 @@ function computeChildWidth(parent) {
     width += parent.children[i].offsetWidth;
   }
   return width;
+}
+
+function setInputStyling(preamble, input, styling = "") {
+  if (input && preamble) {
+    let promptWidth = computeChildWidth(input);
+    input.setAttribute(
+      "style",
+      `width: ${preamble.offsetWidth * 0.9 -
+        promptWidth}px; grid-column: 1; grid-row: 1; ${styling}`
+    );
+  }
 }
 
 function wrap(raw) {
