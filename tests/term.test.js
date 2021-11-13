@@ -121,7 +121,7 @@ describe("input()", () => {
     term.init(dom);
     // Shouldn't have anything at this point
     expect(dom.childElementCount).toBe(0);
-    expect(term.inputProps.isWaiting).toBe(false);
+    expect(term.inputProps.isWaitingForCommandInput).toBe(false);
     expect(term.inputProps.resolution).toBe(null);
     let val = term.input();
     term.inputProps.resolution("test");
