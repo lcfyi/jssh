@@ -127,11 +127,6 @@ describe("plugin tests", () => {
       math.function("math (12 + 23) * 20 / 5");
       expect(pty.terminal.buffer[0]).toBe("140");
     });
-
-    test("math eval('#')", () => {
-      math.function("math eval('#')");
-      expect(pty.terminal.buffer[0]).toBe("math.js: not math!");
-    });
   });
 
   describe("source", () => {
