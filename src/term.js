@@ -292,8 +292,18 @@ function prompt(term, custom) {
     term.workingPrompt.ghost,
     GHOST_INLINE_STYLES
   );
-  term.workingPrompt.element.appendChild(term.workingPrompt.input);
-  term.workingPrompt.element.appendChild(term.workingPrompt.ghost);
+
+  // This wrapper allows us to create an inline-grid element which we can
+  // use to stack the regular and ghost inputs, allowing for autosuggestions
+  // https://stackoverflow.com/questions/6780614/css-how-to-position-two-elements-on-top-of-each-other-without-specifying-a-hei/51949049#51949049
+
+  const wrapper = document.createElement("span");
+  wrapper.setAttribute("style", "display: inline-grid");
+
+  wrapper.appendChild(term.workingPrompt.input);
+  wrapper.appendChild(term.workingPrompt.ghost);
+
+  term.workingPrompt.element.appendChild(wrapper);
   term.workingPrompt.input.focus();
 }
 
@@ -365,13 +375,10 @@ function computeChildWidth(parent) {
 function setInputStyling(preamble, input, styling = "") {
   if (input && preamble) {
     let promptWidth = computeChildWidth(input);
-    // TODO this needs to be fixed because absolute takes it out of flow
-    // in the context of the container
-    // https://stackoverflow.com/questions/6780614/css-how-to-position-two-elements-on-top-of-each-other-without-specifying-a-hei/51949049#51949049
     input.setAttribute(
       "style",
       `width: ${preamble.offsetWidth * 0.9 -
-        promptWidth}px; position: absolute; ${styling}`
+        promptWidth}px; grid-column: 1; grid-row: 1; ${styling}`
     );
   }
 }
