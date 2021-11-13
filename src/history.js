@@ -92,7 +92,7 @@ export default class History {
  *
  * However, a trie would cap the worst-case for our history search to the depth
  * of the trie, so it'll help average out the runtime complexity.
- * 
+ *
  * The trie will return a suggestion based on the latest characters added to
  * that particular path using the addString method.
  */
@@ -100,6 +100,7 @@ class TrieNode {
   constructor() {
     this.children = new Map();
     this.latestCharacter = null;
+    this.terminationPoint = true;
   }
 
   addString(string, index = 0) {
@@ -109,18 +110,43 @@ class TrieNode {
         this.children.set(firstChar, new TrieNode());
       }
       this.latestCharacter = firstChar;
+      this.terminationPoint = false;
       this.children.get(firstChar).addString(string, index + 1);
+    } else {
+      this.terminationPoint = true;
     }
   }
 
-  search(prefix, index = 0) {
-    let firstChar =
-      index < prefix.length ? prefix.charAt(index) : this.latestCharacter;
-    if (this.children.has(firstChar)) {
-      return firstChar + this.children.get(firstChar).search(prefix, index + 1);
-    } else {
-      return "";
+  search(prefix) {
+    let currentNode = this;
+    let index = 0;
+
+    let traversedChars = [];
+
+    while (currentNode) {
+      let isSearchingPrefix = index < prefix.length;
+      let firstChar = isSearchingPrefix
+        ? prefix.charAt(index)
+        : currentNode.latestCharacter;
+
+      if (
+        currentNode.children.has(firstChar) &&
+        // If we're not searching the prefix anymore, we terminate at termination points
+        (isSearchingPrefix || !currentNode.terminationPoint)
+      ) {
+        traversedChars.push(firstChar);
+        currentNode = currentNode.children.get(firstChar);
+      } else {
+        if (isSearchingPrefix) {
+          traversedChars = [];
+        }
+        currentNode = null;
+      }
+
+      index++;
     }
+
+    return traversedChars.join("");
   }
 }
 
