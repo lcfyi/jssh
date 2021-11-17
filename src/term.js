@@ -1,8 +1,9 @@
 import History from "./history.js";
 import utils from "./utils.js";
 
-const INPUT_INLINE_STYLES = "z-index: 100;";
-const GHOST_INLINE_STYLES = "color: gray; pointer-events: none;";
+const INPUT_INLINE_STYLES = () => "z-index: 100;";
+const GHOST_INLINE_STYLES = (width) =>
+  `pointer-events: none; opacity: 0.3; margin-left: -${width}px;`;
 
 export default class Terminal {
   /**
@@ -293,12 +294,11 @@ function prompt(term, custom) {
     GHOST_INLINE_STYLES
   );
 
-  // This wrapper allows us to create an inline-grid element which we can
-  // use to stack the regular and ghost inputs, allowing for autosuggestions
-  // https://stackoverflow.com/questions/6780614/css-how-to-position-two-elements-on-top-of-each-other-without-specifying-a-hei/51949049#51949049
+  // Use an inline-block since all the other inline options like inline-flex,
+  // and inline-grid cause a shift in safari whenever text is being input
 
   const wrapper = document.createElement("span");
-  wrapper.setAttribute("style", "display: inline-grid");
+  wrapper.setAttribute("style", "display: inline-block");
 
   wrapper.appendChild(term.workingPrompt.input);
   wrapper.appendChild(term.workingPrompt.ghost);
@@ -372,13 +372,13 @@ function computeChildWidth(parent) {
   return width;
 }
 
-function setInputStyling(preamble, input, styling = "") {
+function setInputStyling(preamble, input, styling = () => "") {
   if (input && preamble) {
     let promptWidth = computeChildWidth(input);
+    let setWidth = preamble.offsetWidth * 0.9 - promptWidth;
     input.setAttribute(
       "style",
-      `width: ${preamble.offsetWidth * 0.9 -
-        promptWidth}px; grid-column: 1; grid-row: 1; ${styling}`
+      `width: ${setWidth}px; grid-column: 1; grid-row: 1; ${styling(setWidth)}`
     );
   }
 }
