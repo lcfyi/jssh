@@ -23,7 +23,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "html-webpack-plugin": "^4.0.3",
     "jest": "^25.2.4",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mathjs": "^9.4.4",
     "netlify-cli": "^2.37.0",
     "netlify-lambda": "^1.6.3",
